@@ -1,0 +1,25 @@
+options {
+  listen-on port 53 { 127.0.0.1; };
+  listen-on-v6 port 53 { ::1; };
+  directory       "/var/named";
+  dump-file       "/var/named/data/cache_dump.db";
+  statistics-file "/var/named/data/named_stats.txt";
+  memstatistics-file "/var/named/data/named_mem_stats.txt";
+
+  allow-query     { localhost; };
+  allow-query-cache { localhost; };
+  include "/etc/named_caching.forwarders";
+  forward only;
+};
+logging {
+  channel default_debug {
+    file "data/named.run";
+    severity dynamic;
+  };
+};
+view localhost_resolver {
+  match-clients      { localhost; };
+  match-destinations { localhost; };
+  recursion yes;
+  include "/etc/named.rfc1912.zones";
+};

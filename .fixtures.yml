@@ -1,0 +1,9 @@
+---
+fixtures:
+  symlinks:
+    named: "#{source_dir}"
+    common: "#{source_dir}/../common"
+    concat: "#{source_dir}/../concat"
+    iptables: "#{source_dir}/../iptables"
+    rsync: "#{source_dir}/../rsync"
+    stdlib: "#{source_dir}/../stdlib"

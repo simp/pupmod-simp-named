@@ -1,0 +1,5 @@
+---
+rsync::server : 'rsync.bar.baz'
+named::chroot::nchroot: '/var/named/chroot'
+named::caching::hints::content: 'test_content'
+named::caching::hints::use_defaults: false
