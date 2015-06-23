@@ -49,12 +49,12 @@ class named::chroot (
   }
 
   file { "${nchroot}/etc/named.conf":
-    ensure   => 'present',
-    owner    => 'root',
-    group    => 'named',
-    mode     => '0640',
-    notify   => Rsync['named'],
-    require  => Package['bind-chroot']
+    ensure  => 'present',
+    owner   => 'root',
+    group   => 'named',
+    mode    => '0640',
+    notify  => Rsync['named'],
+    require => Package['bind-chroot']
   }
 
   file { "${nchroot}/var/named":

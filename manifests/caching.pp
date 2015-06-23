@@ -56,75 +56,75 @@ class named::caching(
   }
 
   file { $rfc_1912_zonefile:
-    ensure  => 'file',
-    owner   => 'root',
-    group   => 'named',
-    mode    => '0640',
-    source  => 'puppet:///modules/named/chroot/etc/named.rfc1912.zones',
-    notify  => Service['named']
+    ensure => 'file',
+    owner  => 'root',
+    group  => 'named',
+    mode   => '0640',
+    source => 'puppet:///modules/named/chroot/etc/named.rfc1912.zones',
+    notify => Service['named']
   }
 
   file { "$l_path/var/named/localdomain.zone":
-    ensure  => 'file',
-    owner   => 'root',
-    group   => 'named',
-    mode    => '0640',
-    source  => 'puppet:///modules/named/chroot/var/named/localdomain.zone',
-    notify  => Service['named']
+    ensure => 'file',
+    owner  => 'root',
+    group  => 'named',
+    mode   => '0640',
+    source => 'puppet:///modules/named/chroot/var/named/localdomain.zone',
+    notify => Service['named']
   }
 
   file { "$l_path/var/named/localhost.zone":
-    ensure  => 'file',
-    owner   => 'root',
-    group   => 'named',
-    mode    => '0640',
-    source  => 'puppet:///modules/named/chroot/var/named/localhost.zone',
-    notify  => Service['named']
+    ensure => 'file',
+    owner  => 'root',
+    group  => 'named',
+    mode   => '0640',
+    source => 'puppet:///modules/named/chroot/var/named/localhost.zone',
+    notify => Service['named']
   }
 
   file { "$l_path/var/named/named.broadcast":
-    ensure  => 'file',
-    owner   => 'root',
-    group   => 'named',
-    mode    => '0640',
-    source  => 'puppet:///modules/named/chroot/var/named/named.broadcast',
-    notify  => Service['named']
+    ensure => 'file',
+    owner  => 'root',
+    group  => 'named',
+    mode   => '0640',
+    source => 'puppet:///modules/named/chroot/var/named/named.broadcast',
+    notify => Service['named']
   }
 
   file { "$l_path/var/named/named.ip6.local":
-    ensure  => 'file',
-    owner   => 'root',
-    group   => 'named',
-    mode    => '0640',
-    source  => 'puppet:///modules/named/chroot/var/named/named.ip6.local',
-    notify  => Service['named']
+    ensure => 'file',
+    owner  => 'root',
+    group  => 'named',
+    mode   => '0640',
+    source => 'puppet:///modules/named/chroot/var/named/named.ip6.local',
+    notify => Service['named']
   }
 
   file { "$l_path/var/named/named.local":
+    ensure => 'file',
+    owner  => 'root',
+    group  => 'named',
+    mode   => '0640',
+    source => 'puppet:///modules/named/chroot/var/named/named.local',
+    notify => Service['named']
+  }
+
+  file { "$l_path/var/named/named.zero":
+    ensure => 'file',
+    owner  => 'root',
+    group  => 'named',
+    mode   => '0644',
+    source => 'puppet:///modules/named/chroot/var/named/named.zero',
+    notify => Service['named']
+  }
+
+  file { "$l_path/etc/named.conf":
     ensure  => 'file',
     owner   => 'root',
     group   => 'named',
     mode    => '0640',
-    source  => 'puppet:///modules/named/chroot/var/named/named.local',
+    content => template('named/named.caching.conf.erb'),
     notify  => Service['named']
-  }
-
-  file { "$l_path/var/named/named.zero":
-    ensure  => 'file',
-    owner   => 'root',
-    group   => 'named',
-    mode    => '0644',
-    source  => 'puppet:///modules/named/chroot/var/named/named.zero',
-    notify  => Service['named']
-  }
-
-  file { "$l_path/etc/named.conf":
-    ensure   => 'file',
-    owner    => 'root',
-    group    => 'named',
-    mode     => '0640',
-    content  => template('named/named.caching.conf.erb'),
-    notify   => Service['named']
   }
 
   file { "$l_path/etc/named_caching.forwarders":

@@ -25,12 +25,12 @@ class named::non_chroot (
   include 'named'
 
   file { '/etc/named.conf':
-    ensure   => 'present',
-    owner    => 'root',
-    group    => 'named',
-    mode     => '0640',
-    notify   => Rsync['named_etc'],
-    require  => Package['bind']
+    ensure  => 'present',
+    owner   => 'root',
+    group   => 'named',
+    mode    => '0640',
+    notify  => Rsync['named_etc'],
+    require => Package['bind']
   }
 
   file { '/var/named':
@@ -47,22 +47,22 @@ class named::non_chroot (
   }
 
   rsync { 'named':
-    user             => "bind_dns_${bind_dns_rsync}_rsync",
-    password         => passgen("bind_dns_${bind_dns_rsync}_rsync"),
-    source           => "bind_dns_${bind_dns_rsync}/named/var/named",
-    target           => '/var',
-    server           => $rsync_server,
-    timeout          => $rsync_timeout,
-    notify           => Service['named']
+    user     => "bind_dns_${bind_dns_rsync}_rsync",
+    password => passgen("bind_dns_${bind_dns_rsync}_rsync"),
+    source   => "bind_dns_${bind_dns_rsync}/named/var/named",
+    target   => '/var',
+    server   => $rsync_server,
+    timeout  => $rsync_timeout,
+    notify   => Service['named']
   }
 
   rsync { 'named_etc':
-    user             => "bind_dns_${bind_dns_rsync}_rsync",
-    password         => passgen("bind_dns_${bind_dns_rsync}_rsync"),
-    source           => "bind_dns_${bind_dns_rsync}/named/etc/*",
-    target           => '/etc',
-    server           => $rsync_server,
-    timeout          => $rsync_timeout,
-    notify           => Service['named']
+    user     => "bind_dns_${bind_dns_rsync}_rsync",
+    password => passgen("bind_dns_${bind_dns_rsync}_rsync"),
+    source   => "bind_dns_${bind_dns_rsync}/named/etc/*",
+    target   => '/etc',
+    server   => $rsync_server,
+    timeout  => $rsync_timeout,
+    notify   => Service['named']
   }
 }
