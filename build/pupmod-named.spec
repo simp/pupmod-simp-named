@@ -1,14 +1,14 @@
 Summary: Named/Bind Puppet Module
 Name: pupmod-named
 Version: 4.2.0
-Release: 6
+Release: 7
 License: Apache License, Version 2.0
 Group: Applications/System
 Source: %{name}-%{version}-%{release}.tar.gz
 Buildroot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Requires: pupmod-iptables >= 4.1.0-3
 Requires: pupmod-rsync >= 4.0.0-14
-Requires: pupmod-concat >= 4.0.0-0
+Requires: pupmod-simpcat >= 4.0.0-0
 Requires: puppet >= 3.3.0
 Requires: simp_bootstrap >= 4.1.0-1
 Buildarch: noarch
@@ -60,6 +60,9 @@ fi
 # Post uninstall stuff
 
 %changelog
+* Mon Nov 09 2015 Chris Tessmer <chris.tessmer@onypoint.com> - 4.2.0-7
+- migration to simplib and simpcat (lib/ only)
+
 * Fri Jan 16 2015 Trevor Vaughan <tvaughan@onyxpoint.com> - 4.2.0-6
 - Changed puppet-server requirement to puppet
 
