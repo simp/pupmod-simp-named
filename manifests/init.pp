@@ -70,7 +70,8 @@ class named (
 ) {
   include 'rsync'
 
-  if ( str2bool($::selinux_enforced) ) or ( empty($chroot_path) and ! str2bool($::selinux_enforced) ) {
+  if ( str2bool($::selinux_enforced) ) or ( empty($chroot_path) and ! str2bool($::selinux_enforced)) {
+
     include 'named::non_chroot'
     class { 'named::service': chroot => false }
   }

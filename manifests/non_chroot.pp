@@ -16,12 +16,17 @@
 #
 # * Trevor Vaughan <tvaughan@onyxpoint.com>
 # * Kendall Moore <kmoore@keywcorp.com>
+# * Chris Tessmer <chirs.tessmer@onyxpoint.com
 #
 class named::non_chroot (
   $bind_dns_rsync = $::named::bind_dns_rsync,
   $rsync_server = $::named::rsync_server,
   $rsync_timeout = $::named::rsync_timeout
 ){
+  if ( str2bool($::selinux_enforced) != true ) {
+    fail( 'named::non_chroot must be used with selinux!')
+  }
+
   include 'named'
 
   file { '/etc/named.conf':

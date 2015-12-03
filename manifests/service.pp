@@ -19,7 +19,7 @@ class named::service (
 ) {
   if $chroot {
     if $::operatingsystem in ['RedHat','CentOS'] {
-      if (versioncmp($::lsbmajdistrelease,'7') < 0) {
+      if (versioncmp($::operatingsystemmajrelease,'7') < 0) {
         $svcname = 'named'
       }
       else {

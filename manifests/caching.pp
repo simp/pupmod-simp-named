@@ -25,18 +25,18 @@ class named::caching(
   }
 
   if $::operatingsystem in ['RedHat','CentOS'] {
-    $rfc_1912_zonefile = $::lsbmajdistrelease ? {
-      '5'     => "$l_path/etc/named.rfc1912.zones",
+    $rfc_1912_zonefile = $::operatingsystemmajrelease ? {
+      '5'     => "${l_path}/etc/named.rfc1912.zones",
       default => '/etc/named.rfc1912.zones'
     }
   }
   else {
-    $rfc_1912_zonefile = "$l_path/etc/named.rfc1912.zones"
+    $rfc_1912_zonefile = "${l_path}/etc/named.rfc1912.zones"
   }
 
   concat_build { 'named_caching':
     order  => ['header', '*.forward', 'footer'],
-    target => "$l_path/etc/named_caching.forwarders"
+    target => "${l_path}/etc/named_caching.forwarders"
   }
 
   concat_fragment { 'named_caching+header':
@@ -50,7 +50,7 @@ class named::caching(
   if !empty($l_path) {
     file { '/etc/named.conf':
       ensure => 'symlink',
-      target => "$l_path/etc/named.conf",
+      target => "${l_path}/etc/named.conf",
       notify => Service['named']
     }
   }
@@ -64,7 +64,7 @@ class named::caching(
     notify => Service['named']
   }
 
-  file { "$l_path/var/named/localdomain.zone":
+  file { "${l_path}/var/named/localdomain.zone":
     ensure => 'file',
     owner  => 'root',
     group  => 'named',
@@ -73,7 +73,7 @@ class named::caching(
     notify => Service['named']
   }
 
-  file { "$l_path/var/named/localhost.zone":
+  file { "${l_path}/var/named/localhost.zone":
     ensure => 'file',
     owner  => 'root',
     group  => 'named',
@@ -82,7 +82,7 @@ class named::caching(
     notify => Service['named']
   }
 
-  file { "$l_path/var/named/named.broadcast":
+  file { "${l_path}/var/named/named.broadcast":
     ensure => 'file',
     owner  => 'root',
     group  => 'named',
@@ -91,7 +91,7 @@ class named::caching(
     notify => Service['named']
   }
 
-  file { "$l_path/var/named/named.ip6.local":
+  file { "${l_path}/var/named/named.ip6.local":
     ensure => 'file',
     owner  => 'root',
     group  => 'named',
@@ -100,7 +100,7 @@ class named::caching(
     notify => Service['named']
   }
 
-  file { "$l_path/var/named/named.local":
+  file { "${l_path}/var/named/named.local":
     ensure => 'file',
     owner  => 'root',
     group  => 'named',
@@ -109,7 +109,7 @@ class named::caching(
     notify => Service['named']
   }
 
-  file { "$l_path/var/named/named.zero":
+  file { "${l_path}/var/named/named.zero":
     ensure => 'file',
     owner  => 'root',
     group  => 'named',
@@ -118,7 +118,7 @@ class named::caching(
     notify => Service['named']
   }
 
-  file { "$l_path/etc/named.conf":
+  file { "${l_path}/etc/named.conf":
     ensure  => 'file',
     owner   => 'root',
     group   => 'named',
@@ -127,7 +127,7 @@ class named::caching(
     notify  => Service['named']
   }
 
-  file { "$l_path/etc/named_caching.forwarders":
+  file { "${l_path}/etc/named_caching.forwarders":
     owner     => 'root',
     group     => 'named',
     mode      => '0640',

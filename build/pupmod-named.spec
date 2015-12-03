@@ -1,7 +1,7 @@
 Summary: Named/Bind Puppet Module
 Name: pupmod-named
 Version: 4.2.0
-Release: 7
+Release: 8
 License: Apache License, Version 2.0
 Group: Applications/System
 Source: %{name}-%{version}-%{release}.tar.gz
@@ -60,6 +60,10 @@ fi
 # Post uninstall stuff
 
 %changelog
+* Thu Dec 03 2015 Chris Tessmer <chris.tessmer@onyxpoint.com> - 4.2.0-8
+- `named::non_chroot` will now intentionally fail (with an informative message)
+  if included when selinux is not enforcing
+
 * Mon Nov 09 2015 Chris Tessmer <chris.tessmer@onypoint.com> - 4.2.0-7
 - migration to simplib and simpcat (lib/ only)
 
