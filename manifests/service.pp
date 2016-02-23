@@ -49,4 +49,5 @@ class named::service (
   }
 
   validate_bool($chroot)
+  compliance_map()
 }

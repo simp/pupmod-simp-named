@@ -1,7 +1,7 @@
 Summary: Named/Bind Puppet Module
 Name: pupmod-named
 Version: 4.2.0
-Release: 8
+Release: 9
 License: Apache License, Version 2.0
 Group: Applications/System
 Source: %{name}-%{version}-%{release}.tar.gz
@@ -14,6 +14,7 @@ Requires: simp_bootstrap >= 4.1.0-1
 Buildarch: noarch
 Requires: simp-bootstrap >= 4.2.0
 Obsoletes: pupmod-named-test
+Requires: pupmod-onyxpoint-compliance_markup
 
 Prefix:"/etc/puppet/environments/simp/modules"
 
@@ -60,6 +61,9 @@ fi
 # Post uninstall stuff
 
 %changelog
+* Tue Feb 23 2016 Ralph Wright <ralph.wright@onyxpoint.com> - 4.2.0-9
+- Added compliance function support
+
 * Thu Dec 03 2015 Chris Tessmer <chris.tessmer@onyxpoint.com> - 4.2.0-8
 - `named::non_chroot` will now intentionally fail (with an informative message)
   if included when selinux is not enforcing

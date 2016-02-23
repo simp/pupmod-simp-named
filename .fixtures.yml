@@ -7,5 +7,6 @@ fixtures:
     iptables: "git://github.com/simp/pupmod-simp-iptables"
     rsync: "git://github.com/simp/pupmod-simp-rsync"
     stdlib: "git://github.com/simp/puppetlabs-stdlib"
+    compliance: "https://github.com/trevor-vaughan/pupmod-compliance"
   symlinks:
     named: "#{source_dir}"

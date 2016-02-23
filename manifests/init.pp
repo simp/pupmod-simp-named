@@ -118,4 +118,5 @@ class named (
   if ! empty($chroot_path) {
     validate_absolute_path($chroot_path)
   }
+  compliance_map()
 }
