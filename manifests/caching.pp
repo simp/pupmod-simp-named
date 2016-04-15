@@ -14,9 +14,11 @@
 # * Trevor Vaughan <tvaughan@onyxpoint.com>
 #
 class named::caching(
-  $chroot_path = '/var/named/chroot'
+  $chroot_path = $::named::params::chroot_path
 ) {
   include 'named::service'
+
+  if !empty($chroot_path) { validate_absolute_path($chroot_path) }
 
   $selinux_enabled = (str2bool($::selinux_enforced)) or (empty($chroot_path) and ! str2bool($::selinux_enforced))
   $l_path = $selinux_enabled ? {

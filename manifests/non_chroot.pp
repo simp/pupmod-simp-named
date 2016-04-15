@@ -29,6 +29,10 @@ class named::non_chroot (
 
   include 'named'
 
+  validate_string($bind_dns_rsync)
+  validate_net_list($rsync_server)
+  validate_integer($rsync_timeout)
+
   file { '/etc/named.conf':
     ensure  => 'present',
     owner   => 'root',

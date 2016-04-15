@@ -40,6 +40,11 @@ class named::chroot (
 ) {
   include 'named'
 
+  if !empty($nchroot) { validate_absolute_path($nchroot) }
+  validate_string($bind_dns_rsync)
+  validate_net_list($rsync_server)
+  validate_integer($rsync_timeout)
+
   file { $nchroot:
     ensure  => 'directory',
     owner   => 'root',
@@ -85,5 +90,4 @@ class named::chroot (
     notify           => Service['named']
   }
 
-  validate_absolute_path($nchroot)
 }

@@ -1,7 +1,7 @@
 Summary: Named/Bind Puppet Module
 Name: pupmod-named
-Version: 4.2.0
-Release: 9
+Version: 4.3.0
+Release: 0
 License: Apache License, Version 2.0
 Group: Applications/System
 Source: %{name}-%{version}-%{release}.tar.gz
@@ -61,6 +61,10 @@ fi
 # Post uninstall stuff
 
 %changelog
+* Fri Apr 15 2016 Nick Markowski <nmarkowski@keywcorp.com> - 4.3.0-0
+- Created work-around for https://bugzilla.redhat.com/show_bug.cgi?id=1278082
+- Users can modify the chroot path in named-chroot.service
+
 * Tue Feb 23 2016 Ralph Wright <ralph.wright@onyxpoint.com> - 4.2.0-9
 - Added compliance function support
 
