@@ -23,14 +23,20 @@ class named::non_chroot (
   $rsync_server = $::named::rsync_server,
   $rsync_timeout = $::named::rsync_timeout
 ){
+  assert_private()
+
+  include '::rsync'
+
   if ( str2bool($::selinux_enforced) != true ) {
     fail( 'named::non_chroot must be used with selinux!')
   }
 
-  include 'named'
+  validate_string($bind_dns_rsync)
+  validate_net_list($rsync_server)
+  validate_integer($rsync_timeout)
 
   file { '/etc/named.conf':
-    ensure  => 'present',
+    ensure  => 'file',
     owner   => 'root',
     group   => 'named',
     mode    => '0640',
@@ -47,10 +53,6 @@ class named::non_chroot (
     require => Package['bind']
   }
 
-  package { 'bind-chroot':
-    ensure => 'absent'
-  }
-
   rsync { 'named':
     user     => "bind_dns_${bind_dns_rsync}_rsync",
     password => passgen("bind_dns_${bind_dns_rsync}_rsync"),
@@ -58,7 +60,7 @@ class named::non_chroot (
     target   => '/var',
     server   => $rsync_server,
     timeout  => $rsync_timeout,
-    notify   => Service['named']
+    notify   => Class['named::service']
   }
 
   rsync { 'named_etc':
@@ -68,6 +70,6 @@ class named::non_chroot (
     target   => '/etc',
     server   => $rsync_server,
     timeout  => $rsync_timeout,
-    notify   => Service['named']
+    notify   => Class['named::service']
   }
 }

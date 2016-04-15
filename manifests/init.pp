@@ -63,22 +63,39 @@
 # * Kendall Moore <kmoore@keywcorp.com>
 #
 class named (
-  $chroot_path = '/var/named/chroot',
+  $chroot_path = $::named::params::chroot_path,
   $bind_dns_rsync = 'default',
   $rsync_server = hiera('rsync::server'),
   $rsync_timeout = hiera('rsync::timeout','2')
-) {
-  include 'rsync'
+) inherits ::named::params {
+
+  if defined(Class['named::caching']) {
+    fail('You cannot include both ::named and ::named::caching')
+  }
+
+  if !empty($chroot_path) { validate_absolute_path($chroot_path) }
+  validate_string($bind_dns_rsync)
+  validate_net_list($rsync_server)
+  validate_integer($rsync_timeout)
 
   if ( str2bool($::selinux_enforced) ) or ( empty($chroot_path) and ! str2bool($::selinux_enforced)) {
+    include '::named::non_chroot'
+    class { '::named::service': chroot => false }
+    class { '::named::install': chroot => false }
 
-    include 'named::non_chroot'
-    class { 'named::service': chroot => false }
+    Class['named::install'] -> Class['named::non_chroot']
+    Class['named::non_chroot'] -> Class['named::service']
   }
   else {
-    include 'named::chroot'
-    include 'named::service'
+    include '::named::chroot'
+    include '::named::service'
+    include '::named::install'
+
+    Class['named::install'] -> Class['named::chroot']
+    Class['named::chroot'] -> Class['named::service']
   }
+
+  Class['named::install'] ~> Class['named::service']
 
   iptables_rule { 'allow_dns_tcp':
     table   => 'filter',
@@ -98,13 +115,6 @@ class named (
     gid       => '25'
   }
 
-  package {
-    [ 'bind',
-      'bind-libs',
-    ]:
-    ensure => 'latest'
-  }
-
   user { 'named':
     ensure     => 'present',
     allowdupe  => false,
@@ -115,8 +125,5 @@ class named (
     shell      => '/sbin/nologin'
   }
 
-  if ! empty($chroot_path) {
-    validate_absolute_path($chroot_path)
-  }
   compliance_map()
 }
