@@ -38,7 +38,12 @@ class named::chroot (
   $rsync_server = $::named::rsync_server,
   $rsync_timeout = $::named::rsync_timeout
 ) {
-  include 'named'
+  assert_private()
+
+  if !empty($nchroot) { validate_absolute_path($nchroot) }
+  validate_string($bind_dns_rsync)
+  validate_net_list($rsync_server)
+  validate_integer($rsync_timeout)
 
   file { $nchroot:
     ensure  => 'directory',
@@ -85,5 +90,4 @@ class named::chroot (
     notify           => Service['named']
   }
 
-  validate_absolute_path($nchroot)
 }
