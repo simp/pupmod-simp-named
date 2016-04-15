@@ -21,15 +21,15 @@ class named::caching::hints (
   $use_defaults = false
 ) {
 
+  validate_string($content)
+  validate_bool($use_defaults)
+
   file { '/var/named/chroot/var/named/named.ca':
-    ensure  => 'present',
+    ensure  => 'file',
     owner   => 'root',
     group   => 'named',
     mode    => '0640',
     content => template('named/named.ca.erb'),
-    notify  => Service['named']
+    notify  => Class['named::service']
   }
-
-  validate_string($content)
-  validate_bool($use_defaults)
 }
