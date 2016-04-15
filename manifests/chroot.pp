@@ -38,40 +38,41 @@ class named::chroot (
   $rsync_server = $::named::rsync_server,
   $rsync_timeout = $::named::rsync_timeout
 ) {
-  include 'named'
+  assert_private()
+
+  include '::rsync'
+
+  if !empty($nchroot) { validate_absolute_path($nchroot) }
+  validate_string($bind_dns_rsync)
+  validate_net_list($rsync_server)
+  validate_integer($rsync_timeout)
 
   file { $nchroot:
-    ensure  => 'directory',
-    owner   => 'root',
-    group   => 'named',
-    mode    => '0750',
-    require => Package['bind-chroot']
+    ensure => 'directory',
+    owner  => 'root',
+    group  => 'named',
+    mode   => '0750'
   }
 
   file { "${nchroot}/etc/named.conf":
-    ensure  => 'present',
-    owner   => 'root',
-    group   => 'named',
-    mode    => '0640',
-    notify  => Rsync['named'],
-    require => Package['bind-chroot']
+    ensure => 'file',
+    owner  => 'root',
+    group  => 'named',
+    mode   => '0640',
+    notify => Rsync['named']
   }
 
   file { "${nchroot}/var/named":
-    ensure  => 'directory',
-    owner   => 'root',
-    group   => 'named',
-    mode    => '0750',
-    notify  => Rsync['named'],
-    require => Package['bind-chroot']
+    ensure => 'directory',
+    owner  => 'root',
+    group  => 'named',
+    mode   => '0750',
+    notify => Rsync['named']
   }
 
   file { '/etc/named.conf':
-    ensure  => "${nchroot}/etc/named.conf",
-    require => Package['bind-chroot']
+    ensure => "${nchroot}/etc/named.conf"
   }
-
-  package { 'bind-chroot': ensure => 'latest' }
 
   rsync { 'named':
     user             => "bind_dns_${bind_dns_rsync}_rsync",
@@ -82,8 +83,7 @@ class named::chroot (
     timeout          => $rsync_timeout,
     preserve_devices => true,
     exclude          => [ 'localtime', 'var/run', 'proc' ],
-    notify           => Service['named']
+    notify           => Class['named::service']
   }
 
-  validate_absolute_path($nchroot)
 }

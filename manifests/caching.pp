@@ -14,29 +14,29 @@
 # * Trevor Vaughan <tvaughan@onyxpoint.com>
 #
 class named::caching(
-  $chroot_path = '/var/named/chroot'
-) {
-  include 'named::service'
+  $chroot_path = $::named::params::chroot_path
+) inherits ::named::params {
+
+  if defined(Class['named']) {
+    fail('You cannot include both ::named and ::named::caching')
+  }
+
+  if !empty($chroot_path) { validate_absolute_path($chroot_path) }
 
   $selinux_enabled = (str2bool($::selinux_enforced)) or (empty($chroot_path) and ! str2bool($::selinux_enforced))
-  $l_path = $selinux_enabled ? {
+  $_chroot_path = $selinux_enabled ? {
     true  => '',
     false => $chroot_path
   }
 
-  if $::operatingsystem in ['RedHat','CentOS'] {
-    $rfc_1912_zonefile = $::operatingsystemmajrelease ? {
-      '5'     => "${l_path}/etc/named.rfc1912.zones",
-      default => '/etc/named.rfc1912.zones'
-    }
-  }
-  else {
-    $rfc_1912_zonefile = "${l_path}/etc/named.rfc1912.zones"
+  class { '::named::service':
+    chroot      => !empty($_chroot_path),
+    chroot_path => $_chroot_path
   }
 
   concat_build { 'named_caching':
     order  => ['header', '*.forward', 'footer'],
-    target => "${l_path}/etc/named_caching.forwarders"
+    target => "${_chroot_path}/etc/named_caching.forwarders"
   }
 
   concat_fragment { 'named_caching+header':
@@ -47,100 +47,123 @@ class named::caching(
     content => '};'
   }
 
-  if !empty($l_path) {
+  if !empty($_chroot_path) {
     file { '/etc/named.conf':
       ensure => 'symlink',
-      target => "${l_path}/etc/named.conf",
-      notify => Service['named']
+      target => "${_chroot_path}/etc/named.conf",
+      notify => Class['named::service']
     }
   }
 
-  file { $rfc_1912_zonefile:
+  file { "${_chroot_path}/etc/named.rfc1912.zones":
     ensure => 'file',
     owner  => 'root',
     group  => 'named',
     mode   => '0640',
     source => 'puppet:///modules/named/chroot/etc/named.rfc1912.zones',
-    notify => Service['named']
+    notify => Class['named::service']
   }
 
-  file { "${l_path}/var/named/localdomain.zone":
+  file { "${_chroot_path}/var/named/data":
+    ensure => 'directory',
+    owner  => 'named',
+    group  => 'named',
+    mode   => '0750',
+    before => Class['named::service']
+  }
+
+  file { "${_chroot_path}/var/named/localdomain.zone":
     ensure => 'file',
     owner  => 'root',
     group  => 'named',
     mode   => '0640',
     source => 'puppet:///modules/named/chroot/var/named/localdomain.zone',
-    notify => Service['named']
+    notify => Class['named::service']
   }
 
-  file { "${l_path}/var/named/localhost.zone":
+  file { "${_chroot_path}/var/named/localhost.zone":
     ensure => 'file',
     owner  => 'root',
     group  => 'named',
     mode   => '0640',
     source => 'puppet:///modules/named/chroot/var/named/localhost.zone',
-    notify => Service['named']
+    notify => Class['named::service']
   }
 
-  file { "${l_path}/var/named/named.broadcast":
+  file { "${_chroot_path}/var/named/named.broadcast":
     ensure => 'file',
     owner  => 'root',
     group  => 'named',
     mode   => '0640',
     source => 'puppet:///modules/named/chroot/var/named/named.broadcast',
-    notify => Service['named']
+    notify => Class['named::service']
   }
 
-  file { "${l_path}/var/named/named.ip6.local":
+  file { "${_chroot_path}/var/named/named.ip6.local":
     ensure => 'file',
     owner  => 'root',
     group  => 'named',
     mode   => '0640',
     source => 'puppet:///modules/named/chroot/var/named/named.ip6.local',
-    notify => Service['named']
+    notify => Class['named::service']
   }
 
-  file { "${l_path}/var/named/named.local":
+  file { "${_chroot_path}/var/named/named.local":
     ensure => 'file',
     owner  => 'root',
     group  => 'named',
     mode   => '0640',
     source => 'puppet:///modules/named/chroot/var/named/named.local',
-    notify => Service['named']
+    notify => Class['named::service']
   }
 
-  file { "${l_path}/var/named/named.zero":
+  file { "${_chroot_path}/var/named/named.zero":
     ensure => 'file',
     owner  => 'root',
     group  => 'named',
     mode   => '0644',
     source => 'puppet:///modules/named/chroot/var/named/named.zero',
-    notify => Service['named']
+    notify => Class['named::service']
   }
 
-  file { "${l_path}/etc/named.conf":
+  file { "${_chroot_path}/etc/named.conf":
     ensure  => 'file',
     owner   => 'root',
     group   => 'named',
     mode    => '0640',
     content => template('named/named.caching.conf.erb'),
-    notify  => Service['named']
+    notify  => Class['named::service']
   }
 
-  file { "${l_path}/etc/named_caching.forwarders":
+  file { "${_chroot_path}/etc/named_caching.forwarders":
     owner     => 'root',
     group     => 'named',
     mode      => '0640',
-    notify    => Service['named'],
+    notify    => Class['named::service'],
     subscribe => Concat_build['named_caching'],
     audit     => content
   }
 
-  # Only install bind-chroot if we are using a chroot jail
-  if ! $selinux_enabled {
-    package { 'bind-chroot':
-      ensure => 'latest',
-      notify => Service['named']
+  if !empty($_chroot_path) and !($selinux_enabled) {
+    file_line { 'bind_chroot':
+      path      => '/etc/sysconfig/named',
+      line      => "OPTIONS=\"-t ${_chroot_path}\"",
+      before    => Class['named::service'],
+      subscribe => Package['bind-chroot']
+    }
+
+    class { '::named::install':
+      chroot      => true,
+      chroot_path => $_chroot_path
     }
   }
+  else {
+    class { '::named::install':
+      chroot      => false,
+      chroot_path => '/dev/null'
+    }
+  }
+
+  Class['named::install'] -> Class['named::caching']
+  Class['named::install'] ~> Class['named::service']
 }

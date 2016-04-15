@@ -30,12 +30,14 @@ end
 
 group :development do
   gem "travis"
+  gem "travish"
   gem "travis-lint"
   gem "vagrant-wrapper"
   gem "puppet-blacksmith"
   gem "guard-rake"
   gem 'pry'
   gem 'pry-doc'
+  gem 'listen', '3.0.6'
 end
 
 group :system_tests do
