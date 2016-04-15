@@ -1,6 +1,6 @@
 {
   "name":    "simp-named",
-  "version": "4.2.0",
+  "version": "4.3.0",
   "author":  "simp",
   "summary": "manages either a chrooted named process or a caching nameserver",
   "license": "Apache-2.0",
