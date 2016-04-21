@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_195e6d12",
+        "filename": "manifests/caching.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1005143
+      },
+      "writtenOn": "2016-04-21T18:38:54Z",
+      "side": 1,
+      "message": "`$chroot_path` has default values supplied by `::params` should always validate as an absolute path.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 66
+      },
+      "revId": "0590468e052d7a84f83ebcd9458ae9cad515817a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_b9a54105",
+        "filename": "manifests/chroot.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1005143
+      },
+      "writtenOn": "2016-04-21T18:38:54Z",
+      "side": 1,
+      "message": "`$nchroot` has default values supplied by `::params` should always validate as an absolute path.",
+      "revId": "0590468e052d7a84f83ebcd9458ae9cad515817a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_99a83ddd",
+        "filename": "manifests/init.pp",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1005143
+      },
+      "writtenOn": "2016-04-21T18:38:54Z",
+      "side": 1,
+      "message": "`$chroot_path` has default values supplied by `::params` should always validate as an absolute path.",
+      "revId": "0590468e052d7a84f83ebcd9458ae9cad515817a",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
