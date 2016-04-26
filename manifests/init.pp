@@ -63,21 +63,25 @@
 # * Kendall Moore <kmoore@keywcorp.com>
 #
 class named (
-  $chroot_path = '/var/named/chroot',
+  $chroot_path = $::named::params::chroot_path,
   $bind_dns_rsync = 'default',
   $rsync_server = hiera('rsync::server'),
   $rsync_timeout = hiera('rsync::timeout','2')
-) {
-  include 'rsync'
+) inherits ::named::params {
+  include '::rsync'
+
+  if !empty($chroot_path) { validate_absolute_path($chroot_path) }
+  validate_string($bind_dns_rsync)
+  validate_net_list($rsync_server)
+  validate_integer($rsync_timeout)
 
   if ( str2bool($::selinux_enforced) ) or ( empty($chroot_path) and ! str2bool($::selinux_enforced)) {
-
-    include 'named::non_chroot'
+    include '::named::non_chroot'
     class { 'named::service': chroot => false }
   }
   else {
-    include 'named::chroot'
-    include 'named::service'
+    include '::named::chroot'
+    include '::named::service'
   }
 
   iptables_rule { 'allow_dns_tcp':
@@ -115,8 +119,5 @@ class named (
     shell      => '/sbin/nologin'
   }
 
-  if ! empty($chroot_path) {
-    validate_absolute_path($chroot_path)
-  }
   compliance_map()
 }

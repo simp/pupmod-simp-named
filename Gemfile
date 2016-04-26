@@ -36,6 +36,7 @@ group :development do
   gem "guard-rake"
   gem 'pry'
   gem 'pry-doc'
+  gem 'listen', '3.0.6'
 end
 
 group :system_tests do

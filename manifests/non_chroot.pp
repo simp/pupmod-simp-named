@@ -23,11 +23,15 @@ class named::non_chroot (
   $rsync_server = $::named::rsync_server,
   $rsync_timeout = $::named::rsync_timeout
 ){
+  assert_private()
+
   if ( str2bool($::selinux_enforced) != true ) {
     fail( 'named::non_chroot must be used with selinux!')
   }
 
-  include 'named'
+  validate_string($bind_dns_rsync)
+  validate_net_list($rsync_server)
+  validate_integer($rsync_timeout)
 
   file { '/etc/named.conf':
     ensure  => 'present',

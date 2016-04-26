@@ -14,14 +14,19 @@
 # * Trevor Vaughan <tvaughan@onyxpoint.com>
 #
 class named::caching(
-  $chroot_path = '/var/named/chroot'
+  $chroot_path = 'UNSET'
 ) {
-  include 'named::service'
+  include '::named::params'
+  include '::named::service'
 
-  $selinux_enabled = (str2bool($::selinux_enforced)) or (empty($chroot_path) and ! str2bool($::selinux_enforced))
+  $_chroot_path = $chroot_path ? { 'UNSET' => $::named::params::chroot_path, default => $chroot_path }
+
+  if !empty($_chroot_path) { validate_absolute_path($_chroot_path) }
+
+  $selinux_enabled = (str2bool($::selinux_enforced)) or (empty($_chroot_path) and ! str2bool($::selinux_enforced))
   $l_path = $selinux_enabled ? {
     true  => '',
-    false => $chroot_path
+    false => $_chroot_path
   }
 
   if $::operatingsystem in ['RedHat','CentOS'] {
@@ -138,6 +143,7 @@ class named::caching(
 
   # Only install bind-chroot if we are using a chroot jail
   if ! $selinux_enabled {
+    Package['bind-chroot'] -> Service['named']
     package { 'bind-chroot':
       ensure => 'latest',
       notify => Service['named']
