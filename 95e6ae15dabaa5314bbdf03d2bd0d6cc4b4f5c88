@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_c967d44b",
+        "filename": "manifests/caching.pp",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1004834
+      },
+      "writtenOn": "2016-05-11T20:52:37Z",
+      "side": 1,
+      "message": "Ideally, this would be empty \u0027\u0027, not \u0027UNSET\u0027.",
+      "revId": "95e6ae15dabaa5314bbdf03d2bd0d6cc4b4f5c88",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_a958108b",
+        "filename": "manifests/caching.pp",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1004834
+      },
+      "writtenOn": "2016-05-11T20:52:37Z",
+      "side": 1,
+      "message": "This is already done below and not needed.",
+      "revId": "95e6ae15dabaa5314bbdf03d2bd0d6cc4b4f5c88",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_6957a858",
+        "filename": "manifests/init.pp",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1004834
+      },
+      "writtenOn": "2016-05-11T20:52:37Z",
+      "side": 1,
+      "message": "This should be moved to where we\u0027re actually using rsync.",
+      "revId": "95e6ae15dabaa5314bbdf03d2bd0d6cc4b4f5c88",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
