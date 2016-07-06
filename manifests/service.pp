@@ -51,7 +51,7 @@ class named::service (
       notify  => Service[$svcname]
     }
 
-    exec { 'restart-systemd':
+    exec { 'systemctl-daemon-reload':
       command     => 'systemctl daemon-reload',
       refreshonly => true,
       path        => '/bin:/usr/bin:/usr/local/bin',

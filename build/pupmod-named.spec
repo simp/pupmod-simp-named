@@ -1,6 +1,6 @@
 Summary: Named/Bind Puppet Module
 Name: pupmod-named
-Version: 4.3.0
+Version: 4.3.1
 Release: 0
 License: Apache License, Version 2.0
 Group: Applications/System
@@ -61,6 +61,10 @@ fi
 # Post uninstall stuff
 
 %changelog
+* Wed Jul 06 2016 Nick Miller <nick.miller@onyxpoint.com> - 4.3.1-0
+- Changed the Exec['restart-systemd'] to Exec['systemctl-daemon-reload']
+  to avoid a conflict with puppetlabs-postgresql
+
 * Fri Apr 15 2016 Nick Markowski <nmarkowski@keywcorp.com> - 4.3.0-0
 - Created work-around for https://bugzilla.redhat.com/show_bug.cgi?id=1278082
 - Users can modify the chroot path in named-chroot.service
