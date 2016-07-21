@@ -1,12 +1,13 @@
 ---
 fixtures:
   repositories:
-    common: "git://github.com/simp/pupmod-simp-common"
-    simplib: "git://github.com/simp/pupmod-simp-simplib"
-    simpcat: "git://github.com/simp/pupmod-simp-concat"
-    iptables: "git://github.com/simp/pupmod-simp-iptables"
-    rsync: "git://github.com/simp/pupmod-simp-rsync"
-    stdlib: "git://github.com/simp/puppetlabs-stdlib"
-    compliance: "https://github.com/trevor-vaughan/pupmod-compliance"
+    compliance_markup: "https://github.com/simp/pupmod-simp-compliance_markup"
+    iptables: "https://github.com/simp/pupmod-simp-iptables"
+    rsync: "https://github.com/simp/pupmod-simp-rsync"
+    simpcat: "https://github.com/simp/pupmod-simp-simpcat"
+    simplib: "https://github.com/simp/pupmod-simp-simplib"
+    stdlib: 
+      repo: "https://github.com/simp/puppetlabs-stdlib"
+      branch: "simp-master"
   symlinks:
     named: "#{source_dir}"
