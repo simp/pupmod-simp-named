@@ -10,23 +10,23 @@
   "tags": [ "simp", "named", "bind", "dns" ],
   "dependencies": [
     {
-      "name": "simp-iptables",
+      "name": "simp/iptables",
       "version_requirement": ">= 4.1.0"
     },
     {
-      "name": "simp-rsync",
+      "name": "simp/rsync",
       "version_requirement": ">= 4.0.0"
     },
     {
-      "name": "simp-simpcat",
+      "name": "simp/simpcat",
       "version_requirement": ">= 4.0.0"
     },
     {
-      "name": "simp-simplib",
+      "name": "simp/simplib",
       "version_requirement": ">= 1.0.0"
     },
     {
-      "name": "onyxpoint/compliance_markup",
+      "name": "simp/compliance_markup",
       "version_requirement": ">= 1.0.0"
     }
   ],
