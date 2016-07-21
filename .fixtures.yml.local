@@ -1,9 +1,10 @@
----
-fixtures:
-  symlinks:
-    named: "#{source_dir}"
-    common: "#{source_dir}/../common"
-    concat: "#{source_dir}/../concat"
-    iptables: "#{source_dir}/../iptables"
-    rsync: "#{source_dir}/../rsync"
-    stdlib: "#{source_dir}/../stdlib"
+--- 
+  fixtures: 
+    symlinks: 
+      compliance_markup: "#{source_dir}/../compliance_markup"
+      iptables: "#{source_dir}/../iptables"
+      named: "#{source_dir}"
+      rsync: "#{source_dir}/../rsync"
+      simpcat: "#{source_dir}/../simpcat"
+      simplib: "#{source_dir}/../simplib"
+      stdlib: "#{source_dir}/../stdlib"
