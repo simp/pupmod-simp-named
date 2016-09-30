@@ -1,3 +1,6 @@
+* Thu Oct 13 2016 Trevor Vaughan <tvaughan@onyxpoint.com> - 5.0.0-0
+- Updated to use the deconflicted 'simpcat'
+
 * Tue Oct 11 2016 Lucas Yamanishi <lucas.yamanishi@onyxpoint.com> - 4.3.3-0
 - This patch corrects the following shortcomings to ensure compatability
   with Red Hat Enterprise Linux 7 and its clones:
