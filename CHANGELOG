@@ -1,3 +1,6 @@
+* Fri Sep 30 2016 Trevor Vaughan <tvaughan@onyxpoint.com> - 5.0.0-0
+- Updated to use the deconflicted 'simpcat'
+
 * Wed Jul 06 2016 Nick Miller <nick.miller@onyxpoint.com> - 4.3.1-0
 - Changed the Exec['restart-systemd'] to Exec['systemctl-daemon-reload']
   to avoid a conflict with puppetlabs-postgresql
