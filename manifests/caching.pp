@@ -34,16 +34,16 @@ class named::caching(
     chroot_path => $_chroot_path
   }
 
-  concat_build { 'named_caching':
+  simpcat_build { 'named_caching':
     order  => ['header', '*.forward', 'footer'],
     target => "${_chroot_path}/etc/named_caching.forwarders"
   }
 
-  concat_fragment { 'named_caching+header':
+  simpcat_fragment { 'named_caching+header':
     content => 'forwarders {'
   }
 
-  concat_fragment { 'named_caching+footer':
+  simpcat_fragment { 'named_caching+footer':
     content => '};'
   }
 
@@ -140,7 +140,7 @@ class named::caching(
     group     => 'named',
     mode      => '0640',
     notify    => Class['named::service'],
-    subscribe => Concat_build['named_caching'],
+    subscribe => Simpcat_build['named_caching'],
     audit     => content
   }
 
