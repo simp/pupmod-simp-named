@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_9341e70c",
+        "filename": "manifests/chroot.pp",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1004834
+      },
+      "writtenOn": "2016-10-05T21:46:45Z",
+      "side": 1,
+      "message": "Curly braces around your variables in strings",
+      "revId": "3bebc53d5e22d72164a77d9a14e9909d57261e17",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
