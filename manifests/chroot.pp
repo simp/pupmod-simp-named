@@ -47,7 +47,7 @@ class named::chroot (
   validate_net_list($rsync_server)
   validate_integer($rsync_timeout)
 
-  file { $nchroot:
+  file { [$nchroot, "${nchroot}/etc", "${nchroot}/var"]:
     ensure => 'directory',
     owner  => 'root',
     group  => 'named',
