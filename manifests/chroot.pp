@@ -54,6 +54,22 @@ class named::chroot (
     mode   => '0750'
   }
 
+  file { "${nchroot}/etc":
+    ensure  => 'directory',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    seltype => 'etc_t'
+  }
+
+  file { "${nchroot}/var":
+    ensure  => 'directory',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    seltype => 'var_t'
+  }
+
   file { "${nchroot}/etc/named.conf":
     ensure => 'file',
     owner  => 'root',
