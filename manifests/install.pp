@@ -17,7 +17,7 @@ class named::install (
   if $::osfamily == 'RedHat' {
     package { 'bind': ensure => $ensure }
     package { 'bind-libs': ensure => $ensure }
-    
+
     if $chroot {
       package { 'bind-chroot': ensure => $ensure }
     }

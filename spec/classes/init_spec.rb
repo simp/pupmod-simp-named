@@ -48,7 +48,7 @@ describe 'named' do
             :owner   => 'root',
             :group   => 'root',
             :mode    => '0644',
-            :content => /.*PIDFile=\/var\/named\/chroot\/run\/named\/named.pid\n*ExecStartPre=\/bin\/bash -c 'if \[ ! "\$DISABLE_ZONE_CHECKING" == "yes" \]; then \/usr\/sbin\/named-checkconf -t \/var\/named\/chroot -z \/etc\/named.conf; else echo "Checking of zone files is disabled"; fi'.*/
+            :content => /.*ExecStartPre=\/bin\/bash -c 'if \[ ! "\$DISABLE_ZONE_CHECKING" == "yes" \]; then \/usr\/sbin\/named-checkconf -t \/var\/named\/chroot -z \/etc\/named.conf; else echo "Checking of zone files is disabled"; fi'.*/
           })}
         end
 
