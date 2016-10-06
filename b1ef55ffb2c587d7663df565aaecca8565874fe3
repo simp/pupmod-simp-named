@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_47b5d92f",
+        "filename": "Gemfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1005361
+      },
+      "writtenOn": "2016-10-06T15:18:12Z",
+      "side": 1,
+      "message": "Including this gem often breaks vagrant installations",
+      "range": {
+        "startLine": 51,
+        "startChar": 7,
+        "endLine": 51,
+        "endChar": 22
+      },
+      "revId": "b1ef55ffb2c587d7663df565aaecca8565874fe3",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
