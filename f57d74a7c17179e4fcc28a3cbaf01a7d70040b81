@@ -22,6 +22,30 @@
       "revId": "f57d74a7c17179e4fcc28a3cbaf01a7d70040b81",
       "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_54a693ab",
+        "filename": "manifests/chroot.pp",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1005194
+      },
+      "writtenOn": "2016-10-11T19:39:51Z",
+      "side": 1,
+      "message": "It\u0027s the rsync. I think \u003cchroot\u003e/etc and /var should be root.root 755",
+      "parentUuid": "baa041b7_f43c8793",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 3
+      },
+      "revId": "f57d74a7c17179e4fcc28a3cbaf01a7d70040b81",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
     }
   ]
 }
