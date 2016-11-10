@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_7aad8083",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1005361
+      },
+      "writtenOn": "2016-11-10T14:14:19Z",
+      "side": 1,
+      "message": "What\u0027s in the chroot? What\u0027s the expected file structure?",
+      "range": {
+        "startLine": 33,
+        "startChar": 34,
+        "endLine": 33,
+        "endChar": 40
+      },
+      "revId": "c77573f06f15033ac0490ca8a35a4bfe219478fd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa041b7_1ac5543c",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1005361
+      },
+      "writtenOn": "2016-11-10T14:14:19Z",
+      "side": 1,
+      "message": "Why do I need an rsync server for a named module?",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "c77573f06f15033ac0490ca8a35a4bfe219478fd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
