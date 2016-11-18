@@ -66,5 +66,4 @@ class named::service (
     hasrestart => true
   }
 
-  compliance_map()
 }
