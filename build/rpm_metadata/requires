@@ -1,6 +1,4 @@
 Obsoletes: pupmod-named-test >= 0.0.1
-Requires: pupmod-simp-compliance_markup < 3.0.0-0
-Requires: pupmod-simp-compliance_markup >= 2.0.0-0
 Requires: pupmod-simp-iptables < 6.0.0-0
 Requires: pupmod-simp-iptables >= 5.0.0-0
 Requires: pupmod-simp-rsync < 6.0.0-0
