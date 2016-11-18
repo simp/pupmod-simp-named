@@ -125,5 +125,4 @@ class named (
     shell      => '/sbin/nologin'
   }
 
-  compliance_map()
 }
