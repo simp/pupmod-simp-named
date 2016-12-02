@@ -24,7 +24,7 @@
 #       include 'rsync::server::global'
 #       # The word 'default' here is the equivalent of the
 #       # named::bind_dns_rsync variable above.
-#       rsync::server::section { 'bind_dns_default':
+#       rsync::server::section { "bind_dns_default_${environment}":
 #         auth_users  => ['bind_dns_default_rsync'],
 #         comment     => 'DNS "default" configuration',
 #         path        => "${rsync_base}/bind_dns/default",
@@ -63,10 +63,10 @@
 # * Kendall Moore <kmoore@keywcorp.com>
 #
 class named (
-  $chroot_path = $::named::params::chroot_path,
+  $chroot_path    = $::named::params::chroot_path,
   $bind_dns_rsync = 'default',
-  $rsync_server = hiera('rsync::server'),
-  $rsync_timeout = hiera('rsync::timeout','2')
+  $rsync_server   = hiera('rsync::server'),
+  $rsync_timeout  = hiera('rsync::timeout','2')
 ) inherits ::named::params {
 
   if defined(Class['named::caching']) {
