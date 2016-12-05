@@ -20,8 +20,9 @@
 #
 class named::non_chroot (
   $bind_dns_rsync = $::named::bind_dns_rsync,
-  $rsync_server = $::named::rsync_server,
-  $rsync_timeout = $::named::rsync_timeout
+  $rsync_source   = "bind_dns_${$::named::bind_dns_rsync}_${::environment}/named",
+  $rsync_server   = $::named::rsync_server,
+  $rsync_timeout  = $::named::rsync_timeout
 ){
   assert_private()
 
@@ -56,7 +57,7 @@ class named::non_chroot (
   rsync { 'named':
     user     => "bind_dns_${bind_dns_rsync}_rsync",
     password => passgen("bind_dns_${bind_dns_rsync}_rsync"),
-    source   => "bind_dns_${bind_dns_rsync}/named/var/named",
+    source   => "${rsync_source}/var/named",
     target   => '/var',
     server   => $rsync_server,
     timeout  => $rsync_timeout,
@@ -64,9 +65,9 @@ class named::non_chroot (
   }
 
   rsync { 'named_etc':
-    user     => "bind_dns_${bind_dns_rsync}_rsync",
-    password => passgen("bind_dns_${bind_dns_rsync}_rsync"),
-    source   => "bind_dns_${bind_dns_rsync}/named/etc/*",
+    user     => "bind_dns_${bind_dns_rsync}_rsync_${::environment}",
+    password => passgen("bind_dns_${bind_dns_rsync}_rsync_${::environment}"),
+    source   => "${rsync_source}/etc/*",
     target   => '/etc',
     server   => $rsync_server,
     timeout  => $rsync_timeout,
