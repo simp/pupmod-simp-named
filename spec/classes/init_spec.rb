@@ -27,6 +27,11 @@ describe 'named' do
               :ensure => 'running'
             })}
           end
+
+          it { is_expected.to contain_rsync('named').with({
+            :source => "bind_dns_default_#{environment}/named/"
+            })
+          }
         end
 
         context "with non-chroot" do
@@ -40,6 +45,11 @@ describe 'named' do
           it { is_expected.to contain_service('named').with({
             :ensure => 'running'
           })}
+
+          it { is_expected.to contain_rsync('named').with({
+            :source => "bind_dns_default_#{environment}/named/var/named"
+            })
+          }
         end
 
         if ['RedHat','CentOS'].include? facts[:operatingsystem] and facts[:operatingsystemmajrelease].to_s >= '7' then
