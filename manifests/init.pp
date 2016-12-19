@@ -49,12 +49,12 @@
 #
 # [*rsync_server*]
 #   Type: FQDN
-#   Default: hiera(rsync::server)
+#   Default: 127.0.0.1
 #     The rsync server from which to pull the named configuration.
 #
 # [*rsync_timeout*]
 #   Type: Integer
-#   Default: hiera(rsync::timeout,'2')
+#   Default: 2
 #     The timeout when connecting to the rsync server.
 #
 # == Authors
@@ -63,22 +63,20 @@
 # * Kendall Moore <kmoore@keywcorp.com>
 #
 class named (
-  $chroot_path    = $::named::params::chroot_path,
-  $bind_dns_rsync = 'default',
-  $rsync_server   = hiera('rsync::server'),
-  $rsync_timeout  = hiera('rsync::timeout','2')
+  Stdlib::Absolutepath     $chroot_path     = $::named::params::chroot_path,
+  String                   $bind_dns_rsync  = 'default',
+  String                   $rsync_server    = simplib::lookup('simp_options::rsync::server', { 'default_value'  => '127.0.0.1' }),
+  Stdlib::Compat::Integer  $rsync_timeout   = simplib::lookup('simp_options::rsync::timeout', { 'default_value' => '2' }),
+  Boolean                  $firewall        = simplib::lookup('simp_options::firewall', { 'default_value' => false })
 ) inherits ::named::params {
 
   if defined(Class['named::caching']) {
     fail('You cannot include both ::named and ::named::caching')
   }
 
-  if !empty($chroot_path) { validate_absolute_path($chroot_path) }
-  validate_string($bind_dns_rsync)
   validate_net_list($rsync_server)
-  validate_integer($rsync_timeout)
 
-  if ( str2bool($::selinux_enforced) ) or ( empty($chroot_path) and ! str2bool($::selinux_enforced)) {
+  if ( str2bool($::selinux_enforced)) {
     include '::named::non_chroot'
     class { '::named::service': chroot => false }
     class { '::named::install': chroot => false }
@@ -97,32 +95,16 @@ class named (
 
   Class['named::install'] ~> Class['named::service']
 
-  iptables_rule { 'allow_dns_tcp':
-    table   => 'filter',
-    order   => '11',
-    content => '-m state --state NEW -m tcp -p tcp --dport 53 -j ACCEPT'
+  if $firewall {
+    iptables_rule { 'allow_dns_tcp':
+      table   => 'filter',
+      order   => '11',
+      content => '-m state --state NEW -m tcp -p tcp --dport 53 -j ACCEPT'
+    }
+    iptables_rule { 'allow_dns_udp':
+      table   => 'filter',
+      order   => '11',
+      content => '-p udp --dport 53 -j ACCEPT'
+    }
   }
-
-  iptables_rule { 'allow_dns_udp':
-    table   => 'filter',
-    order   => '11',
-    content => '-p udp --dport 53 -j ACCEPT'
-  }
-
-  group { 'named':
-    ensure    => 'present',
-    allowdupe => false,
-    gid       => '25'
-  }
-
-  user { 'named':
-    ensure     => 'present',
-    allowdupe  => false,
-    uid        => '25',
-    gid        => '25',
-    home       => '/var/named',
-    membership => 'inclusive',
-    shell      => '/sbin/nologin'
-  }
-
 }

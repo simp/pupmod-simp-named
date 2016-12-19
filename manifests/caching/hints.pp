@@ -17,12 +17,9 @@
 # * Trevor Vaughan <tvaughan@onyxpoint.com>
 #
 class named::caching::hints (
-  $content = '',
-  $use_defaults = false
+  String  $content      = '',
+  Boolean $use_defaults = false
 ) {
-
-  validate_string($content)
-  validate_bool($use_defaults)
 
   file { '/var/named/chroot/var/named/named.ca':
     ensure  => 'file',

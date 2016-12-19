@@ -19,10 +19,10 @@
 # * Chris Tessmer <chirs.tessmer@onyxpoint.com
 #
 class named::non_chroot (
-  $bind_dns_rsync = $::named::bind_dns_rsync,
-  $rsync_source   = "bind_dns_${$::named::bind_dns_rsync}_${::environment}/named",
-  $rsync_server   = $::named::rsync_server,
-  $rsync_timeout  = $::named::rsync_timeout
+  String                  $bind_dns_rsync = $::named::bind_dns_rsync,
+  String                  $rsync_source   = "bind_dns_${$::named::bind_dns_rsync}_${::environment}/named",
+  String                  $rsync_server   = $::named::rsync_server,
+  Stdlib::Compat::Integer $rsync_timeout  = $::named::rsync_timeout
 ){
   assert_private()
 
@@ -32,9 +32,7 @@ class named::non_chroot (
     fail( 'named::non_chroot must be used with selinux!')
   }
 
-  validate_string($bind_dns_rsync)
   validate_net_list($rsync_server)
-  validate_integer($rsync_timeout)
 
   file { '/etc/named.conf':
     ensure  => 'file',

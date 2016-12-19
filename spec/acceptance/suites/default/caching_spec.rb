@@ -25,7 +25,7 @@ describe 'named::caching' do
       end
 
       it 'should be able to lookup www.google.com from itself' do
-        on(host, 'echo -e "nameserver 127.0.0.1\nsearch `facter domain`" > /etc/resolv.conf') 
+        on(host, 'echo -e "nameserver 127.0.0.1\nsearch `facter domain`" > /etc/resolv.conf')
         on(host, 'host www.google.com')
       end
     end

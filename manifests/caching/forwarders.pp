@@ -19,9 +19,9 @@
 #
 define named::caching::forwarders {
 
-  $l_name = inline_template('<%= @name.delete(";").split.join("_") %>')
+  $_name = inline_template('<%= @name.delete(";").split.join("_") %>')
 
-  simpcat_fragment { "named_caching+${l_name}.forward":
+  simpcat_fragment { "named_caching+${_name}.forward":
     content =>
       inline_template('<%= (@name.delete(";").split - ["127.0.0.1", "::1"]).join(";\n") + ";" %>')
   }

@@ -15,13 +15,10 @@
 # * Trevor Vaughan - tvaughan@onyxpoint.com
 #
 class named::service (
-  $chroot = true,
-  $chroot_path = $::named::chroot_path
+  Boolean              $chroot      = true,
+  Stdlib::Absolutepath $chroot_path = $::named::chroot_path
 ) {
   assert_private()
-
-  validate_bool($chroot)
-  if !empty($chroot_path) { validate_absolute_path($chroot_path) }
 
   if $chroot {
     if $::operatingsystem in ['RedHat','CentOS'] {
