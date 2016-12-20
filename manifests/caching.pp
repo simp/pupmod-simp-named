@@ -1,5 +1,3 @@
-# == Class: named::caching
-#
 # This class configures a caching nameserver.
 # You will need to call named::caching::forwarders to make it useful.
 #
@@ -9,9 +7,7 @@
 # If you want something other than the defaults provided here, use the main
 # named class.
 #
-# == Authors
-#
-# * Trevor Vaughan <tvaughan@onyxpoint.com>
+# @author Trevor Vaughan <tvaughan@onyxpoint.com>
 #
 class named::caching(
   Stdlib::Absolutepath $chroot_path = $::named::params::chroot_path

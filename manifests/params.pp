@@ -1,8 +1,6 @@
-# == Class: named::params
+# Params
 #
-# == Parameters
-#
-# [*chroot_path*]
+# @param chroot_path
 #   If set, enables the chroot jailed version of named.
 #   Simply set to an empty string ("") if you want named outside of a chroot
 #   jail with SELinux disabled.

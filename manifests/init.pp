@@ -9,7 +9,7 @@
 # The default SIMP configuration will do this for the 'default' space, but
 # other spaces will need to be added as appropriate.
 #
-# Example:
+# @example
 #   * Given 'default' configuration that you would like to serve
 #   * Create a chroot pull from that domain on your DNS node
 #       include 'named'
@@ -30,9 +30,7 @@
 #         path        => "${rsync_base}/bind_dns/default",
 #         hosts_allow => 127.0.0.1 # This is correct if using stunnel
 #
-# == Parameters
-#
-# [*chroot_path*]
+# @param chroot_path
 #   If set, enables the chroot jailed version of named.
 #   Simply set to an empty string ("") if you want named outside of a chroot
 #   jail with SELinux disabled.
@@ -41,26 +39,18 @@
 #   Chroot jails for named are not compatible with SELinux and will be
 #   disabled is SELinux is enforcing.
 #
-# [*bind_dns_rsync*]
-#   Type: String
-#   Default: default
-#     The target under "${rsync_base}/bind_dns" from which to fetch all
-#     BIND DNS content.
+# @param bind_dns_rsync
+#   The target under "${rsync_base}/bind_dns" from which to fetch all
+#   BIND DNS content.
 #
-# [*rsync_server*]
-#   Type: FQDN
-#   Default: 127.0.0.1
-#     The rsync server from which to pull the named configuration.
+# @param rsync_server
+#   The rsync server from which to pull the named configuration.
 #
-# [*rsync_timeout*]
-#   Type: Integer
-#   Default: 2
-#     The timeout when connecting to the rsync server.
+# @param rsync_timeout
+#   The timeout when connecting to the rsync server.
 #
-# == Authors
-#
-# * Trevor Vaughan <tvaughan@onyxpoint.com>
-# * Kendall Moore <kmoore@keywcorp.com>
+# @author Trevor Vaughan <tvaughan@onyxpoint.com>
+# @author Kendall Moore <kmoore@keywcorp.com>
 #
 class named (
   Stdlib::Absolutepath     $chroot_path     = $::named::params::chroot_path,

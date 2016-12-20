@@ -1,36 +1,22 @@
-# == Class: named::chroot
-#
 # This class configures named in a chroot jail for execution on a system.
 # It pulls all config files from rsync.
 #
 # It is meant to be called from named directly.
 #
-# == Parameters
+# @param nchroot
+#   The Chroot jail for named. This should probably not be changed.
 #
-# [*nchroot*]
-#   Type: Absolute Path
-#   Default: $::named::chroot_path
-#     The Chroot jail for named. This should probably not be changed.
+# @param bind_dns_rsync
+#   The target under the /srv/rsync/bind_dns from which to fetch all
+#   BIND DNS content.
 #
-# [*bind_dns_rsync*]
-#   Type: String
-#   Default: $::named::bind_dns_rsync
-#     The target under the /srv/rsync/bind_dns from which to fetch all
-#     BIND DNS content.
+# @param rsync_server
+#   The rsync server from which to pull the named configuration.
 #
-# [*rsync_server*]
-#   Type: FQDN
-#   Default: 127.0.0.1
-#     The rsync server from which to pull the named configuration.
+# @param rsync_timeout
+#   The timeout when connecting to the rsync server.
 #
-# [*rsync_timeout*]
-#   Type: Stdlib::Compat::Integer
-#   Default: 2
-#     The timeout when connecting to the rsync server.
-#
-# == Authors
-#
-# * Trevor Vaughan <tvaughan@onyxpoint.com>
+# @author Trevor Vaughan <tvaughan@onyxpoint.com>
 #
 class named::chroot (
   Stdlib::Absolutepath    $nchroot        = $::named::chroot_path,

@@ -1,22 +1,16 @@
-# == Class: named::non_chroot
-#
 # This class configures named for execution on a system using selinux.
 # It pulls all config files from rsync.
 #
 # It is meant to be called from named directly.
 #
-# [*bind_dns_rsync*]
-#   Type: String
-#   Default: $::named::bind_dns_rsync
-#     The target under #
-#     hiera('rsync::base','/srv/rsync/$::operatingsystem/$::operatingsystemmajrelease')/bind_dns
-#     from which to fetch all BIND DNS content.
+# @param bind_dns_rsync
+#   The target under #
+#   hiera('rsync::base','/srv/rsync/$::operatingsystem/$::operatingsystemmajrelease')/bind_dns
+#   from which to fetch all BIND DNS content.
 #
-# == Authors
-#
-# * Trevor Vaughan <tvaughan@onyxpoint.com>
-# * Kendall Moore <kmoore@keywcorp.com>
-# * Chris Tessmer <chirs.tessmer@onyxpoint.com
+# @author Trevor Vaughan <tvaughan@onyxpoint.com>
+# @author Kendall Moore <kmoore@keywcorp.com>
+# @author Chris Tessmer <chris.tessmer@onyxpoint.com
 #
 class named::non_chroot (
   String                  $bind_dns_rsync = $::named::bind_dns_rsync,
