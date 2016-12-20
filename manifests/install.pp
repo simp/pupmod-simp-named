@@ -8,11 +8,28 @@
 # @param chroot [Boolean] Whether or not to use a chroot jail
 # @param chroot_path [Absolute_Path] The path to the chroot jail
 class named::install (
-  $ensure = 'latest',
-  $chroot = false,
-  $chroot_path = $::named::chroot_path
+  Boolean              $chroot      = true,
+  Stdlib::Absolutepath $chroot_path = $::named::chroot_path,
+  String               $ensure      = 'latest'
 ){
   assert_private()
+
+  group { 'named':
+    ensure    => 'present',
+    allowdupe => false,
+    gid       => '25'
+  }
+
+  user { 'named':
+    ensure     => 'present',
+    allowdupe  => false,
+    uid        => '25',
+    gid        => '25',
+    home       => '/var/named',
+    membership => 'inclusive',
+    shell      => '/sbin/nologin',
+    require    => Group['named']
+  }
 
   if $::osfamily == 'RedHat' {
     package { 'bind': ensure => $ensure }

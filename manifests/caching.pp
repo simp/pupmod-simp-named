@@ -1,5 +1,3 @@
-# == Class: named::caching
-#
 # This class configures a caching nameserver.
 # You will need to call named::caching::forwarders to make it useful.
 #
@@ -9,30 +7,48 @@
 # If you want something other than the defaults provided here, use the main
 # named class.
 #
-# == Authors
-#
-# * Trevor Vaughan <tvaughan@onyxpoint.com>
+# @author Trevor Vaughan <tvaughan@onyxpoint.com>
 #
 class named::caching(
-  $chroot_path = $::named::params::chroot_path
+  Stdlib::Absolutepath $chroot_path = $::named::params::chroot_path
 ) inherits ::named::params {
 
   if defined(Class['named']) {
     fail('You cannot include both ::named and ::named::caching')
   }
 
-  if !empty($chroot_path) { validate_absolute_path($chroot_path) }
-
-  $selinux_enabled = (str2bool($::selinux_enforced)) or (empty($chroot_path) and ! str2bool($::selinux_enforced))
-  $_chroot_path = $selinux_enabled ? {
+  # Some trickery to use common file resources for chrooted/non chrooted
+  # caching files
+  $selinux = str2bool($::selinux_enforced)
+  $_chroot_path = $selinux ? {
     true  => '',
     false => $chroot_path
   }
 
+  # Installation and service
+  if !empty($_chroot_path) {
+    file_line { 'bind_chroot':
+      path      => '/etc/sysconfig/named',
+      line      => "OPTIONS=\"-t ${_chroot_path}\"",
+      before    => Class['named::service'],
+      subscribe => Package['bind-chroot']
+    }
+    file { '/etc/named.conf':
+      ensure => 'symlink',
+      target => "${_chroot_path}/etc/named.conf",
+      notify => Class['named::service']
+    }
+  }
+  class { '::named::install':
+    chroot      => !empty($_chroot_path),
+    chroot_path => $chroot_path
+  }
   class { '::named::service':
     chroot      => !empty($_chroot_path),
-    chroot_path => $_chroot_path
+    chroot_path => $chroot_path
   }
+  Class['named::install'] -> Class['named::caching']
+  Class['named::install'] ~> Class['named::service']
 
   simpcat_build { 'named_caching':
     order  => ['header', '*.forward', 'footer'],
@@ -45,14 +61,6 @@ class named::caching(
 
   simpcat_fragment { 'named_caching+footer':
     content => '};'
-  }
-
-  if !empty($_chroot_path) {
-    file { '/etc/named.conf':
-      ensure => 'symlink',
-      target => "${_chroot_path}/etc/named.conf",
-      notify => Class['named::service']
-    }
   }
 
   file { "${_chroot_path}/etc/named.rfc1912.zones":
@@ -144,26 +152,4 @@ class named::caching(
     audit     => content
   }
 
-  if !empty($_chroot_path) and !($selinux_enabled) {
-    file_line { 'bind_chroot':
-      path      => '/etc/sysconfig/named',
-      line      => "OPTIONS=\"-t ${_chroot_path}\"",
-      before    => Class['named::service'],
-      subscribe => Package['bind-chroot']
-    }
-
-    class { '::named::install':
-      chroot      => true,
-      chroot_path => $_chroot_path
-    }
-  }
-  else {
-    class { '::named::install':
-      chroot      => false,
-      chroot_path => '/dev/null'
-    }
-  }
-
-  Class['named::install'] -> Class['named::caching']
-  Class['named::install'] ~> Class['named::service']
 }
