@@ -31,8 +31,8 @@
       "version_requirement": ">= 3.1.0 < 4.0.0"
     },
     {
-      "name": "simp/stdlib",
-      "version_requirement": ">= 4.9.0 < 5.0.0"
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.13.1 < 5.0.0"
     }
   ],
   "operatingsystem_support": [
