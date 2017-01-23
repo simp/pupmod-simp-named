@@ -48,7 +48,7 @@ describe 'named' do
           it { is_expected.to create_file('/var/named/chroot/var/named').with_ensure('directory') }
           it { is_expected.to create_file('/etc/named.conf').with_ensure('/var/named/chroot/etc/named.conf') }
           it { is_expected.to contain_rsync('named').with({
-            :source => "bind_dns_default_#{environment}/named/"
+            :source => "bind_dns_default_#{environment}_#{facts[:operatingsystem]}_#{facts[:operatingsystemmajrelease].to_s}/named"
             })
           }
           # named::install
@@ -79,11 +79,11 @@ describe 'named' do
           it { is_expected.to create_file('/etc/named.conf').with_ensure('file')}
           it { is_expected.to create_file('/var/named').with_ensure('directory') }
           it { is_expected.to contain_rsync('named').with({
-            :source => "bind_dns_default_#{environment}/named/var/named"
+            :source => "bind_dns_default_#{environment}_#{facts[:operatingsystem]}_#{facts[:operatingsystemmajrelease].to_s}/named/var/named"
             })
           }
           it { is_expected.to contain_rsync('named_etc').with({
-            :source => "bind_dns_default_#{environment}/named/etc/*"
+            :source => "bind_dns_default_#{environment}_#{facts[:operatingsystem]}_#{facts[:operatingsystemmajrelease].to_s}/named/etc/*"
             })
           }
           # named::install

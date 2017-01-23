@@ -5,7 +5,7 @@
 #
 # @param bind_dns_rsync
 #   The target under #
-#   hiera('rsync::base','/srv/rsync/$::operatingsystem/$::operatingsystemmajrelease')/bind_dns
+#   /var/simp/environments/{environment}/rsync/{os}/{maj_version}/bind_dns
 #   from which to fetch all BIND DNS content.
 #
 # @author Trevor Vaughan <tvaughan@onyxpoint.com>
@@ -14,13 +14,15 @@
 #
 class named::non_chroot (
   String                  $bind_dns_rsync = $::named::bind_dns_rsync,
-  String                  $rsync_source   = "bind_dns_${$::named::bind_dns_rsync}_${::environment}/named",
+  String                  $rsync_source   = "bind_dns_${::named::bind_dns_rsync}_${::environment}_${facts['os']['name']}_${facts['os']['release']['major']}/named",
   String                  $rsync_server   = $::named::rsync_server,
   Stdlib::Compat::Integer $rsync_timeout  = $::named::rsync_timeout
 ){
   assert_private()
 
   include '::rsync'
+
+  $bind_user = "bind_dns_${::named::bind_dns_rsync}_rsync_${::environment}_${facts['os']['name']}_${facts['os']['release']['major']}"
 
   if ( str2bool($::selinux_enforced) != true ) {
     fail( 'named::non_chroot must be used with selinux!')
@@ -47,8 +49,8 @@ class named::non_chroot (
   }
 
   rsync { 'named':
-    user     => "bind_dns_${bind_dns_rsync}_rsync",
-    password => passgen("bind_dns_${bind_dns_rsync}_rsync"),
+    user     => $bind_user,
+    password => passgen($bind_user),
     source   => "${rsync_source}/var/named",
     target   => '/var',
     server   => $rsync_server,
@@ -57,8 +59,8 @@ class named::non_chroot (
   }
 
   rsync { 'named_etc':
-    user     => "bind_dns_${bind_dns_rsync}_rsync_${::environment}",
-    password => passgen("bind_dns_${bind_dns_rsync}_rsync_${::environment}"),
+    user     => $bind_user,
+    password => passgen($bind_user),
     source   => "${rsync_source}/etc/*",
     target   => '/etc',
     server   => $rsync_server,
