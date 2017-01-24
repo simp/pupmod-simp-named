@@ -48,14 +48,14 @@ describe 'named' do
           it { is_expected.to create_file('/var/named/chroot/var/named').with_ensure('directory') }
           it { is_expected.to create_file('/etc/named.conf').with_ensure('/var/named/chroot/etc/named.conf') }
           it { is_expected.to contain_rsync('named').with({
-            :source => "bind_dns_default_#{environment}_#{facts[:operatingsystem]}_#{facts[:operatingsystemmajrelease].to_s}/named"
+            :source => "bind_dns_default_#{environment}_#{facts[:os][:name]}_#{facts[:os][:release][:major].to_s}/named"
             })
           }
           # named::install
           it_should_behave_like('common install')
           it { is_expected.to contain_package('bind-chroot').with_ensure('latest')}
           # named::service
-          if ['RedHat','CentOS'].include? facts[:operatingsystem] and facts[:operatingsystemmajrelease].to_s < '7' then
+          if ['RedHat','CentOS'].include? facts[:os][:name] and facts[:os][:release][:major].to_s < '7' then
             it { is_expected.to contain_service('named').with({
               :ensure => 'running'
             })}
@@ -79,11 +79,11 @@ describe 'named' do
           it { is_expected.to create_file('/etc/named.conf').with_ensure('file')}
           it { is_expected.to create_file('/var/named').with_ensure('directory') }
           it { is_expected.to contain_rsync('named').with({
-            :source => "bind_dns_default_#{environment}_#{facts[:operatingsystem]}_#{facts[:operatingsystemmajrelease].to_s}/named/var/named"
+            :source => "bind_dns_default_#{environment}_#{facts[:os][:name]}_#{facts[:os][:release][:major].to_s}/named/var/named"
             })
           }
           it { is_expected.to contain_rsync('named_etc').with({
-            :source => "bind_dns_default_#{environment}_#{facts[:operatingsystem]}_#{facts[:operatingsystemmajrelease].to_s}/named/etc/*"
+            :source => "bind_dns_default_#{environment}_#{facts[:os][:name]}_#{facts[:os][:release][:major].to_s}/named/etc/*"
             })
           }
           # named::install
@@ -91,7 +91,7 @@ describe 'named' do
           it { is_expected.to contain_package('bind-chroot').with_ensure('absent') }
 
           # named::service
-          if ['RedHat','CentOS'].include? facts[:operatingsystem] and facts[:operatingsystemmajrelease].to_s >= '7' then
+          if ['RedHat','CentOS'].include? facts[:os][:name] and facts[:os][:release][:major].to_s >= '7' then
             it_should_behave_like('common el7 service')
           end
           it { is_expected.to contain_service('named').with({
