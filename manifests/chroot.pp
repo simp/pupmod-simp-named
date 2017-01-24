@@ -29,7 +29,7 @@ class named::chroot (
 
   include '::rsync'
 
-  $bind_user = "bind_dns_${::named::bind_dns_rsync}_rsync_${::environment}_${facts['os']['name']}_${facts['os']['release']['major']}"
+  $_rsync_user = "bind_dns_${::named::bind_dns_rsync}_rsync_${::environment}_${facts['os']['name']}_${facts['os']['release']['major']}"
 
   validate_net_list($rsync_server)
 
@@ -77,8 +77,8 @@ class named::chroot (
   }
 
   rsync { 'named':
-    user             => $bind_user,
-    password         => passgen($bind_user),
+    user             => $_rsync_user,
+    password         => passgen($_rsync_user),
     source           => $rsync_source,
     target           => $nchroot,
     server           => $rsync_server,

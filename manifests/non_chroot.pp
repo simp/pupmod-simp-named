@@ -22,7 +22,7 @@ class named::non_chroot (
 
   include '::rsync'
 
-  $bind_user = "bind_dns_${::named::bind_dns_rsync}_rsync_${::environment}_${facts['os']['name']}_${facts['os']['release']['major']}"
+  $_rsync_user = "bind_dns_${::named::bind_dns_rsync}_rsync_${::environment}_${facts['os']['name']}_${facts['os']['release']['major']}"
 
   if ( str2bool($::selinux_enforced) != true ) {
     fail( 'named::non_chroot must be used with selinux!')
@@ -49,8 +49,8 @@ class named::non_chroot (
   }
 
   rsync { 'named':
-    user     => $bind_user,
-    password => passgen($bind_user),
+    user     => $_rsync_user,
+    password => passgen($_rsync_user),
     source   => "${rsync_source}/var/named",
     target   => '/var',
     server   => $rsync_server,
@@ -59,8 +59,8 @@ class named::non_chroot (
   }
 
   rsync { 'named_etc':
-    user     => $bind_user,
-    password => passgen($bind_user),
+    user     => $_rsync_user,
+    password => passgen($_rsync_user),
     source   => "${rsync_source}/etc/*",
     target   => '/etc',
     server   => $rsync_server,
