@@ -7,7 +7,7 @@
 #   The Chroot jail for named. This should probably not be changed.
 #
 # @param bind_dns_rsync
-#   The target under the /srv/rsync/bind_dns from which to fetch all
+#   The target under the /var/simp/environments/{environment}/rsync/{os}/{maj_version}/bind_dns from which to fetch all
 #   BIND DNS content.
 #
 # @param rsync_server
@@ -21,13 +21,15 @@
 class named::chroot (
   Stdlib::Absolutepath    $nchroot        = $::named::chroot_path,
   String                  $bind_dns_rsync = $::named::bind_dns_rsync,
-  String                  $rsync_source   = "bind_dns_${::named::bind_dns_rsync}_${::environment}/named/",
+  String                  $rsync_source   = "bind_dns_${::named::bind_dns_rsync}_${::environment}_${facts['os']['name']}_${facts['os']['release']['major']}/named",
   String                  $rsync_server   = $::named::rsync_server,
   Stdlib::Compat::Integer $rsync_timeout  = $::named::rsync_timeout
 ) {
   assert_private()
 
   include '::rsync'
+
+  $_rsync_user = "bind_dns_${::named::bind_dns_rsync}_rsync_${::environment}_${facts['os']['name']}_${facts['os']['release']['major']}"
 
   validate_net_list($rsync_server)
 
@@ -75,8 +77,8 @@ class named::chroot (
   }
 
   rsync { 'named':
-    user             => "bind_dns_${bind_dns_rsync}_rsync_${::environment}",
-    password         => passgen("bind_dns_${bind_dns_rsync}_rsync_${::environment}"),
+    user             => $_rsync_user,
+    password         => passgen($_rsync_user),
     source           => $rsync_source,
     target           => $nchroot,
     server           => $rsync_server,
