@@ -79,7 +79,7 @@ class named::chroot (
   rsync { 'named':
     user             => $_rsync_user,
     password         => passgen($_rsync_user),
-    source           => $rsync_source,
+    source           => "${rsync_source}/*",
     target           => $nchroot,
     server           => $rsync_server,
     timeout          => $rsync_timeout,
