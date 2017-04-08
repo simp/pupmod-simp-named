@@ -48,7 +48,7 @@ describe 'named' do
           it { is_expected.to create_file('/var/named/chroot/var/named').with_ensure('directory') }
           it { is_expected.to create_file('/etc/named.conf').with_ensure('/var/named/chroot/etc/named.conf') }
           it { is_expected.to contain_rsync('named').with({
-            :source => "bind_dns_default_#{environment}_#{facts[:os][:name]}_#{facts[:os][:release][:major].to_s}/named"
+            :source => "bind_dns_default_#{environment}_#{facts[:os][:name]}_#{facts[:os][:release][:major].to_s}/named/*"
             })
           }
           # named::install
