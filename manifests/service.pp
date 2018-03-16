@@ -4,7 +4,7 @@
 # @param chroot
 #   Whether or not to run BIND in a chroot jail.
 #
-# @author Trevor Vaughan - tvaughan@onyxpoint.com
+# @author https://github.com/simp/pupmod-simp-named/graphs/contributors
 #
 class named::service (
   Boolean              $chroot      = true,
@@ -13,8 +13,8 @@ class named::service (
   assert_private()
 
   if $chroot {
-    if $::operatingsystem in ['RedHat','CentOS'] {
-      if (versioncmp($::operatingsystemmajrelease,'7') < 0) {
+    if $facts['operatingsystem'] in ['RedHat','CentOS'] {
+      if (versioncmp($facts['operatingsystemmajrelease'],'7') < 0) {
         $svcname = 'named'
       }
       else {
@@ -30,8 +30,11 @@ class named::service (
   }
 
   # Work-around for https://bugzilla.redhat.com/show_bug.cgi?id=1278082
-  if $::operatingsystem in ['RedHat','CentOS'] and versioncmp($::operatingsystemmajrelease,'7') >= 0 {
-    file { '/usr/lib/systemd/system/named-chroot.service':
+  if $facts['operatingsystem'] in ['RedHat','CentOS'] and versioncmp($facts['operatingsystemmajrelease'],'7') >= 0 {
+    # Override with a full replacement file, as we are changing the
+    # Unit Requires and After lists and changing the Service Type
+    # from forking to the default (simple).
+    file { '/etc/systemd/system/named-chroot.service':
       ensure  => 'file',
       content => template('named/named-chroot.service.erb'),
       owner   => 'root',
@@ -40,7 +43,7 @@ class named::service (
       notify  => Service[$svcname]
     }
 
-    exec { 'systemctl-daemon-reload':
+    exec { 'named-systemctl-daemon-reload':
       command     => 'systemctl daemon-reload',
       refreshonly => true,
       path        => '/bin:/usr/bin:/usr/local/bin',

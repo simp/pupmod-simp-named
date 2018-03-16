@@ -8,9 +8,7 @@
 #   /var/simp/environments/{environment}/rsync/{os}/{maj_version}/bind_dns
 #   from which to fetch all BIND DNS content.
 #
-# @author Trevor Vaughan <tvaughan@onyxpoint.com>
-# @author Kendall Moore <kmoore@keywcorp.com>
-# @author Chris Tessmer <chris.tessmer@onyxpoint.com
+# @author https://github.com/simp/pupmod-simp-named/graphs/contributors
 #
 class named::non_chroot (
   String                  $bind_dns_rsync = $::named::bind_dns_rsync,
@@ -50,7 +48,7 @@ class named::non_chroot (
 
   rsync { 'named':
     user     => $_rsync_user,
-    password => passgen($_rsync_user),
+    password => simplib::passgen($_rsync_user),
     source   => "${rsync_source}/var/named",
     target   => '/var',
     server   => $rsync_server,
@@ -60,7 +58,7 @@ class named::non_chroot (
 
   rsync { 'named_etc':
     user     => $_rsync_user,
-    password => passgen($_rsync_user),
+    password => simplib::passgen($_rsync_user),
     source   => "${rsync_source}/etc/*",
     target   => '/etc',
     server   => $rsync_server,

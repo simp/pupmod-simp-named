@@ -1,3 +1,9 @@
+* Fri Mar 16 2018 Liz Nemsick <lnemsick.simp@gmail.com> - 6.0.3-0
+- Provide override file for named-chroot.service instead of
+  modifying the vendor-provided service file.
+- Use simplib::assert_metadata() for OS validation
+- Replace Puppet3 version of passgen() with  simplib::passgen()
+
 * Thu Jul 06 2017 Liz Nemsick <lnemsick.simp@gmail.com> - 6.0.2-0
 - Confine puppet version in metadata.json
 

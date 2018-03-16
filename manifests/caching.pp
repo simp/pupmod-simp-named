@@ -7,7 +7,7 @@
 # If you want something other than the defaults provided here, use the main
 # named class.
 #
-# @author Trevor Vaughan <tvaughan@onyxpoint.com>
+# @author https://github.com/simp/pupmod-simp-named/graphs/contributors
 #
 class named::caching(
   Stdlib::Absolutepath $chroot_path = $::named::params::chroot_path
@@ -39,11 +39,11 @@ class named::caching(
       notify => Class['named::service']
     }
   }
-  class { '::named::install':
+  class { 'named::install':
     chroot      => !empty($_chroot_path),
     chroot_path => $chroot_path
   }
-  class { '::named::service':
+  class { 'named::service':
     chroot      => !empty($_chroot_path),
     chroot_path => $chroot_path
   }
