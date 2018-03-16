@@ -10,7 +10,7 @@
 #     ensure => 'present'
 #   }
 #
-# @author Trevor Vaughan <tvaughan@onyxpoint.com>
+# @author https://github.com/simp/pupmod-simp-named/graphs/contributors
 #
 define named::caching::forwarders {
 

@@ -16,7 +16,7 @@
 # @param rsync_timeout
 #   The timeout when connecting to the rsync server.
 #
-# @author Trevor Vaughan <tvaughan@onyxpoint.com>
+# @author https://github.com/simp/pupmod-simp-named/graphs/contributors
 #
 class named::chroot (
   Stdlib::Absolutepath    $nchroot        = $::named::chroot_path,
@@ -78,7 +78,7 @@ class named::chroot (
 
   rsync { 'named':
     user             => $_rsync_user,
-    password         => passgen($_rsync_user),
+    password         => simplib::passgen($_rsync_user),
     source           => "${rsync_source}/*",
     target           => $nchroot,
     server           => $rsync_server,

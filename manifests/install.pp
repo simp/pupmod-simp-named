@@ -31,18 +31,13 @@ class named::install (
     require    => Group['named']
   }
 
-  if $::osfamily == 'RedHat' {
-    package { 'bind': ensure => $ensure }
-    package { 'bind-libs': ensure => $ensure }
+  package { 'bind': ensure => $ensure }
+  package { 'bind-libs': ensure => $ensure }
 
-    if $chroot {
-      package { 'bind-chroot': ensure => $ensure }
-    }
-    else {
-      package { 'bind-chroot': ensure => 'absent' }
-    }
+  if $chroot {
+    package { 'bind-chroot': ensure => $ensure }
   }
   else {
-    fail("Operating System ${::operatingsystem} is not yet supported")
+    package { 'bind-chroot': ensure => 'absent' }
   }
 }

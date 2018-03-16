@@ -13,14 +13,14 @@ shared_examples_for "common install" do
 end
 
 shared_examples_for "common el7 service" do
-          it { is_expected.to contain_file('/usr/lib/systemd/system/named-chroot.service').with({
+          it { is_expected.to contain_file('/etc/systemd/system/named-chroot.service').with({
             :ensure  => 'file',
             :owner   => 'root',
             :group   => 'root',
             :mode    => '0644',
             :content => /.*ExecStartPre=\/bin\/bash -c 'if \[ ! "\$DISABLE_ZONE_CHECKING" == "yes" \]; then \/usr\/sbin\/named-checkconf -t \/var\/named\/chroot -z \/etc\/named.conf; else echo "Checking of zone files is disabled"; fi'.*/
           })}
-          it { is_expected.to contain_exec('systemctl-daemon-reload')}
+          it { is_expected.to contain_exec('named-systemctl-daemon-reload')}
 end
 
 describe 'named' do

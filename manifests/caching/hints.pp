@@ -8,10 +8,10 @@
 #   Set to true if you wish to use the default values for the root hints
 #   file. This is recommended if you are not running within an intranet.
 #
-# @author Trevor Vaughan <tvaughan@onyxpoint.com>
+# @author https://github.com/simp/pupmod-simp-named/graphs/contributors
 #
 class named::caching::hints (
-  String  $content      = '',
+  String  $content      = '', # lint:ignore:empty_string_assignment
   Boolean $use_defaults = false
 ) {
 

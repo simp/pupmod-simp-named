@@ -37,7 +37,7 @@
 #
 #   This is the default if you do not have SELinux enabled.
 #   Chroot jails for named are not compatible with SELinux and will be
-#   disabled is SELinux is enforcing.
+#   disabled if SELinux is enforcing.
 #
 # @param bind_dns_rsync
 #   The target under "${rsync_base}/bind_dns" from which to fetch all
@@ -49,8 +49,7 @@
 # @param rsync_timeout
 #   The timeout when connecting to the rsync server.
 #
-# @author Trevor Vaughan <tvaughan@onyxpoint.com>
-# @author Kendall Moore <kmoore@keywcorp.com>
+# @author https://github.com/simp/pupmod-simp-named/graphs/contributors
 #
 class named (
   Stdlib::Absolutepath     $chroot_path     = $::named::params::chroot_path,
@@ -66,18 +65,20 @@ class named (
 
   validate_net_list($rsync_server)
 
+  simplib::assert_metadata( $module_name )
+
   if ( str2bool($::selinux_enforced)) {
-    include '::named::non_chroot'
-    class { '::named::service': chroot => false }
-    class { '::named::install': chroot => false }
+    include 'named::non_chroot'
+    class { 'named::service': chroot => false }
+    class { 'named::install': chroot => false }
 
     Class['named::install'] -> Class['named::non_chroot']
     Class['named::non_chroot'] -> Class['named::service']
   }
   else {
-    include '::named::chroot'
-    include '::named::service'
-    include '::named::install'
+    include 'named::chroot'
+    include 'named::service'
+    include 'named::install'
 
     Class['named::install'] -> Class['named::chroot']
     Class['named::chroot'] -> Class['named::service']
