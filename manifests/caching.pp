@@ -17,6 +17,8 @@ class named::caching(
     fail('You cannot include both ::named and ::named::caching')
   }
 
+  simplib::assert_metadata($module_name)
+
   # Some trickery to use common file resources for chrooted/non chrooted
   # caching files
   $selinux = str2bool($::selinux_enforced)

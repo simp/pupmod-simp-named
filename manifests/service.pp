@@ -13,7 +13,7 @@ class named::service (
   assert_private()
 
   if $chroot {
-    if $facts['operatingsystem'] in ['RedHat','CentOS'] {
+    if $facts['operatingsystem'] in ['RedHat','CentOS','OracleLinux'] {
       if (versioncmp($facts['operatingsystemmajrelease'],'7') < 0) {
         $svcname = 'named'
       }
@@ -30,7 +30,7 @@ class named::service (
   }
 
   # Work-around for https://bugzilla.redhat.com/show_bug.cgi?id=1278082
-  if $facts['operatingsystem'] in ['RedHat','CentOS'] and versioncmp($facts['operatingsystemmajrelease'],'7') >= 0 {
+  if $facts['operatingsystem'] in ['RedHat','CentOS','OracleLinux'] and versioncmp($facts['operatingsystemmajrelease'],'7') >= 0 {
     # Override with a full replacement file, as we are changing the
     # Unit Requires and After lists and changing the Service Type
     # from forking to the default (simple).
