@@ -1,8 +1,8 @@
 ---
 fixtures:
   repositories:
-    #iptables: https://github.com/simp/pupmod-simp-iptables
-    #rsync: https://github.com/simp/pupmod-simp-rsync
+    iptables: https://github.com/simp/pupmod-simp-iptables
+    rsync: https://github.com/simp/pupmod-simp-rsync
     simpcat: https://github.com/simp/pupmod-simp-simpcat
     simplib: https://github.com/simp/pupmod-simp-simplib
     stdlib:
@@ -10,6 +10,4 @@ fixtures:
       branch: master
   symlinks:
     named: "#{source_dir}"
-    iptables: "#{source_dir}/../iptables"
-    rsync: "#{source_dir}/../rsync"
 
