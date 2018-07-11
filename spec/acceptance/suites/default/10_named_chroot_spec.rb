@@ -16,8 +16,8 @@ describe 'named chroot' do
     host.install_package('bind-utils')
 
     context 'selinux setup' do
-      selinux_enforcing = fact_on(host, 'selinux_enforcing')
-      if selinux_enforcing && !selinux_enforcing.empty?
+      selinux_enforced = fact_on(host, 'selinux_enforced')
+      if selinux_enforced && !selinux_enforced.empty?
         on(host, 'setenforce permissive')
       end
     end
