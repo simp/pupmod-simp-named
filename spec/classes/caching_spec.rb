@@ -51,10 +51,10 @@ describe 'named::caching' do
 
         context 'when trying to include ::named' do
           let(:facts) {facts}
-          let(:pre_condition){ 'include ::named'}
+          let(:pre_condition){ 'include named'}
 
           # We should get a resource conflict here.
-          it { expect { is_expected.to compile.with_all_deps}.to raise_error(/cannot include both/) }
+          it { expect { is_expected.to compile.with_all_deps }.to raise_error(/cannot include both/) }
         end
       end
     end

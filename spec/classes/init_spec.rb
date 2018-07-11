@@ -55,7 +55,7 @@ describe 'named' do
           it_should_behave_like('common install')
           it { is_expected.to contain_package('bind-chroot').with_ensure('latest')}
           # named::service
-          if ['RedHat','CentOS'].include? facts[:os][:name] and facts[:os][:release][:major].to_s < '7' then
+          if ['RedHat','CentOS','OracleLinux'].include? facts[:os][:name] and facts[:os][:release][:major].to_s < '7' then
             it { is_expected.to contain_service('named').with({
               :ensure => 'running'
             })}
@@ -91,7 +91,7 @@ describe 'named' do
           it { is_expected.to contain_package('bind-chroot').with_ensure('absent') }
 
           # named::service
-          if ['RedHat','CentOS'].include? facts[:os][:name] and facts[:os][:release][:major].to_s >= '7' then
+          if ['RedHat','CentOS','OracleLinux'].include? facts[:os][:name] and facts[:os][:release][:major].to_s >= '7' then
             it_should_behave_like('common el7 service')
           end
           it { is_expected.to contain_service('named').with({

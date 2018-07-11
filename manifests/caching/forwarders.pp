@@ -14,6 +14,8 @@
 #
 define named::caching::forwarders {
 
+  include 'named::caching'
+
   $_name = inline_template('<%= @name.delete(";").split.join("_") %>')
 
   simpcat_fragment { "named_caching+${_name}.forward":

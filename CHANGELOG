@@ -1,3 +1,7 @@
+* Wed Jul 11 2018 Adam Yohrling <adam.yohrling@onyxpoint.com> - 6.0.4-0
+- Support for Puppet5/OEL
+- Resolved issue with chroot acceptance tests
+
 * Fri Mar 16 2018 Liz Nemsick <lnemsick.simp@gmail.com> - 6.0.3-0
 - Provide override file for named-chroot.service instead of
   modifying the vendor-provided service file.

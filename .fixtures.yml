@@ -10,3 +10,4 @@ fixtures:
       branch: master
   symlinks:
     named: "#{source_dir}"
+

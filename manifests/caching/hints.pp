@@ -15,6 +15,8 @@ class named::caching::hints (
   Boolean $use_defaults = false
 ) {
 
+  include named::caching
+
   file { '/var/named/chroot/var/named/named.ca':
     ensure  => 'file',
     owner   => 'root',

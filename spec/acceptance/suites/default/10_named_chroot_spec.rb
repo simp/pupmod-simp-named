@@ -16,8 +16,8 @@ describe 'named chroot' do
     host.install_package('bind-utils')
 
     context 'selinux setup' do
-      selinux_enforcing = fact_on(host, 'selinux_enforcing')
-      if selinux_enforcing
+      selinux_enforced = fact_on(host, 'selinux_enforced')
+      if selinux_enforced && !selinux_enforced.empty?
         on(host, 'setenforce permissive')
       end
     end
@@ -27,13 +27,13 @@ describe 'named chroot' do
         apply_manifest_on(host, manifest, :catch_failures => true)
 
         # verify chrooted service is up and running
-        if host['roles'].include?('el6')
-          on(host, 'service named status')
-        else
+        if pfact_on(host, 'init_systems').include?('systemd')
           on(host, 'systemctl status named-chroot') do
-            expect(stdout).to match /active \(running\)/
-            expect(stdout).to match /\/etc\/systemd\/system\/named-chroot.service/
+            expect(stdout).to match(/active \(running\)/)
+            expect(stdout).to match(/\/etc\/systemd\/system\/named-chroot.service/)
           end
+        else
+          on(host, 'service named status')
         end
       end
 
