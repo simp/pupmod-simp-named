@@ -1,4 +1,8 @@
-* Wed Jul 11 2018 Adam Yohrling <adam.yohrling@onyxpoint.com> - 6.0.4-0
+* Fri Oct 12 2018 Nick Miller <nick.miller@onyxpoint.com> - 6.1.0-0
+- Changed $named::install::ensure from 'latest' to 'installed'
+  - It will also respect `simp_options::package_ensure`
+
+* Wed Jul 11 2018 Adam Yohrling <adam.yohrling@onyxpoint.com> - 6.1.0-0
 - Support for Puppet5/OEL
 - Resolved issue with chroot acceptance tests
 
