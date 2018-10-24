@@ -16,7 +16,7 @@ describe 'named chroot' do
     host.install_package('bind-utils')
 
     context 'selinux setup' do
-      on(host, 'setenforce permissive', :accept_all_error_codes => true )
+      on(host, 'setenforce permissive', :accept_all_exit_codes => true )
     end
 
     context 'with internet connection' do
