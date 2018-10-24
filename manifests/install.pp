@@ -10,7 +10,7 @@
 class named::install (
   Boolean              $chroot      = true,
   Stdlib::Absolutepath $chroot_path = $::named::chroot_path,
-  String               $ensure      = 'latest'
+  String               $ensure      = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
 ){
   assert_private()
 

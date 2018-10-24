@@ -16,10 +16,7 @@ describe 'named chroot' do
     host.install_package('bind-utils')
 
     context 'selinux setup' do
-      selinux_enforced = fact_on(host, 'selinux_enforced')
-      if selinux_enforced && !selinux_enforced.empty?
-        on(host, 'setenforce permissive')
-      end
+      on(host, 'setenforce permissive', :accept_all_exit_codes => true )
     end
 
     context 'with internet connection' do

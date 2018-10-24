@@ -8,8 +8,8 @@ end
 shared_examples_for "common install" do
   it { is_expected.to create_group('named')}
   it { is_expected.to create_user('named').that_requires('Group[named]')}
-  it { is_expected.to contain_package('bind').with_ensure('latest') }
-  it { is_expected.to contain_package('bind-libs').with_ensure('latest') }
+  it { is_expected.to contain_package('bind').with_ensure('installed') }
+  it { is_expected.to contain_package('bind-libs').with_ensure('installed') }
 end
 
 shared_examples_for "common el7 service" do
@@ -53,7 +53,7 @@ describe 'named' do
           }
           # named::install
           it_should_behave_like('common install')
-          it { is_expected.to contain_package('bind-chroot').with_ensure('latest')}
+          it { is_expected.to contain_package('bind-chroot').with_ensure('installed')}
           # named::service
           if ['RedHat','CentOS','OracleLinux'].include? facts[:os][:name] and facts[:os][:release][:major].to_s < '7' then
             it { is_expected.to contain_service('named').with({
