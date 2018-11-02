@@ -1,5 +1,6 @@
 * Thu Nov 01 2018 Jeanne Greulich <jeanne,greulich@onyxpoint.com> - 6.1.0-0
-- static asset updates for puppet 5
+- Static asset updates for puppet 5
+- Update badges and contribution guide URL in README.md
 
 * Fri Oct 12 2018 Nick Miller <nick.miller@onyxpoint.com> - 6.1.0-0
 - Changed $named::install::ensure from 'latest' to 'installed'
