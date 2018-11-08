@@ -2,6 +2,9 @@
 fixtures:
   repositories:
     concat: https://github.com/simp/puppetlabs-concat
+    compliance_markup:
+      repo: "https://github.com/simp/pupmod-simp-compliance_markup"
+      branch: "testing_hotfix_06062019"
     iptables: https://github.com/simp/pupmod-simp-iptables
     rsync: https://github.com/simp/pupmod-simp-rsync
     selinux_core:
@@ -11,4 +14,3 @@ fixtures:
     stdlib: https://github.com/simp/puppetlabs-stdlib
   symlinks:
     named: "#{source_dir}"
-
