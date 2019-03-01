@@ -1,6 +1,6 @@
 {
   "name": "simp-named",
-  "version": "6.1.0",
+  "version": "6.1.1",
   "author": "SIMP Team",
   "summary": "manages either a chrooted named process or a caching nameserver",
   "license": "Apache-2.0",
@@ -20,7 +20,7 @@
     },
     {
       "name": "simp/rsync",
-      "version_requirement": ">= 6.0.0 < 7.0.0"
+      "version_requirement": ">= 6.1.1 < 7.0.0"
     },
     {
       "name": "simp/simpcat",

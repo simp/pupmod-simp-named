@@ -1,3 +1,7 @@
+* Fri Jan 11 2019 Adam Yohrling <adam.yohrling@onyxpoint.com> - 6.1.1-0
+- Remove references to `rsync::server::global`
+- Update version requirement for pupmod-simp-rsync
+
 * Thu Nov 01 2018 Jeanne Greulich <jeanne,greulich@onyxpoint.com> - 6.1.0-0
 - Static asset updates for puppet 5
 - Update badges and contribution guide URL in README.md

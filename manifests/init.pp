@@ -21,7 +21,7 @@
 #
 #   * Ensure that the rsync space is being served out properly from the rsync
 #     server (probably your puppet master)
-#       include 'rsync::server::global'
+#       include 'rsync::server'
 #       # The word 'default' here is the equivalent of the
 #       # named::bind_dns_rsync variable above.
 #       rsync::server::section { "bind_dns_default_${environment}":
