@@ -1,3 +1,7 @@
+* Thu Mar 07 2019 Liz Nemsick <lnemsick.simp@gmail.com> - 6.1.1-0
+- Update the upper bound of stdlib to < 6.0.0
+- Update a URL in the README.md
+
 * Fri Jan 11 2019 Adam Yohrling <adam.yohrling@onyxpoint.com> - 6.1.1-0
 - Remove references to `rsync::server::global`
 - Update version requirement for pupmod-simp-rsync
