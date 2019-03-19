@@ -26,7 +26,7 @@ class named::non_chroot (
     fail( 'named::non_chroot must be used with selinux!')
   }
 
-  validate_net_list($rsync_server)
+  simplib::validate_net_list($rsync_server)
 
   file { '/etc/named.conf':
     ensure  => 'file',
