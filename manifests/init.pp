@@ -65,7 +65,7 @@ class named (
 
   simplib::assert_metadata( $module_name )
 
-  validate_net_list($rsync_server)
+  simplib::validate_net_list($rsync_server)
 
   if ( str2bool($::selinux_enforced)) {
     include 'named::non_chroot'
