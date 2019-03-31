@@ -52,7 +52,7 @@
 # @author https://github.com/simp/pupmod-simp-named/graphs/contributors
 #
 class named (
-  Stdlib::Absolutepath     $chroot_path     = simplib::lookup('simp_options::named::chroot', { 'default_value' => '/var/named/chroot' }),
+  Stdlib::Absolutepath     $chroot_path     = simplib::lookup('named::chroot', { 'default_value' => '/var/named/chroot' }),
   String                   $bind_dns_rsync  = 'default',
   String                   $rsync_server    = simplib::lookup('simp_options::rsync::server', { 'default_value'  => '127.0.0.1' }),
   Stdlib::Compat::Integer  $rsync_timeout   = simplib::lookup('simp_options::rsync::timeout', { 'default_value' => '2' }),

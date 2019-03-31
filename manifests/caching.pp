@@ -10,7 +10,7 @@
 # @author https://github.com/simp/pupmod-simp-named/graphs/contributors
 #
 class named::caching(
-  Stdlib::Absolutepath $chroot_path = simplib::lookup('simp_options::named::chroot', { 'default_value' => '/var/named/chroot' }),
+  Stdlib::Absolutepath $chroot_path = simplib::lookup('named::chroot', { 'default_value' => '/var/named/chroot' }),
 ) {
 
   if defined(Class['named']) {
