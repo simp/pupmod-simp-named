@@ -1,10 +1,13 @@
 ---
 fixtures:
   repositories:
+    concat: https://github.com/simp/puppetlabs-concat
     iptables: https://github.com/simp/pupmod-simp-iptables
     rsync: https://github.com/simp/pupmod-simp-rsync
+    selinux_core:
+      repo: https://github.com/simp/pupmod-puppetlabs-selinux_core.git
+      puppet_version: ">= 6.0.0"
     simplib: https://github.com/simp/pupmod-simp-simplib
-    concat: https://github.com/simp/puppetlabs-concat
     stdlib: https://github.com/simp/puppetlabs-stdlib
   symlinks:
     named: "#{source_dir}"

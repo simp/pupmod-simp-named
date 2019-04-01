@@ -1,5 +1,6 @@
-* Mar 29 2019  Jeanne Greulich <jeanne,greulich@onyxpoint.com> - 6.1.2-0
+* Fri Mar 29 2019  Jeanne Greulich <jeanne,greulich@onyxpoint.com> - 6.1.2-0
 - Replaced all simpcat resources with puppetlabs concat resources.
+- Added support for Puppet 6
 
 * Tue Mar 19 2019 Liz Nemsick <lnemsick.simp@gmail.com> - 6.1.2-0
 - Use simplib::validate_net_list in lieu of deprecated Puppet 3
