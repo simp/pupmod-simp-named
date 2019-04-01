@@ -52,16 +52,24 @@ class named::caching(
   Class['named::install'] -> Class['named::caching']
   Class['named::install'] ~> Class['named::service']
 
-  simpcat_build { 'named_caching':
-    order  => ['header', '*.forward', 'footer'],
-    target => "${_chroot_path}/etc/named_caching.forwarders"
+  concat { 'named_caching':
+    order  => numeric,
+    notify => Class['named::service'],
+    owner  => 'root',
+    group  => 'named',
+    mode   => '0640',
+    path   => "${_chroot_path}/etc/named_caching.forwarders"
   }
 
-  simpcat_fragment { 'named_caching+header':
+  concat_fragment { 'named_caching+header':
+    order   => 0,
+    target  => 'named_caching',
     content => 'forwarders {'
   }
 
-  simpcat_fragment { 'named_caching+footer':
+  concat_fragment { 'named_caching+footer':
+    order   => 100,
+    target  => 'named_caching',
     content => '};'
   }
 
@@ -145,13 +153,5 @@ class named::caching(
     notify  => Class['named::service']
   }
 
-  file { "${_chroot_path}/etc/named_caching.forwarders":
-    owner     => 'root',
-    group     => 'named',
-    mode      => '0640',
-    notify    => Class['named::service'],
-    subscribe => Simpcat_build['named_caching'],
-    audit     => content
-  }
 
 }

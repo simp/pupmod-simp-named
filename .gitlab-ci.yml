@@ -65,18 +65,6 @@ variables:
 # Puppet Versions
 #-----------------------------------------------------------------------
 
-.pup_4: &pup_4
-  image: 'ruby:2.1'
-  variables:
-    PUPPET_VERSION: '~> 4.0'
-    MATRIX_RUBY_VERSION: '2.1'
-
-.pup_4_10: &pup_4_10
-  image: 'ruby:2.1'
-  variables:
-    PUPPET_VERSION: '~> 4.10.4'
-    MATRIX_RUBY_VERSION: '2.1'
-
 .pup_5: &pup_5
   image: 'ruby:2.4'
   variables:
@@ -92,7 +80,6 @@ variables:
     MATRIX_RUBY_VERSION: '2.4'
 
 .pup_6: &pup_6
-  allow_failure: true
   image: 'ruby:2.5'
   variables:
     PUPPET_VERSION: '~> 6.0'
@@ -151,10 +138,6 @@ sanity_checks:
 # Linting
 #-----------------------------------------------------------------------
 
-pup4-lint:
-  <<: *pup_4
-  <<: *lint_tests
-
 pup5-lint:
   <<: *pup_5
   <<: *lint_tests
@@ -174,30 +157,12 @@ pup5.5.7-unit:
   <<: *pup_5_5_7
   <<: *unit_tests
 
-pup4.10-unit:
-  <<: *pup_4_10
-  <<: *unit_tests
-
 pup6-unit:
   <<: *pup_6
   <<: *unit_tests
 
-# Acceptance Tests
-#-----------------------------------------------------------------------
-
-pup4.10:
-  <<: *pup_4_10
-  <<: *acceptance_base
-  script:
-    - 'bundle exec rake beaker:suites'
-
-pup4.10-fips:
-  <<: *pup_4_10
-  <<: *acceptance_base
-  <<: *only_with_SIMP_FULL_MATRIX
-  script:
-    - 'BEAKER_fips=yes bundle exec rake beaker:suites'
-
+# Acceptance tests
+# ==============================================================================
 pup5.5.7:
   <<: *pup_5_5_7
   <<: *acceptance_base
@@ -215,3 +180,22 @@ pup5.5.7-oel:
   <<: *acceptance_base
   script:
     - 'bundle exec rake beaker:suites[default,oel]'
+
+pup5.5.7-oel-fips:
+  <<: *pup_5_5_7
+  <<: *acceptance_base
+  <<: *only_with_SIMP_FULL_MATRIX
+  script:
+    - 'BEAKER_fips=yes bundle exec rake beaker:suites[default,oel]'
+
+pup6:
+  <<: *pup_6
+  <<: *acceptance_base
+  script:
+    - 'bundle exec rake beaker:suites'
+
+pup6-fips:
+  <<: *pup_6
+  <<: *acceptance_base
+  script:
+    - 'BEAKER_fips=yes bundle exec rake beaker:suites'

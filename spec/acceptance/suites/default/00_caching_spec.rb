@@ -16,6 +16,7 @@ describe 'named::caching' do
     host.install_package('bind-utils')
 
     context 'with internet connection' do
+
       it 'should work with no errors' do
         apply_manifest_on(host, manifest, :catch_failures => true)
       end
