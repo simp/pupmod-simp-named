@@ -1,0 +1,3 @@
+---
+named::chroot_path: /var/named/chroot
+named::caching::chroot_path: "%{alias('named::chroot_path')}"
