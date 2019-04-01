@@ -39,6 +39,8 @@
 #   Chroot jails for named are not compatible with SELinux and will be
 #   disabled if SELinux is enforcing.
 #
+#   * Value in module data
+#
 # @param bind_dns_rsync
 #   The target under "${rsync_base}/bind_dns" from which to fetch all
 #   BIND DNS content.
@@ -52,7 +54,7 @@
 # @author https://github.com/simp/pupmod-simp-named/graphs/contributors
 #
 class named (
-  Stdlib::Absolutepath     $chroot_path     = simplib::lookup('named::chroot', { 'default_value' => '/var/named/chroot' }),
+  Stdlib::Absolutepath     $chroot_path,
   String                   $bind_dns_rsync  = 'default',
   String                   $rsync_server    = simplib::lookup('simp_options::rsync::server', { 'default_value'  => '127.0.0.1' }),
   Stdlib::Compat::Integer  $rsync_timeout   = simplib::lookup('simp_options::rsync::timeout', { 'default_value' => '2' }),

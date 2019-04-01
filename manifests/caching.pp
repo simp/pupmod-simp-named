@@ -7,10 +7,16 @@
 # If you want something other than the defaults provided here, use the main
 # named class.
 #
+# @param chroot_path
+#   The path to the chroot location.
+#
+#   * Has no effect if SELinux is enforcing.
+#   * Defaults to `named::chroot_path` per module Hiera data.
+#
 # @author https://github.com/simp/pupmod-simp-named/graphs/contributors
 #
 class named::caching(
-  Stdlib::Absolutepath $chroot_path = simplib::lookup('named::chroot', { 'default_value' => '/var/named/chroot' }),
+  Stdlib::Absolutepath $chroot_path
 ) {
 
   if defined(Class['named']) {
