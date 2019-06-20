@@ -7,9 +7,10 @@ checks:
       value: default
     type: puppet-class-parameter
     controls:
-      nist_800_53_rev4:AC-6: true
+      nist_800_53:rev4: true
+      nist_800_53:rev4:AC-6: true
     identifiers:
-      nist_800_53_rev4:
+      nist_800_53:rev4:
       - AC-6
   oval:com.puppet.forge.simp.named.chroot_path:
     settings:
@@ -17,9 +18,10 @@ checks:
       value: "/var/named/chroot"
     type: puppet-class-parameter
     controls:
-      nist_800_53_rev4:AC-6: true
+      nist_800_53:rev4: true
+      nist_800_53:rev4:AC-6: true
     identifiers:
-      nist_800_53_rev4:
+      nist_800_53:rev4:
       - AC-6
   oval:com.puppet.forge.simp.named.service.chroot:
     settings:
@@ -27,7 +29,8 @@ checks:
       value: false
     type: puppet-class-parameter
     controls:
-      nist_800_53_rev4:AC-6: true
+      nist_800_53:rev4: true
+      nist_800_53:rev4:AC-6: true
     identifiers:
-      nist_800_53_rev4:
+      nist_800_53:rev4:
       - AC-6
