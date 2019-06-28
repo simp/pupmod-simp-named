@@ -18,6 +18,7 @@ describe 'compliance_markup', type: :class do
   # defaults
   expected_classes = [
     'named',
+    'simp_options'
   ]
 
   allowed_failures = {
