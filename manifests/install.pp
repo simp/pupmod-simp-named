@@ -14,6 +14,23 @@ class named::install (
 ){
   assert_private()
 
+  package { 'bind': ensure => $ensure }
+  package { 'bind-libs': ensure => $ensure }
+
+  if $chroot {
+    package { 'bind-chroot': ensure => $ensure }
+  }
+  else {
+    package { 'bind-chroot': ensure => 'absent' }
+  }
+
+  file { '/var/named':
+    ensure => 'directory',
+    owner  => 'root',
+    group  => 'named',
+    mode   => '0750'
+  }
+
   group { 'named':
     ensure    => 'present',
     allowdupe => false,
@@ -27,17 +44,6 @@ class named::install (
     gid        => '25',
     home       => '/var/named',
     membership => 'inclusive',
-    shell      => '/sbin/nologin',
-    require    => Group['named']
-  }
-
-  package { 'bind': ensure => $ensure }
-  package { 'bind-libs': ensure => $ensure }
-
-  if $chroot {
-    package { 'bind-chroot': ensure => $ensure }
-  }
-  else {
-    package { 'bind-chroot': ensure => 'absent' }
+    shell      => '/sbin/nologin'
   }
 }
