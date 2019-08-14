@@ -1,6 +1,5 @@
-# == Class: named
+# @summary Configures named for execution on a system taking selinux into account.
 #
-# This class configures named for execution on a system using selinux.
 # It pulls all config files from rsync.
 #
 # You will need to ensure that rsync is serving out the appropriate space so

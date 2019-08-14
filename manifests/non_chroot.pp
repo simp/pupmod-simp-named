@@ -1,4 +1,5 @@
-# This class configures named for execution on a system using selinux.
+# @summary Configures named for execution on a system taking selinux into account.
+#
 # It pulls all config files from rsync.
 #
 # It is meant to be called from named directly.
@@ -7,6 +8,15 @@
 #   The target under #
 #   /var/simp/environments/{environment}/rsync/{os}/{maj_version}/bind_dns
 #   from which to fetch all BIND DNS content.
+#
+# @param rsync_source
+#   The source from which the module will pull its files on the rsync server
+#
+# @param rsync_server
+#   The rsync server from which to pull the named configuration.
+#
+# @param rsync_timeout
+#   The timeout when connecting to the rsync server.
 #
 # @author https://github.com/simp/pupmod-simp-named/graphs/contributors
 #

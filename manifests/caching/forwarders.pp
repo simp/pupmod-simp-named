@@ -1,5 +1,4 @@
-# This define adds forwarders entries to your caching nameserver configuration
-# file.
+# @summary Adds forwarders entries to your caching nameserver configuration.
 #
 # $name can be a whitespace delimited list of values to provide backward
 # compatibility with the common::resolv format.
