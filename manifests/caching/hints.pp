@@ -1,4 +1,4 @@
-# This define determines what to add to the /var/named/named.ca root hints file.
+# @summary Determines what to add to the /var/named/named.ca root hints file.
 #
 # @param content
 #   Can be set to arbitrary content of your choosing. This will be included

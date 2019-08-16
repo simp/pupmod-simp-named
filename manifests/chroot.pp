@@ -1,4 +1,5 @@
-# This class configures named in a chroot jail for execution on a system.
+# @summary Configures named in a chroot jail for execution on a system.
+#
 # It pulls all config files from rsync.
 #
 # It is meant to be called from named directly.
@@ -9,6 +10,9 @@
 # @param bind_dns_rsync
 #   The target under the /var/simp/environments/{environment}/rsync/{os}/{maj_version}/bind_dns from which to fetch all
 #   BIND DNS content.
+#
+# @param rsync_source
+#   The source from which the module will pull its files on the rsync server
 #
 # @param rsync_server
 #   The rsync server from which to pull the named configuration.

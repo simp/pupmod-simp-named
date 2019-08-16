@@ -7,7 +7,7 @@ end
 
 shared_examples_for "common install" do
   it { is_expected.to create_group('named')}
-  it { is_expected.to create_user('named').that_requires('Group[named]')}
+  it { is_expected.to create_user('named') }
   it { is_expected.to contain_package('bind').with_ensure('installed') }
   it { is_expected.to contain_package('bind-libs').with_ensure('installed') }
 end
@@ -66,6 +66,15 @@ describe 'named' do
             })}
             it_should_behave_like('common el7 service')
           end
+
+          context 'with sebool_named_write_master_zone set' do
+            let(:params) {{
+              :firewall                        => true,
+              :sebool_named_write_master_zones => true
+            }}
+
+            it { is_expected.not_to contain_selboolean('named_write_master_zones') }
+          end
         end
 
         context "with non-chroot" do
@@ -97,6 +106,15 @@ describe 'named' do
           it { is_expected.to contain_service('named').with({
             :ensure => 'running'
           })}
+
+          context 'with sebool_named_write_master_zone set' do
+            let(:params) {{
+              :firewall                        => true,
+              :sebool_named_write_master_zones => true
+            }}
+
+            it { is_expected.to contain_selboolean('named_write_master_zones').with_value('on') }
+          end
         end
 
         context 'when trying to include ::named::caching' do

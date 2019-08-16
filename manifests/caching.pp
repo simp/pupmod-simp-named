@@ -1,4 +1,5 @@
-# This class configures a caching nameserver.
+# @summary Configures a caching nameserver.
+#
 # You will need to call named::caching::forwarders to make it useful.
 #
 # There is also named::caching::root_hints which allows you to set the entire

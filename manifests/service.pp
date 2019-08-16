@@ -1,8 +1,11 @@
-# This is a helper class that serves to control the named service and
-# has been isolated to make the overall logic more understandable.
+# @summary A helper class that serves to control the named service and has been
+# isolated to make the overall logic more understandable.
 #
 # @param chroot
 #   Whether or not to run BIND in a chroot jail.
+#
+# @param chroot_path
+#   @see named::chroot_path
 #
 # @author https://github.com/simp/pupmod-simp-named/graphs/contributors
 #
