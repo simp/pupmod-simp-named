@@ -112,15 +112,14 @@ class named (
   }
 
   if $firewall {
-    iptables_rule { 'allow_dns_tcp':
-      table   => 'filter',
-      order   => '11',
-      content => '-m state --state NEW -m tcp -p tcp --dport 53 -j ACCEPT'
+    iptables::listen::tcp_stateful { 'named_dns':
+      dports       => [53],
+      trusted_nets => ['ALL']
     }
-    iptables_rule { 'allow_dns_udp':
-      table   => 'filter',
-      order   => '11',
-      content => '-p udp --dport 53 -j ACCEPT'
+
+    iptables::listen::udp { 'named_dns':
+      dports       => [53],
+      trusted_nets => ['ALL']
     }
   }
 }

@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 shared_examples_for "iptables" do
-  it { is_expected.to create_iptables_rule('allow_dns_tcp')}
-  it { is_expected.to create_iptables_rule('allow_dns_udp')}
+  it { is_expected.to create_iptables__listen__tcp_stateful('named_dns')}
+  it { is_expected.to create_iptables__listen__udp('named_dns')}
 end
 
 shared_examples_for "common install" do
