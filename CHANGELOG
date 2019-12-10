@@ -1,3 +1,6 @@
+* Tue Dec 10 2019 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.3.0-0
+- Add EL8 support
+
 * Tue Aug 13 2019 Trevor Vaughan <tvaughan@onyxpoint.com> - 6.2.1-0
 - Allow users to force enabling/disabling of the chroot settings
 - Allow users to easily set the 'named_write_master_zones' SELinux boolean in

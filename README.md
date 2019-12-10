@@ -83,20 +83,7 @@ Add selinux_enforced = true to the PE Console at the node or global level.
 
 ## Reference
 
-### Public Classes
-* [named](https://github.com/simp/pupmod-simp-named/blob/master/manifests/init.pp): Main class for named.
-* [named::chroot](https://github.com/simp/pupmod-simp-named/blob/master/manifests/chroot.pp): This class configures named in a chroot jail for execution on a system.
-* [named::install](https://github.com/simp/pupmod-simp-named/blob/master/manifests/install.pp): Installs appropriate backages for BIND.
-* [named::non_chroot](https://github.com/simp/pupmod-simp-named/blob/master/manifests/non_chroot.pp): This class configures named for execution on a system using seliunx.
-* [named::service](https://github.com/simp/pupmod-simp-named/blob/master/manifests/service.pp): Manages named service.
-* [named::caching](https://github.com/simp/pupmod-simp-named/blob/master/manifests/caching.pp): Configures a caching name server
-* [named::hints](https://github.com/simp/pupmod-simp-named/blob/master/manifests/hints.pp): Determines what to add to named hints file.
-
-### Private Classes
-* [named::params](https://github.com/simp/pupmod-simp-named/blob/master/manifests/params.pp): Parameters for named.
-
-### Defined Types
-* [named::caching::forwarders](https://github.com/simp/pupmod-simp-named/blob/master/manifests/caching/forwarders.pp): Adds forwarders entries to your caching nameserver.
+See [REFERENCE.md](./REFERENCE.md) for the full module reference.
 
 ## Limitations
 
