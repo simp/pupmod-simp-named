@@ -3,9 +3,7 @@ fixtures:
   repositories:
     concat: https://github.com/simp/puppetlabs-concat
     compliance_markup: https://github.com/simp/pupmod-simp-compliance_markup
-    firewalld:
-      repo: https://github.com/simp/pupmod-voxpupuli-firewalld
-      ref: v4.1.0
+    firewalld: https://github.com/simp/pupmod-voxpupuli-firewalld
     iptables: https://github.com/simp/pupmod-simp-iptables
     rsync: https://github.com/simp/pupmod-simp-rsync
     selinux_core:
