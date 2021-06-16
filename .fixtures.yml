@@ -1,16 +1,16 @@
 ---
 fixtures:
   repositories:
-    concat: https://github.com/simp/puppetlabs-concat
-    compliance_markup: https://github.com/simp/pupmod-simp-compliance_markup
-    firewalld: https://github.com/simp/pupmod-voxpupuli-firewalld
-    iptables: https://github.com/simp/pupmod-simp-iptables
-    rsync: https://github.com/simp/pupmod-simp-rsync
-    selinux_core:
-      repo: https://github.com/simp/pupmod-puppetlabs-selinux_core.git
-      puppet_version: ">= 6.0.0"
-    simp_options: https://github.com/simp/pupmod-simp-simp_options
-    simplib: https://github.com/simp/pupmod-simp-simplib
-    stdlib: https://github.com/simp/puppetlabs-stdlib
+    augeas_core: https://github.com/simp/pupmod-puppetlabs-augeas_core.git
+    concat: https://github.com/simp/puppetlabs-concat.git
+    compliance_markup: https://github.com/simp/pupmod-simp-compliance_markup.git
+    firewalld: https://github.com/simp/pupmod-voxpupuli-firewalld.git
+    iptables: https://github.com/simp/pupmod-simp-iptables.git
+    rsync: https://github.com/simp/pupmod-simp-rsync.git
+    selinux_core: https://github.com/simp/pupmod-puppetlabs-selinux_core.git
+    simp_firewalld: https://github.com/simp/pupmod-simp-simp_firewalld.git
+    simp_options: https://github.com/simp/pupmod-simp-simp_options.git
+    simplib: https://github.com/simp/pupmod-simp-simplib.git
+    stdlib: https://github.com/simp/puppetlabs-stdlib.git
   symlinks:
     named: "#{source_dir}"
