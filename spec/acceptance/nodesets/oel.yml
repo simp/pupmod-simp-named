@@ -9,11 +9,10 @@ HOSTS:
   oel7:
     roles:
       - client
-      # roles migrated from now-removed el6 node(s):
       - default
       - master
     platform:   el-7-x86_64
-    box:        onyxpoint/oel-7-x86_64
+    box:        generic/oracle7
     hypervisor: <%= hypervisor %>
 
   oel8:
