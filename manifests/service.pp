@@ -33,7 +33,7 @@ class named::service (
   }
 
   # Work-around for https://bugzilla.redhat.com/show_bug.cgi?id=1278082
-  if $facts['os']['name'] in ['RedHat','CentOS','OracleLinux'] and versioncmp($facts['os']['release']['major'],'7') >= 0 {
+  if $facts['os']['name'] in ['RedHat','CentOS','OracleLinux', 'Rocky'] and versioncmp($facts['os']['release']['major'],'7') >= 0 {
     # Override with a full replacement file, as we are changing the
     # Unit Requires and After lists and changing the Service Type
     # from forking to the default (simple).
