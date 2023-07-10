@@ -16,7 +16,7 @@ class named::service (
   assert_private()
 
   if $chroot {
-    if $facts['os']['name'] in ['RedHat','CentOS','OracleLinux'] {
+    if $facts['os']['name'] in ['RedHat','CentOS','OracleLinux','Rocky'] {
       if (versioncmp($facts['os']['release']['major'],'7') < 0) {
         $svcname = 'named'
       }
