@@ -18,8 +18,8 @@ define named::caching::forwarders {
   $_name = inline_template('<%= @name.delete(";").split.join("_") %>')
 
   concat_fragment { "named_caching+${_name}.forward":
-    order  => 20,
-    target => 'named_caching',
+    order   => 20,
+    target  => 'named_caching',
     content =>
       inline_template('<%= (@name.delete(";").split - ["127.0.0.1", "::1"]).join(";\n") + ";" %>')
   }

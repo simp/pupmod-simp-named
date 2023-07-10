@@ -28,7 +28,7 @@ class named::caching(
 
   # Some trickery to use common file resources for chrooted/non chrooted
   # caching files
-  $selinux = str2bool($::selinux_enforced)
+  $selinux = str2bool($facts['os']['selinux']['enforced'])
   $_chroot_path = $selinux ? {
     true  => '',
     false => $chroot_path
