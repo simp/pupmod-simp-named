@@ -25,7 +25,7 @@
 class named::chroot (
   Stdlib::Absolutepath    $nchroot        = $::named::chroot_path,
   String                  $bind_dns_rsync = $::named::bind_dns_rsync,
-  String                  $rsync_source   = "bind_dns_${::named::bind_dns_rsync}_${server_facts['environment']}_${facts['os']['name']}_${facts['os']['release']['major']}/named",
+  String                  $rsync_source   = "bind_dns_${::named::bind_dns_rsync}_${environment}_${facts['os']['name']}_${facts['os']['release']['major']}/named",
   String                  $rsync_server   = $::named::rsync_server,
   Stdlib::Compat::Integer $rsync_timeout  = $::named::rsync_timeout
 ) {
