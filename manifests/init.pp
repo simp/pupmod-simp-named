@@ -68,7 +68,7 @@
 #
 class named (
   Stdlib::Absolutepath    $chroot_path,
-  Boolean                 $chroot                          = !pick($facts['selinux_enforced'], false),
+  Boolean                 $chroot                          = !pick($facts['os']['selinux']['enforced'], false),
   String                  $bind_dns_rsync                  = 'default',
   Boolean                 $firewall                        = simplib::lookup('simp_options::firewall', { 'default_value' => false }),
   String                  $rsync_server                    = simplib::lookup('simp_options::rsync::server', { 'default_value' => '127.0.0.1' }),
@@ -103,7 +103,7 @@ class named (
 
   Class['named::install'] ~> Class['named::service']
 
-  if $facts['selinux_enforced'] {
+  if $facts['os']['selinux']['enforced'] {
     $_selboolean_value = $sebool_named_write_master_zones ? {true => 'on', default => 'off'}
     selboolean { 'named_write_master_zones':
       persistent => true,

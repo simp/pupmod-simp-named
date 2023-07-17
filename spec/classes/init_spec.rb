@@ -24,14 +24,38 @@ shared_examples_for "common el7 service" do
 end
 
 describe 'named' do
+  def mock_selinux_disabled_facts(os_facts)
+    os_facts[:selinux] = false
+    os_facts[:os][:selinux][:config_mode] = 'disabled'
+    os_facts[:os][:selinux][:current_mode] = 'disabled'
+    os_facts[:os][:selinux][:enabled] = false
+    os_facts[:os][:selinux][:enforced] = false
+    os_facts
+  end
+
+  def mock_selinux_enforcing_facts(os_facts)
+    os_facts[:selinux] = true
+    os_facts[:os][:selinux][:config_mode] = 'enforcing'
+    os_facts[:os][:selinux][:config_policy] = 'targeted'
+    os_facts[:os][:selinux][:current_mode] = 'enforcing'
+    os_facts[:os][:selinux][:enabled] = true
+    os_facts[:os][:selinux][:enforced] = true
+    os_facts
+  end
+
   context 'supported operating systems' do
     on_supported_os.each do |os, facts|
       context "on #{os}" do
         let(:facts){ facts }
+        let(:environment){ 'rp_env' }
 
         context "with chroot, selinux_enforced => false, firewall => true" do
           let(:params) {{:firewall => true}}
-          let(:facts){ facts.merge({ :selinux_enforced => false })}
+          let(:facts) do
+            os_facts = facts.dup
+            os_facts = mock_selinux_disabled_facts(os_facts)
+            os_facts
+          end
 
           # init
           it { is_expected.to create_class('named') }
@@ -78,7 +102,11 @@ describe 'named' do
         end
 
         context "with non-chroot" do
-          let(:facts){ facts.merge({ :selinux_enforced => true })}
+          let(:facts) do
+            os_facts = facts.dup
+            os_facts = mock_selinux_enforcing_facts(os_facts)
+            os_facts
+          end
 
           # init.pp
           it { is_expected.to create_class('named::non_chroot') }

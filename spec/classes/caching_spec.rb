@@ -6,7 +6,11 @@ describe 'named::caching' do
       context "on #{os}" do
 
         context 'with chroot' do
-          let(:facts){ facts.merge({ :selinux_enforced => false })}
+          let(:facts){
+            facts = facts.dup
+            facts[:os][:selinux][:enforced] = false
+            facts
+          }
 
           it { is_expected.to create_file_line('bind_chroot') }
           it { is_expected.to create_file('/etc/named.conf').with(:target => '/var/named/chroot/etc/named.conf')}
@@ -27,7 +31,11 @@ describe 'named::caching' do
         end
 
         context 'with non_chroot' do
-          let(:facts){ facts.merge({ :selinux_enforced => true })}
+          let(:facts){
+            facts = facts.dup
+            facts[:os][:selinux][:enforced] = true
+            facts
+          }
 
           it { is_expected.to_not create_file_line('bind_chroot') }
           it { is_expected.to_not create_file('/etc/named.conf').with(:target => '/var/named/chroot/etc/named.conf')}
