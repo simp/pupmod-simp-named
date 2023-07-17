@@ -33,7 +33,7 @@ class named::chroot (
 
   include '::rsync'
 
-  $_rsync_user = "bind_dns_${::named::bind_dns_rsync}_rsync_${facts['environment']}_${facts['os']['name']}_${facts['os']['release']['major']}"
+  $_rsync_user = "bind_dns_${::named::bind_dns_rsync}_rsync_${server_facts['environment']}_${facts['os']['name']}_${facts['os']['release']['major']}"
 
   simplib::validate_net_list($rsync_server)
 
