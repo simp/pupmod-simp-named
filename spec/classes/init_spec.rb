@@ -47,6 +47,7 @@ describe 'named' do
     on_supported_os.each do |os, facts|
       context "on #{os}" do
         let(:facts){ facts }
+        let(:environment){ 'rp_env' }
 
         context "with chroot, selinux_enforced => false, firewall => true" do
           let(:params) {{:firewall => true}}
