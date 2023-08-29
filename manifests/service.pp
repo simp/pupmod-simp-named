@@ -11,7 +11,7 @@
 #
 class named::service (
   Boolean              $chroot      = true,
-  Stdlib::Absolutepath $chroot_path = $::named::chroot_path
+  Stdlib::Absolutepath $chroot_path = $named::chroot_path,
 ) {
   assert_private()
 

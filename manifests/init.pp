@@ -67,15 +67,17 @@
 # @author https://github.com/simp/pupmod-simp-named/graphs/contributors
 #
 class named (
-  Stdlib::Absolutepath    $chroot_path,
-  Boolean                 $chroot                          = !pick($facts['os']['selinux']['enforced'], false),
-  String                  $bind_dns_rsync                  = 'default',
-  Boolean                 $firewall                        = simplib::lookup('simp_options::firewall', { 'default_value' => false }),
-  String                  $rsync_server                    = simplib::lookup('simp_options::rsync::server', { 'default_value' => '127.0.0.1' }),
-  Stdlib::Compat::Integer $rsync_timeout                   = simplib::lookup('simp_options::rsync::timeout', { 'default_value' => '2' }),
-  Boolean                 $sebool_named_write_master_zones = false
+  Stdlib::Absolutepath $chroot_path,
+  Boolean              $chroot                          = !pick($facts['os']['selinux']['enforced'], false),
+  String               $bind_dns_rsync                  = 'default',
+  Boolean              $firewall                        = simplib::lookup('simp_options::firewall', { 'default_value' => false }),
+  String               $rsync_server                    = simplib::lookup('simp_options::rsync::server', { 'default_value' => '127.0.0.1' }),
+  Variant[
+    Integer[0],
+    Pattern[/\A\d+\z/]
+  ]                    $rsync_timeout                   = simplib::lookup('simp_options::rsync::timeout', { 'default_value' => '2' }),
+  Boolean              $sebool_named_write_master_zones = false,
 ) {
-
   if defined(Class['named::caching']) {
     fail('You cannot include both ::named and ::named::caching')
   }

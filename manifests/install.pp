@@ -14,9 +14,9 @@
 #   The path to the chroot jail
 class named::install (
   Boolean              $chroot      = true,
-  Stdlib::Absolutepath $chroot_path = $::named::chroot_path,
+  Stdlib::Absolutepath $chroot_path = $named::chroot_path,
   String               $ensure      = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
-){
+) {
   assert_private()
 
   package { 'bind': ensure => $ensure }
