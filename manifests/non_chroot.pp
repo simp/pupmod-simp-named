@@ -21,16 +21,19 @@
 # @author https://github.com/simp/pupmod-simp-named/graphs/contributors
 #
 class named::non_chroot (
-  String                  $bind_dns_rsync = $::named::bind_dns_rsync,
-  String                  $rsync_source   = "bind_dns_${::named::bind_dns_rsync}_${environment}_${facts['os']['name']}_${facts['os']['release']['major']}/named",
-  String                  $rsync_server   = $::named::rsync_server,
-  Stdlib::Compat::Integer $rsync_timeout  = $::named::rsync_timeout
-){
+  String               $bind_dns_rsync = $named::bind_dns_rsync,
+  String               $rsync_source   = "bind_dns_${named::bind_dns_rsync}_${environment}_${facts['os']['name']}_${facts['os']['release']['major']}/named",
+  String               $rsync_server   = $named::rsync_server,
+  Variant[
+    Integer[0],
+    Pattern[/\A\d+\z/]
+  ]                    $rsync_timeout  = $named::rsync_timeout,
+) {
   assert_private()
 
-  include '::rsync'
+  include 'rsync'
 
-  $_rsync_user = "bind_dns_${::named::bind_dns_rsync}_rsync_${server_facts['environment']}_${facts['os']['name']}_${facts['os']['release']['major']}"
+  $_rsync_user = "bind_dns_${named::bind_dns_rsync}_rsync_${server_facts['environment']}_${facts['os']['name']}_${facts['os']['release']['major']}"
 
   simplib::validate_net_list($rsync_server)
 

@@ -1,3 +1,11 @@
+* Tue Aug 29 2023 Steven Pritchard <steve@sicura.us> - 6.6.0
+- Support for Puppet 8 and stdlib 9
+- Drop use of Stdlib::Compat::Integer type
+- Drop use of deprecated top-level facts
+- Update gem dependencies
+- Drop support for Puppet 6
+- Drop use of explicit top-scoping
+
 * Mon Jul 10 2023 Chris Tessmer <chris.tessmer@onyxpoint.com> - 6.5.0
 - Add RockyLinux 8 support
 
