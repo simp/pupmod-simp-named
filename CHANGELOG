@@ -1,3 +1,6 @@
+* Tue Sep 26 2023 Steven Pritchard <steve@sicura.us> - 6.7.0
+- Add AlmaLinux 8 support
+
 * Tue Aug 29 2023 Steven Pritchard <steve@sicura.us> - 6.6.0
 - Support for Puppet 8 and stdlib 9
 - Drop use of Stdlib::Compat::Integer type
