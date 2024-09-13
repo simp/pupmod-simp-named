@@ -1,6 +1,6 @@
 {
   "name": "simp-named",
-  "version": "6.9.0",
+  "version": "6.10.0",
   "author": "SIMP Team",
   "summary": "manages either a chrooted named process or a caching nameserver",
   "license": "Apache-2.0",
@@ -16,7 +16,7 @@
   "dependencies": [
     {
       "name": "simp/iptables",
-      "version_requirement": ">= 6.5.3 < 7.0.0"
+      "version_requirement": ">= 6.5.3 < 8.0.0"
     },
     {
       "name": "simp/rsync",
