@@ -19,7 +19,7 @@ shared_examples_for 'common el7 service' do
       owner: 'root',
       group: 'root',
       mode: '0644',
-      content: %r{.*ExecStartPre=/bin/bash -c 'if \[ ! "\$DISABLE_ZONE_CHECKING" == "yes" \]; then /usr/sbin/named-checkconf -t /var/named/chroot -z /etc/named.conf; else echo "Checking of zone files is disabled"; fi'.*}
+      content: %r{.*ExecStartPre=/bin/bash -c 'if \[ ! "\$DISABLE_ZONE_CHECKING" == "yes" \]; then /usr/sbin/named-checkconf -t /var/named/chroot -z /etc/named.conf; else echo "Checking of zone files is disabled"; fi'.*}, # rubocop:disable Layout/LineLength
                                                                                  })
   }
   it { is_expected.to contain_exec('named-systemctl-daemon-reload') }

@@ -21,7 +21,7 @@ describe 'named::caching' do
       end
 
       it 'is idempotent' do
-        apply_manifest_on(host, manifest, catch_failures: true)
+        apply_manifest_on(host, manifest, catch_failures: true, cactch_changes: true)
       end
 
       it 'is able to lookup www.google.com from itself' do
