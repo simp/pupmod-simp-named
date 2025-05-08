@@ -21,10 +21,9 @@ describe 'named chroot' do
 
         # verify chrooted service is up and running
         if pfact_on(host, 'init_systems').include?('systemd')
-          on(host, 'systemctl status named-chroot') do
-            expect(stdout).to match(%r{active \(running\)})
-            expect(stdout).to match(%r{/etc/systemd/system/named-chroot.service})
-          end
+          result = on(host, 'systemctl status named-chroot')
+          expect(result.stdout).to match(/active \(running\)/)
+          expect(result.stdout).to match(/\/etc\/systemd\/system\/named-chroot.service/)
         else
           on(host, 'service named status')
         end
