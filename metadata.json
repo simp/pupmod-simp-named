@@ -1,6 +1,6 @@
 {
   "name": "simp-named",
-  "version": "6.10.0",
+  "version": "7.0.0",
   "author": "SIMP Team",
   "summary": "manages either a chrooted named process or a caching nameserver",
   "license": "Apache-2.0",
@@ -39,15 +39,12 @@
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "7",
-        "8",
         "9"
       ]
     },
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "7",
         "8",
         "9"
       ]
@@ -55,7 +52,6 @@
     {
       "operatingsystem": "OracleLinux",
       "operatingsystemrelease": [
-        "7",
         "8",
         "9"
       ]
