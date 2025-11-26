@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe 'named::caching' do
   context 'supported operating systems' do
-    on_supported_os.each do |os, facts|
+    on_supported_os.each do |os, os_facts|
       context "on #{os}" do
         context 'with chroot' do
           let(:facts) do
-            facts = facts.dup
-            facts[:os][:selinux][:enforced] = false
-            facts
+            custom = os_facts.dup
+            custom[:os][:selinux][:enforced] = false
+            custom
           end
 
           it { is_expected.to create_file_line('bind_chroot') }
@@ -31,9 +31,9 @@ describe 'named::caching' do
 
         context 'with non_chroot' do
           let(:facts) do
-            facts = facts.dup
-            facts[:os][:selinux][:enforced] = true
-            facts
+            custom = os_facts.dup
+            custom[:os][:selinux][:enforced] = true
+            custom
           end
 
           it { is_expected.not_to create_file_line('bind_chroot') }
@@ -55,7 +55,7 @@ describe 'named::caching' do
         end
 
         context 'when trying to include ::named' do
-          let(:facts) { facts }
+          let(:facts) { os_facts }
           let(:pre_condition) { 'include named' }
 
           # We should get a resource conflict here.
