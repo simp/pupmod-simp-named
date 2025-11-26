@@ -121,7 +121,14 @@ Default value: `simplib::lookup('simp_options::rsync::server', { 'default_value'
 
 ##### <a name="-named--rsync_timeout"></a>`rsync_timeout`
 
-Data type: `Stdlib::Compat::Integer`
+Data type:
+
+```puppet
+Variant[
+    Integer[0],
+    Pattern[/\A\d+\z/]
+  ]
+```
 
 The timeout when connecting to the rsync server.
 
@@ -212,7 +219,7 @@ Data type: `Stdlib::Absolutepath`
 
 The Chroot jail for named. This should probably not be changed.
 
-Default value: `$::named::chroot_path`
+Default value: `$named::chroot_path`
 
 ##### <a name="-named--chroot--bind_dns_rsync"></a>`bind_dns_rsync`
 
@@ -221,7 +228,7 @@ Data type: `String`
 The target under the /var/simp/environments/{environment}/rsync/{os}/{maj_version}/bind_dns from which to fetch all
 BIND DNS content.
 
-Default value: `$::named::bind_dns_rsync`
+Default value: `$named::bind_dns_rsync`
 
 ##### <a name="-named--chroot--rsync_source"></a>`rsync_source`
 
@@ -229,7 +236,7 @@ Data type: `String`
 
 The source from which the module will pull its files on the rsync server
 
-Default value: `"bind_dns_${::named::bind_dns_rsync}_${environment}_${facts['os']['name']}_${facts['os']['release']['major']}/named"`
+Default value: `"bind_dns_${named::bind_dns_rsync}_${environment}_${facts['os']['name']}_${facts['os']['release']['major']}/named"`
 
 ##### <a name="-named--chroot--rsync_server"></a>`rsync_server`
 
@@ -237,15 +244,22 @@ Data type: `String`
 
 The rsync server from which to pull the named configuration.
 
-Default value: `$::named::rsync_server`
+Default value: `$named::rsync_server`
 
 ##### <a name="-named--chroot--rsync_timeout"></a>`rsync_timeout`
 
-Data type: `Stdlib::Compat::Integer`
+Data type:
+
+```puppet
+Variant[
+    Integer[0],
+    Pattern[/\A\d+\z/]
+  ]
+```
 
 The timeout when connecting to the rsync server.
 
-Default value: `$::named::rsync_timeout`
+Default value: `$named::rsync_timeout`
 
 ### <a name="named--install"></a>`named::install`
 
@@ -283,7 +297,7 @@ Data type: `Stdlib::Absolutepath`
 
 The path to the chroot jail
 
-Default value: `$::named::chroot_path`
+Default value: `$named::chroot_path`
 
 ### <a name="named--non_chroot"></a>`named::non_chroot`
 
@@ -308,7 +322,7 @@ The target under #
 /var/simp/environments/{environment}/rsync/{os}/{maj_version}/bind_dns
 from which to fetch all BIND DNS content.
 
-Default value: `$::named::bind_dns_rsync`
+Default value: `$named::bind_dns_rsync`
 
 ##### <a name="-named--non_chroot--rsync_source"></a>`rsync_source`
 
@@ -316,7 +330,7 @@ Data type: `String`
 
 The source from which the module will pull its files on the rsync server
 
-Default value: `"bind_dns_${::named::bind_dns_rsync}_${environment}_${facts['os']['name']}_${facts['os']['release']['major']}/named"`
+Default value: `"bind_dns_${named::bind_dns_rsync}_${environment}_${facts['os']['name']}_${facts['os']['release']['major']}/named"`
 
 ##### <a name="-named--non_chroot--rsync_server"></a>`rsync_server`
 
@@ -324,15 +338,22 @@ Data type: `String`
 
 The rsync server from which to pull the named configuration.
 
-Default value: `$::named::rsync_server`
+Default value: `$named::rsync_server`
 
 ##### <a name="-named--non_chroot--rsync_timeout"></a>`rsync_timeout`
 
-Data type: `Stdlib::Compat::Integer`
+Data type:
+
+```puppet
+Variant[
+    Integer[0],
+    Pattern[/\A\d+\z/]
+  ]
+```
 
 The timeout when connecting to the rsync server.
 
-Default value: `$::named::rsync_timeout`
+Default value: `$named::rsync_timeout`
 
 ### <a name="named--service"></a>`named::service`
 
@@ -344,6 +365,9 @@ The following parameters are available in the `named::service` class:
 
 * [`chroot`](#-named--service--chroot)
 * [`chroot_path`](#-named--service--chroot_path)
+* [`chroot_service_name`](#-named--service--chroot_service_name)
+* [`non_chroot_service_name`](#-named--service--non_chroot_service_name)
+* [`use_systemd`](#-named--service--use_systemd)
 
 ##### <a name="-named--service--chroot"></a>`chroot`
 
@@ -359,7 +383,31 @@ Data type: `Stdlib::Absolutepath`
 
 @see named::chroot_path
 
-Default value: `$::named::chroot_path`
+Default value: `$named::chroot_path`
+
+##### <a name="-named--service--chroot_service_name"></a>`chroot_service_name`
+
+Data type: `String[1]`
+
+The name of the service when running in a chroot jail.
+
+* Value in module data
+
+##### <a name="-named--service--non_chroot_service_name"></a>`non_chroot_service_name`
+
+Data type: `String[1]`
+
+The name of the service when not running in a chroot jail.
+
+* Value in module data
+
+##### <a name="-named--service--use_systemd"></a>`use_systemd`
+
+Data type: `Boolean`
+
+Whether to use the systemd service override file.
+
+* Value in module data
 
 ## Defined types
 
