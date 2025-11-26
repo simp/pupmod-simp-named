@@ -14,13 +14,13 @@ end
 
 shared_examples_for 'common el7 service' do
   it {
-    is_expected.to contain_file('/etc/systemd/system/named-chroot.service').with({
-                                                                                   ensure: 'file',
+    is_expected.to contain_file('/etc/systemd/system/named-chroot.service').with(
+      ensure: 'file',
       owner: 'root',
       group: 'root',
       mode: '0644',
       content: %r{.*ExecStartPre=/bin/bash -c 'if \[ ! "\$DISABLE_ZONE_CHECKING" == "yes" \]; then /usr/sbin/named-checkconf -t /var/named/chroot -z /etc/named.conf; else echo "Checking of zone files is disabled"; fi'.*}, # rubocop:disable Layout/LineLength
-                                                                                 })
+    )
   }
   it { is_expected.to contain_exec('named-systemctl-daemon-reload') }
 end
@@ -46,17 +46,17 @@ describe 'named' do
   end
 
   context 'supported operating systems' do
-    on_supported_os.each do |os, facts|
+    on_supported_os.each do |os, os_facts|
       context "on #{os}" do
-        let(:facts) { facts }
+        let(:facts) { os_facts }
         let(:environment) { 'rp_env' }
 
         context 'with chroot, selinux_enforced => false, firewall => true' do
           let(:params) { { firewall: true } }
           let(:facts) do
-            os_facts = facts.dup
-            os_facts = mock_selinux_disabled_facts(os_facts)
-            os_facts
+            custom = os_facts.dup
+            custom = mock_selinux_disabled_facts(custom)
+            custom
           end
 
           # init
@@ -74,25 +74,25 @@ describe 'named' do
           it { is_expected.to create_file('/var/named/chroot/var/named').with_ensure('directory') }
           it { is_expected.to create_file('/etc/named.conf').with_ensure('/var/named/chroot/etc/named.conf') }
           it {
-            is_expected.to contain_rsync('named').with({
-                                                         source: "bind_dns_default_#{environment}_#{facts[:os][:name]}_#{facts[:os][:release][:major]}/named/*"
-                                                       })
+            is_expected.to contain_rsync('named').with(
+              source: "bind_dns_default_#{environment}_#{facts[:os][:name]}_#{facts[:os][:release][:major]}/named/*",
+            )
           }
           # named::install
           it_behaves_like('common install')
           it { is_expected.to contain_package('bind-chroot').with_ensure('installed') }
           # named::service
-          if ['RedHat', 'CentOS', 'OracleLinux'].include?(facts[:os][:name]) && (facts[:os][:release][:major].to_s < '7')
+          if ['RedHat', 'CentOS', 'OracleLinux'].include?(os_facts[:os][:name]) && (os_facts[:os][:release][:major].to_i < 7)
             it {
-              is_expected.to contain_service('named').with({
-                                                             ensure: 'running'
-                                                           })
+              is_expected.to contain_service('named').with(
+                ensure: 'running',
+              )
             }
           else
             it {
-              is_expected.to contain_service('named-chroot').with({
-                                                                    ensure: 'running'
-                                                                  })
+              is_expected.to contain_service('named-chroot').with(
+                ensure: 'running',
+              )
             }
             it_behaves_like('common el7 service')
           end
@@ -101,7 +101,7 @@ describe 'named' do
             let(:params) do
               {
                 firewall: true,
-             sebool_named_write_master_zones: true
+                sebool_named_write_master_zones: true,
               }
             end
 
@@ -111,9 +111,9 @@ describe 'named' do
 
         context 'with non-chroot' do
           let(:facts) do
-            os_facts = facts.dup
-            os_facts = mock_selinux_enforcing_facts(os_facts)
-            os_facts
+            custom = os_facts.dup
+            custom = mock_selinux_enforcing_facts(custom)
+            custom
           end
 
           # init.pp
@@ -124,34 +124,34 @@ describe 'named' do
           it { is_expected.to create_file('/etc/named.conf').with_ensure('file') }
           it { is_expected.to create_file('/var/named').with_ensure('directory') }
           it {
-            is_expected.to contain_rsync('named').with({
-                                                         source: "bind_dns_default_#{environment}_#{facts[:os][:name]}_#{facts[:os][:release][:major]}/named/var/named"
-                                                       })
+            is_expected.to contain_rsync('named').with(
+              source: "bind_dns_default_#{environment}_#{facts[:os][:name]}_#{facts[:os][:release][:major]}/named/var/named",
+            )
           }
           it {
-            is_expected.to contain_rsync('named_etc').with({
-                                                             source: "bind_dns_default_#{environment}_#{facts[:os][:name]}_#{facts[:os][:release][:major]}/named/etc/*"
-                                                           })
+            is_expected.to contain_rsync('named_etc').with(
+              source: "bind_dns_default_#{environment}_#{facts[:os][:name]}_#{facts[:os][:release][:major]}/named/etc/*",
+            )
           }
           # named::install
           it_behaves_like('common install')
           it { is_expected.to contain_package('bind-chroot').with_ensure('absent') }
 
           # named::service
-          if ['RedHat', 'CentOS', 'OracleLinux'].include?(facts[:os][:name]) && (facts[:os][:release][:major].to_s >= '7')
+          if ['RedHat', 'CentOS', 'OracleLinux'].include?(os_facts[:os][:name]) && (os_facts[:os][:release][:major].to_i >= 7)
             it_behaves_like('common el7 service')
           end
           it {
-            is_expected.to contain_service('named').with({
-                                                           ensure: 'running'
-                                                         })
+            is_expected.to contain_service('named').with(
+              ensure: 'running',
+            )
           }
 
           context 'with sebool_named_write_master_zone set' do
             let(:params) do
               {
                 firewall: true,
-             sebool_named_write_master_zones: true
+                sebool_named_write_master_zones: true,
               }
             end
 

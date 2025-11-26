@@ -15,25 +15,27 @@ describe 'compliance_markup', type: :class do
   #
   # This needs to be well defined since we can also manipulate defined type
   # defaults
-  expected_classes = [
-    'named',
-  ]
+  let(:expected_classes) do
+    [
+      'named',
+    ]
+  end
 
-  allowed_failures = {
-    'documented_missing_parameters' => [
-    ] + expected_classes.map { |c| Regexp.new("^(?!#{c}(::.*)?)") },
-    'documented_missing_resources' => [
-    ] + expected_classes.map { |c| Regexp.new("^(?!#{c}(::.*)?)") }
-  }
+  let(:allowed_failures) do
+    {
+      'documented_missing_parameters' => [
+      ] + expected_classes.map { |c| Regexp.new("^(?!#{c}(::.*)?)") },
+      'documented_missing_resources' => [
+      ] + expected_classes.map { |c| Regexp.new("^(?!#{c}(::.*)?)") },
+    }
+  end
 
   on_supported_os.each do |os, os_facts|
     context "on #{os}" do
       compliance_profiles.each do |target_profile|
         context "with compliance profile '#{target_profile}'" do
           let(:facts) do
-            os_facts.merge({
-                             target_compliance_profile: target_profile
-                           })
+            os_facts.merge(target_compliance_profile: target_profile)
           end
           let(:compliance_report) do
             JSON.parse(

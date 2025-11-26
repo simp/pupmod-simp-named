@@ -4,7 +4,7 @@ test_name 'named::caching'
 
 describe 'named::caching' do
   let(:manifest) do
-    <<-EOS
+    <<~EOS
       include 'named::caching'
 
       named::caching::forwarders { '8.8.8.8': }
