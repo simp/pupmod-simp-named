@@ -7,33 +7,39 @@
 # @param chroot_path
 #   @see named::chroot_path
 #
+# @param chroot_service_name
+#   The name of the service when running in a chroot jail.
+#
+#   * Value in module data
+#
+# @param non_chroot_service_name
+#   The name of the service when not running in a chroot jail.
+#
+#   * Value in module data
+#
+# @param use_systemd
+#   Whether to use the systemd service override file.
+#
+#   * Value in module data
+#
 # @author https://github.com/simp/pupmod-simp-named/graphs/contributors
 #
 class named::service (
-  Boolean              $chroot      = true,
-  Stdlib::Absolutepath $chroot_path = $named::chroot_path,
+  Boolean              $chroot                 = true,
+  Stdlib::Absolutepath $chroot_path            = $named::chroot_path,
+  String[1]            $chroot_service_name,
+  String[1]            $non_chroot_service_name,
+  Boolean              $use_systemd,
 ) {
   assert_private()
 
-  if $chroot {
-    if $facts['os']['family'] == 'RedHat' {
-      if (versioncmp($facts['os']['release']['major'],'7') < 0) {
-        $svcname = 'named'
-      }
-      else {
-        $svcname = 'named-chroot'
-      }
-    }
-    else {
-      fail("The named::service class does not yet support ${facts['os']['name']}")
-    }
-  }
-  else {
-    $svcname = 'named'
+  $svcname = $chroot ? {
+    true  => $chroot_service_name,
+    false => $non_chroot_service_name,
   }
 
   # Work-around for https://bugzilla.redhat.com/show_bug.cgi?id=1278082
-  if $facts['os']['family'] == 'RedHat' and versioncmp($facts['os']['release']['major'],'7') >= 0 {
+  if $use_systemd {
     # Override with a full replacement file, as we are changing the
     # Unit Requires and After lists and changing the Service Type
     # from forking to the default (simple).

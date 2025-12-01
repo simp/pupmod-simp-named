@@ -1,3 +1,9 @@
 ---
 named::chroot_path: /var/named/chroot
 named::caching::chroot_path: "%{alias('named::chroot_path')}"
+
+# Service configuration defaults
+# These values are appropriate for EL7+ systems using systemd
+named::service::chroot_service_name: named-chroot
+named::service::non_chroot_service_name: named
+named::service::use_systemd: true
