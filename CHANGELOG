@@ -1,3 +1,6 @@
+* Mon May 11 2026 Steven Pritchard <steve@sicura.us> - 7.0.0
+- Remove unmaintained Compliance Engine data
+
 * Wed Nov 26 2025 Steven Pritchard <steve@sicura.us> - 6.11.0
 - Move OS-specific values to Hiera
 - Update module dependencies

@@ -3,7 +3,6 @@ fixtures:
   repositories:
     augeas_core: https://github.com/simp/pupmod-puppetlabs-augeas_core.git
     concat: https://github.com/simp/puppetlabs-concat.git
-    compliance_markup: https://github.com/simp/pupmod-simp-compliance_markup.git
     firewalld: https://github.com/simp/pupmod-voxpupuli-firewalld.git
     iptables: https://github.com/simp/pupmod-simp-iptables.git
     rsync: https://github.com/simp/pupmod-simp-rsync.git
