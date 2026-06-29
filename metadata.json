@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "source": "https://github.com/simp/pupmod-simp-named",
   "project_page": "https://github.com/simp/pupmod-simp-named",
-  "issues_url": "https://simp-project.atlassian.net",
+  "issues_url": "https://github.com/simp/pupmod-simp-named/issues",
   "tags": [
     "simp",
     "named",
@@ -16,15 +16,15 @@
   "dependencies": [
     {
       "name": "simp/iptables",
-      "version_requirement": ">= 6.5.3 < 8.0.0"
+      "version_requirement": ">= 6.5.3 < 9.0.0"
     },
     {
       "name": "simp/rsync",
-      "version_requirement": ">= 6.1.1 < 8.0.0"
+      "version_requirement": ">= 6.1.1 < 9.0.0"
     },
     {
       "name": "simp/simplib",
-      "version_requirement": ">= 4.9.0 < 5.0.0"
+      "version_requirement": ">= 4.9.0 < 6.0.0"
     },
     {
       "name": "puppetlabs/concat",
@@ -39,46 +39,47 @@
     {
       "operatingsystem": "CentOS",
       "operatingsystemrelease": [
-        "7",
-        "8",
-        "9"
+        "9",
+        "10"
       ]
     },
     {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
-        "7",
         "8",
-        "9"
+        "9",
+        "10"
       ]
     },
     {
       "operatingsystem": "OracleLinux",
       "operatingsystemrelease": [
-        "7",
         "8",
-        "9"
+        "9",
+        "10"
       ]
     },
     {
       "operatingsystem": "Rocky",
       "operatingsystemrelease": [
         "8",
-        "9"
+        "9",
+        "10"
       ]
     },
     {
       "operatingsystem": "AlmaLinux",
       "operatingsystemrelease": [
         "8",
-        "9"
+        "9",
+        "10"
       ]
     }
   ],
   "requirements": [
     {
-      "name": "puppet",
-      "version_requirement": ">= 7.0.0 < 9.0.0"
+      "name": "openvox",
+      "version_requirement": ">= 8.0.0 < 9.0.0"
     }
   ]
 }
