@@ -82,6 +82,8 @@ disabled if SELinux is enforcing.
 
 * Value in module data
 
+Default value: `'/var/named/chroot'`
+
 ##### <a name="-named--chroot"></a>`chroot`
 
 Data type: `Boolean`
@@ -167,6 +169,8 @@ The path to the chroot location.
 
 * Has no effect if SELinux is enforcing.
 * Defaults to `named::chroot_path` per module Hiera data.
+
+Default value: `'%{alias('named::chroot_path')}'`
 
 ### <a name="named--caching--hints"></a>`named::caching::hints`
 
@@ -393,6 +397,8 @@ The name of the service when running in a chroot jail.
 
 * Value in module data
 
+Default value: `'named-chroot'`
+
 ##### <a name="-named--service--non_chroot_service_name"></a>`non_chroot_service_name`
 
 Data type: `String[1]`
@@ -401,6 +407,8 @@ The name of the service when not running in a chroot jail.
 
 * Value in module data
 
+Default value: `'named'`
+
 ##### <a name="-named--service--use_systemd"></a>`use_systemd`
 
 Data type: `Boolean`
@@ -408,6 +416,8 @@ Data type: `Boolean`
 Whether to use the systemd service override file.
 
 * Value in module data
+
+Default value: `true`
 
 ## Defined types
 
