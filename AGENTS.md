@@ -21,7 +21,7 @@ Enterprise Linux systems in one of two mutually-exclusive modes:
   (`named.ca`) file.
 
 The two entry classes are **mutually exclusive**: each `fail()`s if the other is
-already declared (`manifests/init.pp:81-83`, `manifests/caching.pp:23-25`).
+already declared (`manifests/init.pp`, `manifests/caching.pp`).
 
 The heavy lifting (fetching config) is delegated to `simp/rsync`. This module
 does **not** template `named.conf` in the authoritative path — it rsyncs it —
@@ -31,64 +31,64 @@ so most of the real DNS content lives on the rsync server, not in this module.
 
 Public API (consumers declare these):
 
-- **`named` (`manifests/init.pp:69-127`)** — Public entry class for the
+- **`named` (`manifests/init.pp`)** — Public entry class for the
   authoritative/general server (not `assert_private()`'d). Parameters
-  (`init.pp:69-80`):
+  (`init.pp`):
   - `$chroot_path` (`Stdlib::Absolutepath`, **no default**) — required; supplied
     from module data (`data/common.yaml` → `/var/named/chroot`).
   - `$chroot` (`Boolean`) — auto-detected:
-    `!pick($facts['os']['selinux']['enforced'], false)` (`init.pp:71`), i.e.
+    `!pick($facts['os']['selinux']['enforced'], false)` (`init.pp`), i.e.
     chroot **off** when SELinux is enforcing, on otherwise.
   - `$bind_dns_rsync` (`String`, default `'default'`) — the rsync target under
     `${rsync_base}/bind_dns`.
   - `$firewall`, `$rsync_server`, `$rsync_timeout` — from the `simp_options`
-    seam (see table below) (`init.pp:73-78`).
+    seam (see table below) (`init.pp`).
   - `$sebool_named_write_master_zones` (`Boolean`, default `false`).
-  It runs `simplib::assert_metadata($module_name)` (`init.pp:85`) and
-  `simplib::validate_net_list($rsync_server)` (`init.pp:87`), then branches on
+  It runs `simplib::assert_metadata($module_name)` (`init.pp`) and
+  `simplib::validate_net_list($rsync_server)` (`init.pp`), then branches on
   `$chroot`: chroot path includes `named::chroot` + `service` + `install`;
   non-chroot path includes `named::non_chroot` + `service`/`install` with
-  `chroot => false` (`init.pp:89-104`). Sets the `named_write_master_zones`
-  SELinux boolean only when SELinux is enforcing (`init.pp:108-114`), and adds
+  `chroot => false` (`init.pp`). Sets the `named_write_master_zones`
+  SELinux boolean only when SELinux is enforcing (`init.pp`), and adds
   `iptables::listen::tcp_stateful`/`udp` for port 53 (trusted_nets `['ALL']`)
-  when `$firewall` (`init.pp:116-126`).
-- **`named::caching` (`manifests/caching.pp:19-164`)** — Public entry class for
+  when `$firewall` (`init.pp`).
+- **`named::caching` (`manifests/caching.pp`)** — Public entry class for
   the caching resolver (not `assert_private()`'d). Required param `$chroot_path`
   (`Stdlib::Absolutepath`, from `data/common.yaml` via the
   `named::caching::chroot_path` alias). Computes an effective chroot path that
-  is blanked out when SELinux is enforcing (`caching.pp:31-35`), declares
+  is blanked out when SELinux is enforcing (`caching.pp`), declares
   `named::install`/`named::service`, and builds `/etc/named_caching.forwarders`
   via `concat`/`concat_fragment` plus a set of bundled zone/hint files from
   `files/chroot/...` and a templated `named.conf`
-  (`templates/named.caching.conf.erb`) (`caching.pp:62-161`).
-- **`named::caching::forwarders` (`manifests/caching/forwarders.pp:14-26`)** —
+  (`templates/named.caching.conf.erb`) (`caching.pp`).
+- **`named::caching::forwarders` (`manifests/caching/forwarders.pp`)** —
   Public **define**. `include`s `named::caching` and adds a
   `concat_fragment` forwarder entry. `$name` may be a whitespace-delimited list
   of forwarder IPs; `127.0.0.1`/`::1` are stripped out
-  (`caching/forwarders.pp:18-25`).
-- **`named::caching::hints` (`manifests/caching/hints.pp:13-28`)** — Public
+  (`caching/forwarders.pp`).
+- **`named::caching::hints` (`manifests/caching/hints.pp`)** — Public
   class. `include`s `named::caching` and writes
   `/var/named/chroot/var/named/named.ca` from `templates/named.ca.erb`. Params
   `$content` (verbatim hint content) and `$use_defaults`.
 
 Private (helper) classes — all call `assert_private()`:
 
-- **`named::install` (`manifests/install.pp:15-54`)** — installs `bind`,
+- **`named::install` (`manifests/install.pp`)** — installs `bind`,
   `bind-libs`, and (conditionally) `bind-chroot`; creates `/var/named`, the
   `named` group (gid 25) and `named` user (uid 25). `$ensure` from the
-  `simp_options::package_ensure` seam (`install.pp:18`).
-- **`named::service` (`manifests/service.pp:27-70`)** — manages the BIND
+  `simp_options::package_ensure` seam (`install.pp`).
+- **`named::service` (`manifests/service.pp`)** — manages the BIND
   service. Service name is selected from `$chroot`:
   `$chroot_service_name` (`named-chroot`) vs `$non_chroot_service_name`
-  (`named`) (`service.pp:36-39`), both from `data/common.yaml`. When
+  (`named`) (`service.pp`), both from `data/common.yaml`. When
   `$use_systemd` (module data → `true`), it drops a full replacement
   `named-chroot.service` unit (`templates/named-chroot.service.erb`) and runs a
   `systemctl daemon-reload` exec — a workaround for RH bug 1278082
-  (`service.pp:41-61`).
-- **`named::chroot` (`manifests/chroot.pp:25-97`)** — builds the chroot
+  (`service.pp`).
+- **`named::chroot` (`manifests/chroot.pp`)** — builds the chroot
   directory tree and rsyncs config into it; symlinks `/etc/named.conf` into the
-  jail (`chroot.pp:82-84`).
-- **`named::non_chroot` (`manifests/non_chroot.pp:23-68`)** — the non-chroot
+  jail (`chroot.pp`).
+- **`named::non_chroot` (`manifests/non_chroot.pp`)** — the non-chroot
   variant: manages `/etc/named.conf` and rsyncs `var/named` and `etc/*` into
   place.
 
@@ -96,34 +96,34 @@ Private (helper) classes — all call `assert_private()`:
 
 - **`named` and `named::caching` are mutually exclusive.** Declaring both
   triggers `fail('You cannot include both ::named and ::named::caching')`
-  (`init.pp:81-83`, `caching.pp:23-25`). Pick one entry class.
+  (`init.pp`, `caching.pp`). Pick one entry class.
 - **Chroot is driven by SELinux, and enforcing SELinux wins.** In `named`,
-  `$chroot` defaults to *off* when SELinux is enforcing (`init.pp:71`); in
+  `$chroot` defaults to *off* when SELinux is enforcing (`init.pp`); in
   `named::caching` the effective chroot path is blanked when SELinux is
-  enforcing regardless of `$chroot_path` (`caching.pp:31-35`). named chroot
+  enforcing regardless of `$chroot_path` (`caching.pp`). named chroot
   jails are incompatible with enforcing SELinux — forcing `$chroot => true` on
-  such a host can make named non-functional (`init.pp:43-48`).
+  such a host can make named non-functional (`init.pp`).
 - **`named::caching` calls `str2bool` on the SELinux fact**
-  (`caching.pp:31`) whereas `named` uses `pick(...)` directly (`init.pp:71`);
+  (`caching.pp`) whereas `named` uses `pick(...)` directly (`init.pp`);
   `$facts['os']['selinux']['enforced']` is already a Boolean. This inconsistency
   is pre-existing — don't "fix" one path in isolation without checking both.
 - **Configuration is rsynced, not templated (authoritative path).**
   `named::chroot` / `named::non_chroot` pull `named.conf` and zone data from an
-  rsync server (`chroot.pp:86-96`, `non_chroot.pp:49-67`); the rsync password is
-  derived via `simplib::passgen($_rsync_user)` (`chroot.pp:88`). If rsync isn't
+  rsync server (`chroot.pp`, `non_chroot.pp`); the rsync password is
+  derived via `simplib::passgen($_rsync_user)` (`chroot.pp`). If rsync isn't
   serving the expected space, named gets no config. The rsync user/source names
-  embed environment + OS name + major release (`chroot.pp:39`,
-  `non_chroot.pp:36`).
+  embed environment + OS name + major release (`chroot.pp`,
+  `non_chroot.pp`).
 - **The systemd unit is fully replaced, not overridden**, for chroot service on
-  systemd hosts — a workaround for RH bug 1278082 (`service.pp:41-53`); it
+  systemd hosts — a workaround for RH bug 1278082 (`service.pp`); it
   changes the Requires/After lists and the service Type from forking to simple.
 - **uid/gid 25 for the `named` user/group are hard-coded** and
-  `allowdupe => false` (`install.pp:39-53`) — collisions with an existing
+  `allowdupe => false` (`install.pp`) — collisions with an existing
   uid/gid 25 will fail the run.
 - **`simp/simp_options` is NOT a declared dependency** in `metadata.json`, yet
   the manifests consume the `simp_options::*` seam via `simplib::lookup`
   (provided by `simp/simplib`). `simp_options` appears only as a fixture
-  (`.fixtures.yml:11`).
+  (`.fixtures.yml`).
 - **No custom types/facts/functions ship here.** There is no `types/` or `lib/`
   directory; every custom type (`iptables::listen::*`, `rsync`, `concat`,
   `concat_fragment`, `file_line`, `selboolean`) and function
@@ -135,12 +135,12 @@ Private (helper) classes — all call `assert_private()`:
 This is the module's SIMP feature-toggle seam. All calls are
 `simplib::lookup('simp_options::...', { 'default_value' => ... })`:
 
-| Line | Key | `default_value` |
+| File | Key | `default_value` |
 |------|-----|-----------------|
-| `manifests/init.pp:73` | `simp_options::firewall` | `false` |
-| `manifests/init.pp:74` | `simp_options::rsync::server` | `'127.0.0.1'` |
-| `manifests/init.pp:78` | `simp_options::rsync::timeout` | `'2'` |
-| `manifests/install.pp:18` | `simp_options::package_ensure` | `'installed'` |
+| `manifests/init.pp` | `simp_options::firewall` | `false` |
+| `manifests/init.pp` | `simp_options::rsync::server` | `'127.0.0.1'` |
+| `manifests/init.pp` | `simp_options::rsync::timeout` | `'2'` |
+| `manifests/install.pp` | `simp_options::package_ensure` | `'installed'` |
 
 Keep routing SIMP feature toggles through `simplib::lookup('simp_options::*', {
 'default_value' => ... })` with an explicit default rather than assuming
