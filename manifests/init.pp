@@ -106,7 +106,7 @@ class named (
   Class['named::install'] ~> Class['named::service']
 
   if $facts['os']['selinux']['enforced'] {
-    $_selboolean_value = $sebool_named_write_master_zones ? {true => 'on', default => 'off'}
+    $_selboolean_value = $sebool_named_write_master_zones ? { true => 'on', default => 'off' }
     selboolean { 'named_write_master_zones':
       persistent => true,
       value      => $_selboolean_value
