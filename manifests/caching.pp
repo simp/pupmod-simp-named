@@ -16,10 +16,9 @@
 #
 # @author https://github.com/simp/pupmod-simp-named/graphs/contributors
 #
-class named::caching(
+class named::caching (
   Stdlib::Absolutepath $chroot_path
 ) {
-
   if defined(Class['named']) {
     fail('You cannot include both ::named and ::named::caching')
   }
@@ -158,7 +157,4 @@ class named::caching(
     mode    => '0640',
     content => template('named/named.caching.conf.erb'),
     notify  => Class['named::service']
-  }
-
-
-}
+} }

@@ -91,7 +91,7 @@ class named::chroot (
     server           => $rsync_server,
     timeout          => $rsync_timeout,
     preserve_devices => true,
-    exclude          => [ 'localtime', 'var/run', 'proc' ],
+    exclude          => ['localtime', 'var/run', 'proc'],
     notify           => Class['named::service']
   }
 }

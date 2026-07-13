@@ -66,5 +66,4 @@ class named::service (
     hasstatus  => true,
     hasrestart => true
   }
-
 }

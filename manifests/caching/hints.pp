@@ -14,7 +14,6 @@ class named::caching::hints (
   String  $content      = '', # lint:ignore:empty_string_assignment
   Boolean $use_defaults = false
 ) {
-
   include named::caching
 
   file { '/var/named/chroot/var/named/named.ca':
