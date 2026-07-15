@@ -15,6 +15,21 @@ describe 'named::caching' do
     # Need this for the 'host' command
     host.install_package('bind-utils')
 
+    # Exercise noop from a clean state: on a fresh node the Sicura console
+    # previews the module with `puppet apply --noop`, which must not error. This
+    # runs before the applies below install/configure bind, so it is the genuine
+    # fresh-node preview. A post-convergence noop check is omitted (`--noop
+    # --detailed-exitcodes` always exits 0). No package removal (as with
+    # fips/ssh): a fresh node has the base `bind-libs` already, so the honest
+    # clean state is "installed but not yet SIMP-managed", which is exactly what
+    # a bare noop of the module's manifest previews (nothing is resolved over
+    # the network under --noop, so no live forwarder is required).
+    context 'in noop mode from a clean state' do
+      it 'applies without errors in noop mode' do
+        apply_manifest_on(host, manifest, catch_failures: true, noop: true)
+      end
+    end
+
     context 'with internet connection' do
       it 'works with no errors' do
         apply_manifest_on(host, manifest, catch_failures: true)
