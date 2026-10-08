@@ -1,6 +1,6 @@
 {
   "name": "simp-named",
-  "version": "7.0.2",
+  "version": "7.1.0",
   "author": "SIMP Team",
   "summary": "manages either a chrooted named process or a caching nameserver",
   "license": "Apache-2.0",
@@ -16,7 +16,7 @@
   "dependencies": [
     {
       "name": "simp/iptables",
-      "version_requirement": ">= 6.5.3 < 9.0.0"
+      "version_requirement": ">= 6.5.3 < 10.0.0"
     },
     {
       "name": "simp/rsync",
@@ -79,7 +79,7 @@
   "requirements": [
     {
       "name": "openvox",
-      "version_requirement": ">= 8.0.0 < 9.0.0"
+      "version_requirement": ">= 8.0.0 < 10.0.0"
     }
   ]
 }
