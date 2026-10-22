@@ -81,6 +81,29 @@ Add selinux_enforced = true to the PE Console at the node or global level.
   }
 ```
 
+### I want to change the ownership or permissions of named's directories
+
+The BIND working directory (`/var/named`, or `var/named` inside the chroot)
+and its `data` and `slaves` subdirectories default to the ownership and modes
+the bind packages ship, so that `named` can write to them. BIND 9.16 and later
+require the working directory to be writable by the `named` group.
+
+To change them, set the `named::working_dir_*`, `named::data_dir_*`, or
+`named::slaves_dir_*` (`owner`, `group`, `mode`) parameters in Hiera:
+
+```yaml
+---
+named::slaves_dir_mode: '0750'
+```
+
+`named::caching` uses the `named::working_dir_*` and `named::data_dir_*`
+values unless its own parameters are set.
+
+With the `named` class, these directories are also copied from the rsync
+server with their permissions. Puppet sets them after the copy, so the
+parameters win, but keep the rsync server's copies in agreement with them or
+every run will change them.
+
 ## Reference
 
 See [REFERENCE.md](./REFERENCE.md) for the full module reference.

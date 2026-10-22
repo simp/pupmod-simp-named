@@ -19,7 +19,9 @@ describe 'named::caching' do
           it { is_expected.to create_concat_fragment('named_caching+header') }
           it { is_expected.to create_concat_fragment('named_caching+footer') }
           it { is_expected.to create_file('/var/named/chroot/etc/named.rfc1912.zones') }
-          it { is_expected.to create_file('/var/named/chroot/var/named/data') }
+          it { is_expected.to create_file('/var/named').with(ensure: 'directory', owner: 'root', group: 'named', mode: '0770') }
+          it { is_expected.to create_file('/var/named/chroot/var/named').with(ensure: 'directory', owner: 'root', group: 'named', mode: '0770') }
+          it { is_expected.to create_file('/var/named/chroot/var/named/data').with(ensure: 'directory', owner: 'named', group: 'named', mode: '0770') }
           it { is_expected.to create_file('/var/named/chroot/var/named/localdomain.zone') }
           it { is_expected.to create_file('/var/named/chroot/var/named/localhost.zone') }
           it { is_expected.to create_file('/var/named/chroot/var/named/named.broadcast') }
@@ -44,7 +46,22 @@ describe 'named::caching' do
           it { is_expected.to create_concat_fragment('named_caching+header') }
           it { is_expected.to create_concat_fragment('named_caching+footer') }
           it { is_expected.to create_file('/etc/named.rfc1912.zones') }
-          it { is_expected.to create_file('/var/named/data') }
+          it { is_expected.to create_file('/var/named').with(ensure: 'directory', owner: 'root', group: 'named', mode: '0770') }
+          it { is_expected.to create_file('/var/named/data').with(ensure: 'directory', owner: 'named', group: 'named', mode: '0770') }
+
+          context 'with directory ownership and permissions overridden' do
+            let(:params) do
+              {
+                working_dir_group: 'root',
+                working_dir_mode: '0750',
+                data_dir_owner: 'root',
+                data_dir_mode: '0750',
+              }
+            end
+
+            it { is_expected.to create_file('/var/named').with(owner: 'root', group: 'root', mode: '0750') }
+            it { is_expected.to create_file('/var/named/data').with(owner: 'root', group: 'named', mode: '0750') }
+          end
           it { is_expected.to create_file('/var/named/localdomain.zone') }
           it { is_expected.to create_file('/var/named/localhost.zone') }
           it { is_expected.to create_file('/var/named/named.broadcast') }

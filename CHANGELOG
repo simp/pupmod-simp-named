@@ -1,3 +1,16 @@
+* Thu Oct 22 2026 Steven Pritchard <steve@sicura.us> - 7.2.0
+- Make the BIND working directory (`/var/named`, or `var/named` inside the
+  chroot) writable by the `named` group (mode `0770`), as BIND 9.16 and later
+  require
+- Manage the `data` and `slaves` directories under the working directory as
+  `named:named` mode `0770`, as the bind packages ship them
+- Add `named::working_dir_*`, `named::data_dir_*`, and `named::slaves_dir_*`
+  (`owner`, `group`, `mode`), and `named::caching::working_dir_*` and
+  `named::caching::data_dir_*`, to override the ownership and permissions of
+  these directories
+- With the `named` class, set these directories after the rsync so they
+  override the permissions copied from the rsync server
+
 * Thu Oct 08 2026 Steven Pritchard <steve@sicura.us> - 7.1.0
 - Add support for OpenVox 9
 - Update metadata.json dependency ranges from the Forge

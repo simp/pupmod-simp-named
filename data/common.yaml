@@ -2,6 +2,25 @@
 named::chroot_path: /var/named/chroot
 named::caching::chroot_path: "%{alias('named::chroot_path')}"
 
+# Ownership and permissions of the BIND working directory and the
+# subdirectories named writes to. These match what the bind packages ship.
+# BIND 9.16+ requires the working directory to be writable by named.
+named::working_dir_owner: root
+named::working_dir_group: named
+named::working_dir_mode: '0770'
+named::data_dir_owner: named
+named::data_dir_group: named
+named::data_dir_mode: '0770'
+named::slaves_dir_owner: named
+named::slaves_dir_group: named
+named::slaves_dir_mode: '0770'
+named::caching::working_dir_owner: "%{alias('named::working_dir_owner')}"
+named::caching::working_dir_group: "%{alias('named::working_dir_group')}"
+named::caching::working_dir_mode: "%{alias('named::working_dir_mode')}"
+named::caching::data_dir_owner: "%{alias('named::data_dir_owner')}"
+named::caching::data_dir_group: "%{alias('named::data_dir_group')}"
+named::caching::data_dir_mode: "%{alias('named::data_dir_mode')}"
+
 # Service configuration defaults
 # These values are appropriate for EL7+ systems using systemd
 named::service::chroot_service_name: named-chroot
