@@ -14,10 +14,48 @@
 #   * Has no effect if SELinux is enforcing.
 #   * Defaults to `named::chroot_path` per module Hiera data.
 #
+# @param working_dir_owner
+#   The owner of the BIND working directory: `/var/named`, or `var/named`
+#   inside the chroot
+#
+#   * Defaults to `named::working_dir_owner` per module Hiera data.
+#
+# @param working_dir_group
+#   The group of the BIND working directory
+#
+#   * Defaults to `named::working_dir_group` per module Hiera data.
+#
+# @param working_dir_mode
+#   The mode of the BIND working directory
+#
+#   * BIND 9.16 and later require it to be writable by the `named` group
+#   * Defaults to `named::working_dir_mode` per module Hiera data.
+#
+# @param data_dir_owner
+#   The owner of the `data` directory under the BIND working directory
+#
+#   * Defaults to `named::data_dir_owner` per module Hiera data.
+#
+# @param data_dir_group
+#   The group of the `data` directory under the BIND working directory
+#
+#   * Defaults to `named::data_dir_group` per module Hiera data.
+#
+# @param data_dir_mode
+#   The mode of the `data` directory under the BIND working directory
+#
+#   * Defaults to `named::data_dir_mode` per module Hiera data.
+#
 # @author https://github.com/simp/pupmod-simp-named/graphs/contributors
 #
 class named::caching (
-  Stdlib::Absolutepath $chroot_path
+  Stdlib::Absolutepath $chroot_path,
+  String[1]            $working_dir_owner,
+  String[1]            $working_dir_group,
+  Stdlib::Filemode     $working_dir_mode,
+  String[1]            $data_dir_owner,
+  String[1]            $data_dir_group,
+  Stdlib::Filemode     $data_dir_mode,
 ) {
   if defined(Class['named']) {
     fail('You cannot include both ::named and ::named::caching')
@@ -48,8 +86,11 @@ class named::caching (
     }
   }
   class { 'named::install':
-    chroot      => !empty($_chroot_path),
-    chroot_path => $chroot_path
+    chroot            => !empty($_chroot_path),
+    chroot_path       => $chroot_path,
+    working_dir_owner => $working_dir_owner,
+    working_dir_group => $working_dir_group,
+    working_dir_mode  => $working_dir_mode,
   }
   class { 'named::service':
     chroot      => !empty($_chroot_path),
@@ -88,11 +129,19 @@ class named::caching (
     notify => Class['named::service']
   }
 
+  file { "${_chroot_path}/var/named":
+    ensure => 'directory',
+    owner  => $working_dir_owner,
+    group  => $working_dir_group,
+    mode   => $working_dir_mode,
+    before => Class['named::service']
+  }
+
   file { "${_chroot_path}/var/named/data":
     ensure => 'directory',
-    owner  => 'named',
-    group  => 'named',
-    mode   => '0750',
+    owner  => $data_dir_owner,
+    group  => $data_dir_group,
+    mode   => $data_dir_mode,
     before => Class['named::service']
   }
 
