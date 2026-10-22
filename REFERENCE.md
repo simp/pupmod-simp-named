@@ -37,7 +37,7 @@ them twice.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 * Given 'default' configuration that you would like to serve
@@ -791,7 +791,7 @@ compatibility with the common::resolv format.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 named::caching::forwarders { '1.2.3.4': ensure => 'present' }
@@ -799,4 +799,3 @@ named::caching::forwarders { '1.2.3.4 5.6.7.8 9.10.11.12':
   ensure => 'present'
 }
 ```
-
