@@ -34,6 +34,14 @@ describe 'named chroot' do
         apply_manifest_on(host, manifest, catch_failures: true)
       end
 
+      it 'makes the working and data directories writable by named' do
+        working_dir = pfact_on(host, 'os.selinux.enforced') ? '/var/named' : '/var/named/chroot/var/named'
+
+        on(host, "stat -c '%U:%G %a' #{working_dir} #{working_dir}/data") do |result|
+          expect(result.stdout.lines.map(&:strip)).to eq(['root:named 770', 'named:named 770'])
+        end
+      end
+
       it 'is able to lookup www.google.com from itself' do
         on(host, 'echo -e "nameserver 127.0.0.1\nsearch `facter domain`" > /etc/resolv.conf')
         on(host, 'host www.google.com')

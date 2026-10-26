@@ -30,6 +30,11 @@ that the configuration can be pulled.
 The default SIMP configuration will do this for the 'default' space, but
 other spaces will need to be added as appropriate.
 
+The directory ownership and permission parameters are applied after the
+rsync, so they override what is copied from the rsync server. Keep the
+rsync server's copies in agreement with them, or every run will change
+them twice.
+
 #### Examples
 
 #####
@@ -67,6 +72,15 @@ The following parameters are available in the `named` class:
 * [`rsync_server`](#-named--rsync_server)
 * [`rsync_timeout`](#-named--rsync_timeout)
 * [`sebool_named_write_master_zones`](#-named--sebool_named_write_master_zones)
+* [`working_dir_owner`](#-named--working_dir_owner)
+* [`working_dir_group`](#-named--working_dir_group)
+* [`working_dir_mode`](#-named--working_dir_mode)
+* [`data_dir_owner`](#-named--data_dir_owner)
+* [`data_dir_group`](#-named--data_dir_group)
+* [`data_dir_mode`](#-named--data_dir_mode)
+* [`slaves_dir_owner`](#-named--slaves_dir_owner)
+* [`slaves_dir_group`](#-named--slaves_dir_group)
+* [`slaves_dir_mode`](#-named--slaves_dir_mode)
 
 ##### <a name="-named--chroot_path"></a>`chroot_path`
 
@@ -145,6 +159,98 @@ you will need to set this to ``true``
 
 Default value: `false`
 
+##### <a name="-named--working_dir_owner"></a>`working_dir_owner`
+
+Data type: `String[1]`
+
+The owner of the BIND working directory: `/var/named`, and `var/named`
+inside the chroot when `chroot` is enabled
+
+* Value in module data
+
+Default value: `'root'`
+
+##### <a name="-named--working_dir_group"></a>`working_dir_group`
+
+Data type: `String[1]`
+
+The group of the BIND working directory
+
+* Value in module data
+
+Default value: `'named'`
+
+##### <a name="-named--working_dir_mode"></a>`working_dir_mode`
+
+Data type: `Stdlib::Filemode`
+
+The mode of the BIND working directory
+
+* BIND 9.16 and later require it to be writable by the `named` group
+* Value in module data
+
+Default value: `'0770'`
+
+##### <a name="-named--data_dir_owner"></a>`data_dir_owner`
+
+Data type: `String[1]`
+
+The owner of the `data` directory under the BIND working directory
+
+* Value in module data
+
+Default value: `'named'`
+
+##### <a name="-named--data_dir_group"></a>`data_dir_group`
+
+Data type: `String[1]`
+
+The group of the `data` directory under the BIND working directory
+
+* Value in module data
+
+Default value: `'named'`
+
+##### <a name="-named--data_dir_mode"></a>`data_dir_mode`
+
+Data type: `Stdlib::Filemode`
+
+The mode of the `data` directory under the BIND working directory
+
+* Value in module data
+
+Default value: `'0770'`
+
+##### <a name="-named--slaves_dir_owner"></a>`slaves_dir_owner`
+
+Data type: `String[1]`
+
+The owner of the `slaves` directory under the BIND working directory
+
+* Value in module data
+
+Default value: `'named'`
+
+##### <a name="-named--slaves_dir_group"></a>`slaves_dir_group`
+
+Data type: `String[1]`
+
+The group of the `slaves` directory under the BIND working directory
+
+* Value in module data
+
+Default value: `'named'`
+
+##### <a name="-named--slaves_dir_mode"></a>`slaves_dir_mode`
+
+Data type: `Stdlib::Filemode`
+
+The mode of the `slaves` directory under the BIND working directory
+
+* Value in module data
+
+Default value: `'0770'`
+
 ### <a name="named--caching"></a>`named::caching`
 
 You will need to call named::caching::forwarders to make it useful.
@@ -160,6 +266,12 @@ named class.
 The following parameters are available in the `named::caching` class:
 
 * [`chroot_path`](#-named--caching--chroot_path)
+* [`working_dir_owner`](#-named--caching--working_dir_owner)
+* [`working_dir_group`](#-named--caching--working_dir_group)
+* [`working_dir_mode`](#-named--caching--working_dir_mode)
+* [`data_dir_owner`](#-named--caching--data_dir_owner)
+* [`data_dir_group`](#-named--caching--data_dir_group)
+* [`data_dir_mode`](#-named--caching--data_dir_mode)
 
 ##### <a name="-named--caching--chroot_path"></a>`chroot_path`
 
@@ -171,6 +283,68 @@ The path to the chroot location.
 * Defaults to `named::chroot_path` per module Hiera data.
 
 Default value: `'%{alias('named::chroot_path')}'`
+
+##### <a name="-named--caching--working_dir_owner"></a>`working_dir_owner`
+
+Data type: `String[1]`
+
+The owner of the BIND working directory: `/var/named`, or `var/named`
+inside the chroot
+
+* Defaults to `named::working_dir_owner` per module Hiera data.
+
+Default value: `'%{alias('named::working_dir_owner')}'`
+
+##### <a name="-named--caching--working_dir_group"></a>`working_dir_group`
+
+Data type: `String[1]`
+
+The group of the BIND working directory
+
+* Defaults to `named::working_dir_group` per module Hiera data.
+
+Default value: `'%{alias('named::working_dir_group')}'`
+
+##### <a name="-named--caching--working_dir_mode"></a>`working_dir_mode`
+
+Data type: `Stdlib::Filemode`
+
+The mode of the BIND working directory
+
+* BIND 9.16 and later require it to be writable by the `named` group
+* Defaults to `named::working_dir_mode` per module Hiera data.
+
+Default value: `'%{alias('named::working_dir_mode')}'`
+
+##### <a name="-named--caching--data_dir_owner"></a>`data_dir_owner`
+
+Data type: `String[1]`
+
+The owner of the `data` directory under the BIND working directory
+
+* Defaults to `named::data_dir_owner` per module Hiera data.
+
+Default value: `'%{alias('named::data_dir_owner')}'`
+
+##### <a name="-named--caching--data_dir_group"></a>`data_dir_group`
+
+Data type: `String[1]`
+
+The group of the `data` directory under the BIND working directory
+
+* Defaults to `named::data_dir_group` per module Hiera data.
+
+Default value: `'%{alias('named::data_dir_group')}'`
+
+##### <a name="-named--caching--data_dir_mode"></a>`data_dir_mode`
+
+Data type: `Stdlib::Filemode`
+
+The mode of the `data` directory under the BIND working directory
+
+* Defaults to `named::data_dir_mode` per module Hiera data.
+
+Default value: `'%{alias('named::data_dir_mode')}'`
 
 ### <a name="named--caching--hints"></a>`named::caching::hints`
 
@@ -216,6 +390,15 @@ The following parameters are available in the `named::chroot` class:
 * [`rsync_source`](#-named--chroot--rsync_source)
 * [`rsync_server`](#-named--chroot--rsync_server)
 * [`rsync_timeout`](#-named--chroot--rsync_timeout)
+* [`working_dir_owner`](#-named--chroot--working_dir_owner)
+* [`working_dir_group`](#-named--chroot--working_dir_group)
+* [`working_dir_mode`](#-named--chroot--working_dir_mode)
+* [`data_dir_owner`](#-named--chroot--data_dir_owner)
+* [`data_dir_group`](#-named--chroot--data_dir_group)
+* [`data_dir_mode`](#-named--chroot--data_dir_mode)
+* [`slaves_dir_owner`](#-named--chroot--slaves_dir_owner)
+* [`slaves_dir_group`](#-named--chroot--slaves_dir_group)
+* [`slaves_dir_mode`](#-named--chroot--slaves_dir_mode)
 
 ##### <a name="-named--chroot--nchroot"></a>`nchroot`
 
@@ -265,6 +448,78 @@ The timeout when connecting to the rsync server.
 
 Default value: `$named::rsync_timeout`
 
+##### <a name="-named--chroot--working_dir_owner"></a>`working_dir_owner`
+
+Data type: `String[1]`
+
+The owner of the BIND working directory
+
+Default value: `$named::working_dir_owner`
+
+##### <a name="-named--chroot--working_dir_group"></a>`working_dir_group`
+
+Data type: `String[1]`
+
+The group of the BIND working directory
+
+Default value: `$named::working_dir_group`
+
+##### <a name="-named--chroot--working_dir_mode"></a>`working_dir_mode`
+
+Data type: `Stdlib::Filemode`
+
+The mode of the BIND working directory
+
+Default value: `$named::working_dir_mode`
+
+##### <a name="-named--chroot--data_dir_owner"></a>`data_dir_owner`
+
+Data type: `String[1]`
+
+The owner of the `data` directory under the BIND working directory
+
+Default value: `$named::data_dir_owner`
+
+##### <a name="-named--chroot--data_dir_group"></a>`data_dir_group`
+
+Data type: `String[1]`
+
+The group of the `data` directory under the BIND working directory
+
+Default value: `$named::data_dir_group`
+
+##### <a name="-named--chroot--data_dir_mode"></a>`data_dir_mode`
+
+Data type: `Stdlib::Filemode`
+
+The mode of the `data` directory under the BIND working directory
+
+Default value: `$named::data_dir_mode`
+
+##### <a name="-named--chroot--slaves_dir_owner"></a>`slaves_dir_owner`
+
+Data type: `String[1]`
+
+The owner of the `slaves` directory under the BIND working directory
+
+Default value: `$named::slaves_dir_owner`
+
+##### <a name="-named--chroot--slaves_dir_group"></a>`slaves_dir_group`
+
+Data type: `String[1]`
+
+The group of the `slaves` directory under the BIND working directory
+
+Default value: `$named::slaves_dir_group`
+
+##### <a name="-named--chroot--slaves_dir_mode"></a>`slaves_dir_mode`
+
+Data type: `Stdlib::Filemode`
+
+The mode of the `slaves` directory under the BIND working directory
+
+Default value: `$named::slaves_dir_mode`
+
 ### <a name="named--install"></a>`named::install`
 
 Installs the appropriate packages for BIND based on the chroot status
@@ -276,6 +531,9 @@ The following parameters are available in the `named::install` class:
 * [`ensure`](#-named--install--ensure)
 * [`chroot`](#-named--install--chroot)
 * [`chroot_path`](#-named--install--chroot_path)
+* [`working_dir_owner`](#-named--install--working_dir_owner)
+* [`working_dir_group`](#-named--install--working_dir_group)
+* [`working_dir_mode`](#-named--install--working_dir_mode)
 
 ##### <a name="-named--install--ensure"></a>`ensure`
 
@@ -303,6 +561,30 @@ The path to the chroot jail
 
 Default value: `$named::chroot_path`
 
+##### <a name="-named--install--working_dir_owner"></a>`working_dir_owner`
+
+Data type: `String[1]`
+
+The owner of `/var/named` when using a chroot jail
+
+Default value: `$named::working_dir_owner`
+
+##### <a name="-named--install--working_dir_group"></a>`working_dir_group`
+
+Data type: `String[1]`
+
+The group of `/var/named` when using a chroot jail
+
+Default value: `$named::working_dir_group`
+
+##### <a name="-named--install--working_dir_mode"></a>`working_dir_mode`
+
+Data type: `Stdlib::Filemode`
+
+The mode of `/var/named` when using a chroot jail
+
+Default value: `$named::working_dir_mode`
+
 ### <a name="named--non_chroot"></a>`named::non_chroot`
 
 It pulls all config files from rsync.
@@ -317,6 +599,15 @@ The following parameters are available in the `named::non_chroot` class:
 * [`rsync_source`](#-named--non_chroot--rsync_source)
 * [`rsync_server`](#-named--non_chroot--rsync_server)
 * [`rsync_timeout`](#-named--non_chroot--rsync_timeout)
+* [`working_dir_owner`](#-named--non_chroot--working_dir_owner)
+* [`working_dir_group`](#-named--non_chroot--working_dir_group)
+* [`working_dir_mode`](#-named--non_chroot--working_dir_mode)
+* [`data_dir_owner`](#-named--non_chroot--data_dir_owner)
+* [`data_dir_group`](#-named--non_chroot--data_dir_group)
+* [`data_dir_mode`](#-named--non_chroot--data_dir_mode)
+* [`slaves_dir_owner`](#-named--non_chroot--slaves_dir_owner)
+* [`slaves_dir_group`](#-named--non_chroot--slaves_dir_group)
+* [`slaves_dir_mode`](#-named--non_chroot--slaves_dir_mode)
 
 ##### <a name="-named--non_chroot--bind_dns_rsync"></a>`bind_dns_rsync`
 
@@ -358,6 +649,78 @@ Variant[
 The timeout when connecting to the rsync server.
 
 Default value: `$named::rsync_timeout`
+
+##### <a name="-named--non_chroot--working_dir_owner"></a>`working_dir_owner`
+
+Data type: `String[1]`
+
+The owner of the BIND working directory
+
+Default value: `$named::working_dir_owner`
+
+##### <a name="-named--non_chroot--working_dir_group"></a>`working_dir_group`
+
+Data type: `String[1]`
+
+The group of the BIND working directory
+
+Default value: `$named::working_dir_group`
+
+##### <a name="-named--non_chroot--working_dir_mode"></a>`working_dir_mode`
+
+Data type: `Stdlib::Filemode`
+
+The mode of the BIND working directory
+
+Default value: `$named::working_dir_mode`
+
+##### <a name="-named--non_chroot--data_dir_owner"></a>`data_dir_owner`
+
+Data type: `String[1]`
+
+The owner of the `data` directory under the BIND working directory
+
+Default value: `$named::data_dir_owner`
+
+##### <a name="-named--non_chroot--data_dir_group"></a>`data_dir_group`
+
+Data type: `String[1]`
+
+The group of the `data` directory under the BIND working directory
+
+Default value: `$named::data_dir_group`
+
+##### <a name="-named--non_chroot--data_dir_mode"></a>`data_dir_mode`
+
+Data type: `Stdlib::Filemode`
+
+The mode of the `data` directory under the BIND working directory
+
+Default value: `$named::data_dir_mode`
+
+##### <a name="-named--non_chroot--slaves_dir_owner"></a>`slaves_dir_owner`
+
+Data type: `String[1]`
+
+The owner of the `slaves` directory under the BIND working directory
+
+Default value: `$named::slaves_dir_owner`
+
+##### <a name="-named--non_chroot--slaves_dir_group"></a>`slaves_dir_group`
+
+Data type: `String[1]`
+
+The group of the `slaves` directory under the BIND working directory
+
+Default value: `$named::slaves_dir_group`
+
+##### <a name="-named--non_chroot--slaves_dir_mode"></a>`slaves_dir_mode`
+
+Data type: `Stdlib::Filemode`
+
+The mode of the `slaves` directory under the BIND working directory
+
+Default value: `$named::slaves_dir_mode`
 
 ### <a name="named--service"></a>`named::service`
 

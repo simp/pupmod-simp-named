@@ -44,6 +44,11 @@ Public API (consumers declare these):
   - `$firewall`, `$rsync_server`, `$rsync_timeout` — from the `simp_options`
     seam (see table below) (`init.pp`).
   - `$sebool_named_write_master_zones` (`Boolean`, default `false`).
+  - `$working_dir_*`, `$data_dir_*`, `$slaves_dir_*` (`owner`, `group`,
+    `mode`) — ownership and permissions of the BIND working directory and its
+    `data` and `slaves` subdirectories, **no defaults**; supplied from module
+    data (`data/common.yaml`), matching what the bind packages ship.
+    `named::caching` has `working_dir_*`/`data_dir_*` that alias these.
   It runs `simplib::assert_metadata($module_name)` (`init.pp`) and
   `simplib::validate_net_list($rsync_server)` (`init.pp`), then branches on
   `$chroot`: chroot path includes `named::chroot` + `service` + `install`;
@@ -74,8 +79,10 @@ Public API (consumers declare these):
 Private (helper) classes — all call `assert_private()`:
 
 - **`named::install` (`manifests/install.pp`)** — installs `bind`,
-  `bind-libs`, and (conditionally) `bind-chroot`; creates `/var/named`, the
-  `named` group (gid 25) and `named` user (uid 25). `$ensure` from the
+  `bind-libs`, and (conditionally) `bind-chroot`; creates the `named` group
+  (gid 25) and `named` user (uid 25), and, when chrooted, `/var/named` (the
+  working directory itself is managed by `chroot`, `non_chroot` or
+  `caching`). `$ensure` from the
   `simp_options::package_ensure` seam (`install.pp`).
 - **`named::service` (`manifests/service.pp`)** — manages the BIND
   service. Service name is selected from `$chroot`:
@@ -114,6 +121,10 @@ Private (helper) classes — all call `assert_private()`:
   serving the expected space, named gets no config. The rsync user/source names
   embed environment + OS name + major release (`chroot.pp`,
   `non_chroot.pp`).
+- **rsync preserves permissions, so the directory `file` resources run after
+  it.** `named::chroot` / `named::non_chroot` declare the working, `data` and
+  `slaves` directories with `require => Rsync['named']` so the class
+  parameters override what the rsync copies. Don't move them before the rsync.
 - **The systemd unit is fully replaced, not overridden**, for chroot service on
   systemd hosts — a workaround for RH bug 1278082 (`service.pp`); it
   changes the Requires/After lists and the service Type from forking to simple.

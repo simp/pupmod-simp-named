@@ -12,10 +12,22 @@
 #
 # @param chroot_path
 #   The path to the chroot jail
+#
+# @param working_dir_owner
+#   The owner of `/var/named` when using a chroot jail
+#
+# @param working_dir_group
+#   The group of `/var/named` when using a chroot jail
+#
+# @param working_dir_mode
+#   The mode of `/var/named` when using a chroot jail
 class named::install (
-  Boolean              $chroot      = true,
-  Stdlib::Absolutepath $chroot_path = $named::chroot_path,
-  String               $ensure      = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
+  Boolean              $chroot            = true,
+  Stdlib::Absolutepath $chroot_path       = $named::chroot_path,
+  String               $ensure            = simplib::lookup('simp_options::package_ensure', { 'default_value' => 'installed' }),
+  String[1]            $working_dir_owner = $named::working_dir_owner,
+  String[1]            $working_dir_group = $named::working_dir_group,
+  Stdlib::Filemode     $working_dir_mode  = $named::working_dir_mode,
 ) {
   assert_private()
 
@@ -24,16 +36,18 @@ class named::install (
 
   if $chroot {
     package { 'bind-chroot': ensure => $ensure }
+
+    # Without a chroot jail, /var/named is the working directory, and the
+    # class that configures it manages it.
+    file { '/var/named':
+      ensure => 'directory',
+      owner  => $working_dir_owner,
+      group  => $working_dir_group,
+      mode   => $working_dir_mode,
+    }
   }
   else {
     package { 'bind-chroot': ensure => 'absent' }
-  }
-
-  file { '/var/named':
-    ensure => 'directory',
-    owner  => 'root',
-    group  => 'named',
-    mode   => '0750'
   }
 
   group { 'named':

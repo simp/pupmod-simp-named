@@ -8,6 +8,11 @@
 # The default SIMP configuration will do this for the 'default' space, but
 # other spaces will need to be added as appropriate.
 #
+# The directory ownership and permission parameters are applied after the
+# rsync, so they override what is copied from the rsync server. Keep the
+# rsync server's copies in agreement with them, or every run will change
+# them twice.
+#
 # @example
 #   * Given 'default' configuration that you would like to serve
 #   * Create a chroot pull from that domain on your DNS node
@@ -64,10 +69,66 @@
 #   If you need to use dynamic DNS or zone transfers, and are using SELinux,
 #   you will need to set this to ``true``
 #
+# @param working_dir_owner
+#   The owner of the BIND working directory: `/var/named`, and `var/named`
+#   inside the chroot when `chroot` is enabled
+#
+#   * Value in module data
+#
+# @param working_dir_group
+#   The group of the BIND working directory
+#
+#   * Value in module data
+#
+# @param working_dir_mode
+#   The mode of the BIND working directory
+#
+#   * BIND 9.16 and later require it to be writable by the `named` group
+#   * Value in module data
+#
+# @param data_dir_owner
+#   The owner of the `data` directory under the BIND working directory
+#
+#   * Value in module data
+#
+# @param data_dir_group
+#   The group of the `data` directory under the BIND working directory
+#
+#   * Value in module data
+#
+# @param data_dir_mode
+#   The mode of the `data` directory under the BIND working directory
+#
+#   * Value in module data
+#
+# @param slaves_dir_owner
+#   The owner of the `slaves` directory under the BIND working directory
+#
+#   * Value in module data
+#
+# @param slaves_dir_group
+#   The group of the `slaves` directory under the BIND working directory
+#
+#   * Value in module data
+#
+# @param slaves_dir_mode
+#   The mode of the `slaves` directory under the BIND working directory
+#
+#   * Value in module data
+#
 # @author https://github.com/simp/pupmod-simp-named/graphs/contributors
 #
 class named (
   Stdlib::Absolutepath $chroot_path,
+  String[1]            $working_dir_owner,
+  String[1]            $working_dir_group,
+  Stdlib::Filemode     $working_dir_mode,
+  String[1]            $data_dir_owner,
+  String[1]            $data_dir_group,
+  Stdlib::Filemode     $data_dir_mode,
+  String[1]            $slaves_dir_owner,
+  String[1]            $slaves_dir_group,
+  Stdlib::Filemode     $slaves_dir_mode,
   Boolean              $chroot                          = !pick($facts['os']['selinux']['enforced'], false),
   String               $bind_dns_rsync                  = 'default',
   Boolean              $firewall                        = simplib::lookup('simp_options::firewall', { 'default_value' => false }),
